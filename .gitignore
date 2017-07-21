@@ -1,0 +1,10 @@
+*~
+.*.swp
+.coverage
+*.pyc
+venv
+*.egg-info
+.tox
+dist/
+doc/_build
+build/
