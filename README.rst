@@ -90,6 +90,11 @@ Commands
           default remote server.  The supported remote protocols
           include Globus.
 
+``sciunit`` verify [<package id>] [<api>]
+          Repeat the execution of a given package using sciunit
+          API and verify the results.  If *package id* is not
+          supplied, verify all packages in the current project.
+
 ``sciunit`` gc
           Shrink the project directory by garbage collecting the
           unreferenced data.
