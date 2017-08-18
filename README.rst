@@ -16,15 +16,15 @@ SYNOPSIS
 ==========
 
 ``sciunit`` [--version] [--help]
-``sciunit`` <command> [<args>]
+
+``sciunit`` <command> [<args...>]
 
 DESCRIPTION
 ============
 
-``Sciunit`` is a command line utility to create, manage, and verify
-*sciunit* packages.  A *sciunit* package is a lightweight unit to
-represent executions of programs.
-
+A command line utility to create, manage, and share *sciunits*.
+A *sciunit* is a lightweight and portable unit to represent
+executions of programs.
 
 OPTIONS
 ========
@@ -32,80 +32,72 @@ OPTIONS
 General Options
 --------------------
 
---version             show program's version number and exit
--h, --help            show help message and exit
+``--version``         show program's version number and exit
+
+``-h, --help``        show help message and exit
 
 
 Commands
 -----------------
 
-``sciunit`` create <project name>
-          Create a new project under *~/sciunit/<project name>*
-          and use it as the current project.  If the project already
-          exists, exit with an error.
+``sciunit create`` <name>
+          Create a new sciunit under *~/sciunit/<name>* and open it.
+          If the directory already exists, exit with an error.
 
-``sciunit`` open <project name>|<path to zipped sciunit>
-          Set the current project to *~/sciunit/<project name>* if
-          the directory exists.  Otherwise, the argument should be
-          a path to a sciunit package.  Decompress it to a temporary
-          directory and use it as the current project.
+``sciunit open`` <name>|<path to zipped sciunit>
+          Open the sciunit under *~/sciunit/<name>* if the directory
+          exists.  Otherwise, the argument should be a path to a zipped
+          sciunit package.  Decompress it to a temporary directory and
+          open it.
 
-``sciunit`` exec <executable> [<args>]
-          Package an execution of for the given *executable* with
+``sciunit exec`` <executable> [<args...>]
+          Capture the execution of the given *executable* with
           the command line arguments *args* without involving a
-          shell.  *Executable* and *args* are expended with limited
-          features.  The newly created execution is assigned
-          execution id "*eN*", where *N* is a monotone increasing
-          decimal.
-          The first execution created in a project has execution id
+          shell.  The newly created execution is added to the
+          currently opened sciunit and assigned execution id "*eN*",
+          where *N* is a monotonically-increasing decimal.
+          The first execution created in a sciunit has execution id
           "*e1*".
 
-``sciunit`` sh
-          Launch the current user's shell, and create an execution
-          given the user's interactions with the shell, which may
-          involve multiply commands.  The execution is created after
-          the user exits the shell.
+``sciunit exec -i``
+          Launch the current user's shell and capture the user's
+          interactions with the shell.  This may involve executing
+          multiply commands.  A new execution is created on exiting
+          the shell.
 
-``sciunit`` list
-          List the existing executions in the current project.
+``sciunit list``
+          List the existing executions in the currently opened sciunit.
 
-``sciunit`` rm <execution id>
-          Remove an existing execution from the current project.  A
-          malformed execution id causes an error.  Removing a
-          nonexistent execution has no effect.
+``sciunit rm`` <execution id>
+          Remove an existing execution from the currently opened
+          sciunit.  A malformed execution id causes an error.
+          Removing a nonexistent execution has no effect.
 
           Note: the execution is removed from the records, but its
-          data preserves.
+          data preserves and may be shared with other executions.
 
-``sciunit`` repeat <execution id> [<args>]
-          Checkout the corresponding execution form the current
-          project and repeat it.  If *args* presents, use it in place
-          of the packaged arguments.
+``sciunit repeat`` <execution id> [<args...>]
+          Repeat the execution of *execution id* form the currently
+          opened sciunit.  If *args* present, use them in place
+          of the command line arguments that was being capture with
+          the ``sciunit exec`` command.
 
-``sciunit`` draft [<service>|update]
-          Prepare a publication with the project content.  If the
-          *service* argument is not supplied, a list of services
+``sciunit stage`` [<service>]
+          Stage the currently opened sciunit for sharing on *service*.
+          If the *service* argument is not supplied, a list of services
           will be prompted.  The supported services include
           Figshare and Hydroshare.
-          If the argument is a keyword "update", update the last
-          draft with the latest sciunit data.
 
-``sciunit`` push [<remote>]
-          Synchronize a project at a remote server.  The default
-          remote server of the current project can be configured
-          in *~/sciunit/<project name>/config*.  The remote server
-          where this project successfully pushes to will be recorded
-          as the default remote server.  The supported remote
-          protocols include Globus.
+``sciunit stage -u``
+          Update the last staged content with the latest sciunit data.
 
-``sciunit`` verify [<execution id>] [<api>]
-          Repeat a given execution using sciunit API and verify the
-          results.  If *execution id* is not supplied, verify all
-          executions in the current project.
+``sciunit copy`` <remote>|<name>
+          Copy a sciunit to a *remote* server or *~/sciunit/<name>*.
+          The supported remote protocols include Globus.
 
-``sciunit`` gc
-          Shrink the project directory by garbage collecting the
-          unreferenced data.
+``sciunit gc``
+          Reduce the currently opened sciunit's disk usage by
+          garbage-collecting the unreferenced execution data.
 
 
 SEE ALSO
