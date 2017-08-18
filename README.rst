@@ -99,6 +99,18 @@ Commands
           Reduce the currently opened sciunit's disk usage by
           garbage-collecting the unreferenced execution data.
 
+``sciunit alias`` <newcmd> <sub...>
+          Add a new entry under the ``[alias]`` section in the
+          user-wide config file *~/sciunit/config*.  The setting
+          enables ``sciunit`` *<newcmd> [<args...>]* to be
+          reinterpreted as ``sciunit`` *<sub...> [<args...>]*.
+
+``sciunit ignore`` <path>
+          Add a new entry under the ``[ignore]`` section in the
+          unit-specific config file *~/sciunit/<name>/config*.
+          If the *path* ends with ``/``, exclude any paths prefixed
+          with *path* when capturing; otherwise, exclude just *path*.
+
 
 SEE ALSO
 =============
