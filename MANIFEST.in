@@ -1,2 +1,4 @@
 include README.rst
-include *.txt
+include requirements.txt
+include test-requirements.txt
+recursive-include sciunit2/libexec *
