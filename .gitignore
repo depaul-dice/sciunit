@@ -8,3 +8,10 @@ venv
 dist/
 doc/_build
 build/
+
+# cmake
+Makefile
+/*.cmake
+CMakeCache.txt
+CMakeFiles/
+install_manifest.txt
