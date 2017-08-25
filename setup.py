@@ -32,6 +32,7 @@ setup(
     install_requires=localopen('requirements.txt').readlines(),
     tests_require=localopen('test-requirements.txt').readlines(),
     cmdclass={'build_py': BuildCommand},
+    entry_points={'console_scripts': ['sciunit=sciunit2.cli:main']},
     classifiers=[
         'Development Status :: 1 - Planning',
         'License :: OSI Approved :: BSD License',
