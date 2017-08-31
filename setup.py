@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 import subprocess
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
 
 
@@ -22,7 +22,7 @@ setup(
     description='Sciunit command line',
     author='Zhihao Yuan',
     author_email='zhihao.yuan@depaul.edu',
-    packages=["sciunit2"],
+    packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     license='BSD',
