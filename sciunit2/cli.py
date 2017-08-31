@@ -73,7 +73,7 @@ def _main(args):
             subcommand_usage(sys.stdout, [cls() for cls in __cmds__])
         elif op == '--version':
             print pkg_resources.require("sciunit2")[0]
-        else:  # pragma: no cover
+        else:  # unreachable
             pass
     else:
-        raise CommandLineError()
+        raise CommandLineError

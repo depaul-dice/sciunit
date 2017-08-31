@@ -18,5 +18,5 @@ class OpenCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) != 1:
-            raise CommandLineError()
+            raise CommandLineError
         sciunit2.workspace.open(args[0])

@@ -11,8 +11,8 @@ class AbstractCommand:
 
     @abstractproperty
     def usage(self):
-        pass  # pragma: no cover
+        raise NotImplementedError
 
     @abstractmethod
     def run(self, args):
-        pass  # pragma: no cover
+        raise NotImplementedError
