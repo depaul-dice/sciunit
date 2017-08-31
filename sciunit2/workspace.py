@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import __builtin__
 
 from sciunit2.exceptions import CommandError
+import sciunit2.version_control
 
 import os
 import re
@@ -43,3 +44,14 @@ def open(s):
             print >> f, s
     else:
         raise CommandError('sciunit %r not found' % s)
+
+
+def repo():
+    try:
+        with __builtin__.open(location_for('.activated')) as f:
+            p = location_for(f.readline()[:-1])
+            os.stat(p)
+            return sciunit2.version_control.Vvpkg(p)
+
+    except (OSError, IOError):
+        raise CommandError('no opened sciunit')

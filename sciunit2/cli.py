@@ -3,13 +3,14 @@ from __future__ import absolute_import
 from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.command.create import CreateCommand
 from sciunit2.command.open import OpenCommand
+from sciunit2.command.exec_ import ExecCommand
 
 import sys
 from getopt import getopt, GetoptError
 from cStringIO import StringIO
 import pkg_resources
 
-__cmds__ = [CreateCommand, OpenCommand]
+__cmds__ = [CreateCommand, OpenCommand, ExecCommand]
 
 
 def short_usage(out):
@@ -21,7 +22,11 @@ def subcommand_usage(out, cmds):
     buf = StringIO()
     for cmd in cmds:
         for ln in cmd.usage:
-            buf.write("  sciunit %-19s %s\n" % ln)
+            if len(ln[0]) > 18:
+                buf.write("  sciunit %s\n"
+                          "                              %s\n" % ln)
+            else:
+                buf.write("  sciunit %-18s  %s\n" % ln)
     out.write(buf.getvalue())
 
 

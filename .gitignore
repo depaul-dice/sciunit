@@ -8,7 +8,8 @@ venv
 dist/
 doc/_build
 build/
-sciunit2/libexec/
+sciunit2/libexec/*
+!sciunit2/libexec/*.py
 
 # cmake
 Makefile
