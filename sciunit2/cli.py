@@ -6,22 +6,34 @@ from sciunit2.command.open import OpenCommand
 
 import sys
 from getopt import getopt, GetoptError
+from cStringIO import StringIO
+import pkg_resources
+
+__cmds__ = [CreateCommand, OpenCommand]
 
 
-def short_usage():
-    print >> sys.stderr, ("usage: sciunit [--version] [--help]\n"
-                          "       sciunit <command> [<args...>]")
+def short_usage(out):
+    out.write("usage: sciunit [--version] [--help]\n"
+              "       sciunit <command> [<args...>]\n")
+
+
+def subcommand_usage(out, cmds):
+    buf = StringIO()
+    for cmd in cmds:
+        for ln in cmd.usage:
+            buf.write("  sciunit %-19s %s\n" % ln)
+    out.write(buf.getvalue())
 
 
 def main():
     try:
         _main(sys.argv[1:])
     except CommandLineError:
-        short_usage()
+        short_usage(sys.stderr)
         sys.exit(2)
     except (CommandError, GetoptError) as exc:
         print >> sys.stderr, "sciunit: %s" % exc[0]
-        short_usage()
+        short_usage(sys.stderr)
         _exit_given(exc)
     except EnvironmentError as exc:
         if hasattr(exc, 'filename') and exc.filename is not None:
@@ -39,14 +51,13 @@ def _exit_given(exc):
 def _main(args):
     optlist, args = getopt(args, '', ['help', 'version'])
     if not optlist and args:
-        for cls in [CreateCommand, OpenCommand]:
+        for cls in __cmds__:
             if args[0] == cls.name:
                 cmd = cls()
                 try:
                     cmd.run(args[1:])
                 except CommandLineError:
-                    for ln in cmd.usage:
-                        print >> sys.stderr, "  sciunit %-19s %s" % ln
+                    subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
                 except (CommandError, GetoptError) as exc:
                     print >> sys.stderr, "sciunit %s: %s" % (cls.name, exc[0])
@@ -55,6 +66,14 @@ def _main(args):
         else:
             raise GetoptError('subcommand %r unrecognized' % args[0])
     elif len(optlist) == 1:
-        pass
+        op, _ = optlist[0]
+        if op == '--help':
+            short_usage(sys.stdout)
+            print
+            subcommand_usage(sys.stdout, [cls() for cls in __cmds__])
+        elif op == '--version':
+            print pkg_resources.require("sciunit2")[0]
+        else:  # pragma: no cover
+            pass
     else:
         raise CommandLineError()
