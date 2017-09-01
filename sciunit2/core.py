@@ -1,7 +1,8 @@
 from __future__ import absolute_import
 
-import sciunit2.libexec
+from sciunit2.exceptions import CommandError
 from sciunit2.util import quoted_format, quoted, Chdir
+import sciunit2.libexec
 
 import os
 import shutil
@@ -30,6 +31,9 @@ def shell():
 def repeat(pkgdir, newargs):
     if newargs:
         with Chdir(pkgdir):
+            if os.path.isfile('cde.stdin'):
+                raise CommandError(
+                    "interactive sciunit doesn't react to arguments")
             with open('cde.log') as f:
                 ls = shlex.split(f)
             os.rename('cde.log', 'cde.log.1')
