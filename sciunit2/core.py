@@ -15,7 +15,7 @@ def capture(args):
 
 
 def shell():
-    sciunit2.libexec.ptu([sciunit2.libexec.scripter.location,
+    sciunit2.libexec.ptu([sciunit2.libexec.scripter.which,
                           '-i', 'cde.stdin']).wait()
     assert os.path.isdir('cde-package')
     shutil.move('cde.stdin', 'cde-package')

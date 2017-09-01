@@ -16,11 +16,11 @@ class Process(object):
         self.name = name
 
     @property
-    def location(self):
+    def which(self):
         return pathfor(self.name)
 
     def __call__(self, args, **kwargs):
-        return subprocess.Popen([self.location] + args, **kwargs)
+        return subprocess.Popen([self.which] + args, **kwargs)
 
 
 ptu = Process('ptu')

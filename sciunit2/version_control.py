@@ -29,7 +29,7 @@ class Vvpkg(object):
     def checkin(self, pkgdir):
         rev = self.next_rev()
         cmd = quoted_format('tar cf - -C {1} {2} | {0} commit {3} -',
-                            sciunit2.libexec.vv.location,
+                            sciunit2.libexec.vv.which,
                             os.getcwd(), pkgdir, rev)
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
@@ -42,7 +42,7 @@ class Vvpkg(object):
 
     def checkout(self, rev):
         cmd = quoted_format('{0} checkout {1} - | tar xf -',
-                            sciunit2.libexec.vv.location, rev)
+                            sciunit2.libexec.vv.which, rev)
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
         if p.wait() != 0:
