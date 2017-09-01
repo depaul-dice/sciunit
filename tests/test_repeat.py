@@ -44,6 +44,14 @@ class TestRepeat(testit.LocalCase):
             testit.sciunit('repeat', 'e1')
             assert_equals(r.error_code, 0)
 
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e1', '-x')
+            assert_equals(r.error_code, 2)
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e1', '-L', '-P')
+            assert_equals(r.error_code, 0)
+
         testit.sciunit('open', 'ok')
         # XXX Ctrl-D
         assert_is_none(testit.sciunit('exec', '-i'))

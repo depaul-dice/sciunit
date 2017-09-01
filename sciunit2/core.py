@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 import sciunit2.libexec
-from sciunit2.util import quoted_format
+from sciunit2.util import quoted_format, quoted, Chdir
 
 import os
 import shutil
@@ -28,5 +28,13 @@ def shell():
 
 
 def repeat(pkgdir, newargs):
-    if not newargs:
-        return subprocess.call(['/bin/sh', 'cde.log'], cwd=pkgdir)
+    if newargs:
+        with Chdir(pkgdir):
+            with open('cde.log') as f:
+                ls = shlex.split(f)
+            os.rename('cde.log', 'cde.log.1')
+            with open('cde.log', 'w') as f:
+                f.write(quoted_format('{0} {1}\n', ls[0], ls[1]))
+                print >> f, quoted([ls[2]] + newargs)
+
+    return subprocess.call(['/bin/sh', 'cde.log'], cwd=pkgdir)

@@ -8,6 +8,10 @@ def quoted_format(fmt, *args):
     return fmt.format(*map(pipes.quote, args))
 
 
+def quoted(args):
+    return ' '.join(map(pipes.quote, args))
+
+
 class Chdir(object):
     __slots__ = ['cwd', 'target']
 
