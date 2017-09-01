@@ -6,6 +6,7 @@ from sciunit2.util import quoted_format
 import os
 import shutil
 import shlex
+import subprocess
 
 
 def capture(args):
@@ -24,3 +25,8 @@ def shell():
         f.write(quoted_format('{0} {1}\n', ls[0], ls[1]))
         f.write(quoted_format('{0} -qi /dev/null < {1}\n',
                               ls[2], os.path.relpath('cde.stdin', ls[1])))
+
+
+def repeat(pkgdir, newargs):
+    if not newargs:
+        return subprocess.call(['/bin/sh', 'cde.log'], cwd=pkgdir)

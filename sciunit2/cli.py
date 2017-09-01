@@ -4,13 +4,14 @@ from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.command.create import CreateCommand
 from sciunit2.command.open import OpenCommand
 from sciunit2.command.exec_ import ExecCommand
+from sciunit2.command.repeat import RepeatCommand
 
 import sys
 from getopt import getopt, GetoptError
 from cStringIO import StringIO
 import pkg_resources
 
-__cmds__ = [CreateCommand, OpenCommand, ExecCommand]
+__cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand]
 
 
 def short_usage(out):

@@ -6,6 +6,7 @@ venv
 *.egg-info
 .tox
 dist/
+cover/
 doc/_build
 build/
 sciunit2/libexec/*

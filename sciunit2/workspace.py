@@ -49,7 +49,9 @@ def open(s):
 def repo():
     try:
         with __builtin__.open(location_for('.activated')) as f:
-            p = location_for(f.readline()[:-1])
+            ln = f.readline()
+            assert ln[-1] == '\n'
+            p = location_for(ln[:-1])
             os.stat(p)
             return sciunit2.version_control.Vvpkg(p)
 

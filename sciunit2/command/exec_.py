@@ -19,14 +19,11 @@ class ExecCommand(AbstractCommand):
 
     def run(self, args):
         optlist, args = getopt(args, 'i')
+        if bool(optlist) == bool(args):
+            raise CommandLineError
+        repo = sciunit2.workspace.repo()
         if optlist:
-            if args:
-                raise CommandLineError
-            repo = sciunit2.workspace.repo()
             sciunit2.core.shell()
         else:
-            if not args:
-                raise CommandLineError
-            repo = sciunit2.workspace.repo()
             sciunit2.core.capture(args)
         repo.checkin('cde-package')
