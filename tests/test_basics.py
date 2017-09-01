@@ -17,10 +17,6 @@ class TestBasics(testit.LocalCase):
             assert_equals(r.error_code, 2)
 
         with assert_raises(SystemExit) as r:
-            testit.sciunit('--help', '--version')
-            assert_equals(r.error_code, 2)
-
-        with assert_raises(SystemExit) as r:
             testit.sciunit('nonexistent')
             assert_equals(r.error_code, 2)
 

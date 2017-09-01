@@ -31,27 +31,30 @@ def subcommand_usage(out, cmds):
     out.write(buf.getvalue())
 
 
+def err1(msg):
+    sys.stderr.write("sciunit: %s\n" % (msg,))
+
+
+def err2(msg1, msg2):
+    sys.stderr.write("sciunit: %s: %s\n" % (msg1, msg2))
+
+
 def main():
     try:
         _main(sys.argv[1:])
     except CommandLineError:
         short_usage(sys.stderr)
         sys.exit(2)
-    except (CommandError, GetoptError) as exc:
-        print >> sys.stderr, "sciunit: %s" % exc[0]
+    except GetoptError as exc:
+        err1(exc.msg)
         short_usage(sys.stderr)
-        _exit_given(exc)
+        sys.exit(2)
     except EnvironmentError as exc:
         if hasattr(exc, 'filename') and exc.filename is not None:
-            print >> sys.stderr, "sciunit: %s: %s" % (exc.filename,
-                                                      exc.strerror)
+            err2(exc.filename, exc.strerror)
         else:  # pragma: no cover
-            print >> sys.stderr, "sciunit: %s" % exc.strerror
+            err1(exc.strerror)
         sys.exit(1)
-
-
-def _exit_given(exc):
-    sys.exit(1 if isinstance(exc, CommandError) else 2)
 
 
 def _main(args):
@@ -65,13 +68,17 @@ def _main(args):
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
-                except (CommandError, GetoptError) as exc:
-                    print >> sys.stderr, "sciunit %s: %s" % (cls.name, exc[0])
-                    _exit_given(exc)
+                except GetoptError as exc:
+                    err2(cls.name, exc.msg)
+                    subcommand_usage(sys.stderr, [cmd])
+                    sys.exit(2)
+                except CommandError as exc:
+                    err2(cls.name, exc.message)
+                    sys.exit(1)
                 break
         else:
             raise GetoptError('subcommand %r unrecognized' % args[0])
-    elif len(optlist) == 1:
+    elif optlist:
         op, _ = optlist[0]
         if op == '--help':
             short_usage(sys.stdout)
