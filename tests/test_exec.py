@@ -21,3 +21,9 @@ class TestExec(testit.LocalCase):
 
         testit.sciunit('create', 'ok')
         assert_is_none(testit.sciunit('exec', 'pwd'))
+
+        open('tmp/ok/e2.json', 'w').close()
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('exec', 'pwd')
+            assert_equals(r.error_code, 1)

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from sciunit2.command import AbstractCommand
 from sciunit2.exceptions import CommandLineError
 import sciunit2.core
+import sciunit2.workspace
 
 from getopt import getopt
 import sys
@@ -21,7 +22,9 @@ class RepeatCommand(AbstractCommand):
         optlist, args = getopt(args, '')
         if not args:
             raise CommandLineError
-        repo = sciunit2.workspace.repo()
-        repo.checkout(args[0])
-        sys.exit(sciunit2.core.repeat(
-            os.path.join(repo.location, 'cde-package'), args[1:]))
+        emgr, repo = sciunit2.workspace.current()
+        with emgr.shared():
+            emgr.get(args[0])
+            repo.checkout(args[0])
+            sys.exit(sciunit2.core.repeat(
+                os.path.join(repo.location, 'cde-package'), args[1:]))

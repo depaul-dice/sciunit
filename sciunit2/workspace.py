@@ -3,6 +3,7 @@ import __builtin__
 
 from sciunit2.exceptions import CommandError
 import sciunit2.version_control
+import sciunit2.records
 
 import os
 import re
@@ -46,14 +47,20 @@ def open(s):
         raise CommandError('sciunit %r not found' % s)
 
 
-def repo():
+def at():
     try:
         with __builtin__.open(location_for('.activated')) as f:
             ln = f.readline()
             assert ln[-1] == '\n'
             p = location_for(ln[:-1])
             os.stat(p)
-            return sciunit2.version_control.Vvpkg(p)
+            return p
 
     except (OSError, IOError):
         raise CommandError('no opened sciunit')
+
+
+def current():
+    p = at()
+    return (sciunit2.records.ExecutionManager(p),
+            sciunit2.version_control.Vvpkg(p))

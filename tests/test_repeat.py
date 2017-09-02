@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from nose.tools import *
+import os
 
 import testit
 
@@ -20,6 +21,10 @@ class TestRepeat(testit.LocalCase):
             assert_equals(r.error_code, 1)
 
         testit.sciunit('create', 'ok')
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'asdf')
+            assert_equals(r.error_code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
@@ -67,3 +72,9 @@ class TestRepeat(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
             assert_equals(r.error_code, 2)
+
+        os.unlink('tmp/ok/e2.json')
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e2')
+            assert_equals(r.error_code, 1)
