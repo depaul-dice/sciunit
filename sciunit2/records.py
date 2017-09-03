@@ -69,15 +69,24 @@ class ExecutionManager(object):
 
     def get(self, rev):
         try:
-            if not rev.startswith('e'):
-                raise ValueError
-            k = int(rev[1:])
-        except ValueError:
-            raise MalformedExecutionId
-        try:
-            return Metadata.fromstring(self.__f[k])
+            return Metadata.fromstring(self.__f[self.__to_id(rev)])
         except KeyError:
             raise CommandError('execution %r not found' % rev)
+
+    def delete(self, rev):
+        try:
+            del self.__f[self.__to_id(rev)]
+        except KeyError:
+            pass
+
+    @staticmethod
+    def __to_id(rev):
+        try:
+            if not rev.startswith('e'):
+                raise ValueError
+            return int(rev[1:])
+        except ValueError:
+            raise MalformedExecutionId
 
     def list(self):
         for k, v in self.__f.iteritems():
