@@ -3,8 +3,14 @@
 ==========================
 sciunit
 ==========================
+-------------------------------------------------------------
+deiliver reproducibility in your research
+-------------------------------------------------------------
 :Author:    Zhihao Yuan <zhihao.yuan@depaul.edu>
+:Version:   sciunit2 0.1
 :Manual section: 1
+:Copyright: Copyright 2017, DePaul University
+:Licence:   FreeBSD License (BSD-2-Clause)
 
 .. raw:: manpage
 
@@ -65,6 +71,12 @@ Commands
           multiply commands.  A new execution is created on exiting
           the shell.
 
+``sciunit repeat`` <execution id> [<args...>]
+          Repeat the execution of *execution id* form the currently
+          opened sciunit.  If *args* present, use them in place
+          of the command line arguments that was being capture with
+          the ``sciunit exec`` command.
+
 ``sciunit list``
           List the existing executions in the currently opened sciunit.
 
@@ -75,12 +87,6 @@ Commands
 
           Note: the execution is removed from the records, but its
           data preserves and may be shared with other executions.
-
-``sciunit repeat`` <execution id> [<args...>]
-          Repeat the execution of *execution id* form the currently
-          opened sciunit.  If *args* present, use them in place
-          of the command line arguments that was being capture with
-          the ``sciunit exec`` command.
 
 ``sciunit stage`` [<service>]
           Stage the currently opened sciunit for sharing on *service*.
@@ -111,6 +117,3 @@ Commands
           If the *path* ends with ``/``, exclude any paths prefixed
           with *path* when capturing; otherwise, exclude just *path*.
 
-
-SEE ALSO
-=============
