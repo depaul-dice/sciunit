@@ -5,13 +5,15 @@ from sciunit2.command.create import CreateCommand
 from sciunit2.command.open import OpenCommand
 from sciunit2.command.exec_ import ExecCommand
 from sciunit2.command.repeat import RepeatCommand
+from sciunit2.command.list import ListCommand
 
 import sys
 from getopt import getopt, GetoptError
 from cStringIO import StringIO
 import pkg_resources
 
-__cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand]
+__cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
+            ListCommand]
 
 
 def short_usage(out):

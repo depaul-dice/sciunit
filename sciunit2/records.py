@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError, MalformedExecutionId
+from sciunit2 import timestamp
 
 import os
 import fcntl
 import json
-from utcdatetime import utcdatetime
 from contextlib import closing
 try:
     import bsddb3 as bsddb
@@ -18,7 +18,7 @@ class Metadata(object):
 
     def __init__(self, args):
         if isinstance(args, list):
-            self.__d = {'cmd': args, 'started': str(utcdatetime.now())}
+            self.__d = {'cmd': args, 'started': str(timestamp.now())}
         else:
             self.__d = json.loads(args)
 
@@ -35,7 +35,7 @@ class Metadata(object):
 
     @property
     def started(self):
-        return self.__d['started']
+        return timestamp.fromstring(self.__d['started'])
 
 
 class ExecutionManager(object):
@@ -78,3 +78,7 @@ class ExecutionManager(object):
             return Metadata.fromstring(self.__f[k])
         except KeyError:
             raise CommandError('execution %r not found' % rev)
+
+    def list(self):
+        for k, v in self.__f.iteritems():
+            yield 'e%d' % k, Metadata.fromstring(v)
