@@ -47,18 +47,18 @@ def open(s):
         except sciunit2.archiver.BadZipfile as exc:
             raise CommandError(exc.message)
         else:
-            _saved_opened(p)
+            _save_opened(p)
     elif _is_path_component(s):
         path = location_for(s)
         if os.path.isdir(path):
-            _saved_opened(path)
+            _save_opened(path)
         else:
             raise CommandError('sciunit %r not found' % s)
     else:
         raise CommandError('unrecognized source')
 
 
-def _saved_opened(path):
+def _save_opened(path):
     with __builtin__.open(location_for('.activated'), 'w') as f:
         print >> f, path
 
