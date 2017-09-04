@@ -11,6 +11,7 @@ from sciunit2.command.rm import RmCommand
 import sys
 from getopt import getopt, GetoptError
 from cStringIO import StringIO
+import textwrap
 import pkg_resources
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
@@ -26,11 +27,14 @@ def subcommand_usage(out, cmds):
     buf = StringIO()
     for cmd in cmds:
         for ln in cmd.usage:
+            msgs = textwrap.wrap(ln[1], 49)
             if len(ln[0]) > 18:
-                buf.write("  sciunit %s\n"
-                          "                              %s\n" % ln)
+                buf.write("  sciunit %s\n" % ln[0])
             else:
-                buf.write("  sciunit %-18s  %s\n" % ln)
+                buf.write("  sciunit %-18s  %s\n" % (ln[0], msgs[0]))
+                msgs.pop(0)
+            for t in msgs:
+                buf.write("                              %s\n" % t)
     out.write(buf.getvalue())
 
 
