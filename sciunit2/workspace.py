@@ -5,6 +5,7 @@ from sciunit2.exceptions import CommandError
 import sciunit2.version_control
 import sciunit2.records
 import sciunit2.archiver
+import sciunit2.ephemeral
 
 import os
 import re
@@ -27,6 +28,10 @@ def _is_path_component(s):
     return re.match(r'^[\w -]+$', s)
 
 
+def _is_once_token(s):
+    return re.match(r'^[\w]+#$', s)
+
+
 def location_for(name):
     return os.path.expanduser('~/sciunit/%s' % name)
 
@@ -41,21 +46,27 @@ def create(name):
 
 
 def open(s):
-    if s.endswith('.zip'):
-        try:
+    try:
+        if s.endswith('.zip'):
             p = sciunit2.archiver.extract(s, _is_path_component, location_for)
-        except sciunit2.archiver.BadZipfile as exc:
-            raise CommandError(exc.message)
+        elif _is_once_token(s):
+            p = sciunit2.archiver.extract(sciunit2.ephemeral.fetch(
+                    s, location_for('tmp')), _is_path_component, location_for)
+        elif _is_path_component(s):
+            p = location_for(s)
+            if not os.path.isdir(p):
+                raise CommandError('sciunit %r not found' % s)
         else:
-            _save_opened(p)
-    elif _is_path_component(s):
-        path = location_for(s)
-        if os.path.isdir(path):
-            _save_opened(path)
-        else:
-            raise CommandError('sciunit %r not found' % s)
+            raise CommandError('unrecognized source')
+
+    except sciunit2.archiver.BadZipfile as exc:
+        raise CommandError(exc.message)
+
+    except sciunit2.ephemeral.HTTPError as exc:
+        raise CommandError('%d %s' % (exc.code, exc.msg))
+
     else:
-        raise CommandError('unrecognized source')
+        _save_opened(p)
 
 
 def _save_opened(path):
@@ -67,7 +78,7 @@ def at():
     try:
         with __builtin__.open(location_for('.activated')) as f:
             ln = f.readline()
-            assert ln[-1] == '\n'
+            assert ln.endswith('\n')
             p = ln[:-1]
             os.stat(p)
             return p
