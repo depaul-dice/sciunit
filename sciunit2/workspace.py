@@ -4,6 +4,7 @@ import __builtin__
 from sciunit2.exceptions import CommandError
 import sciunit2.version_control
 import sciunit2.records
+import sciunit2.archiver
 
 import os
 import re
@@ -40,11 +41,26 @@ def create(name):
 
 
 def open(s):
-    if os.path.isdir(location_for(s)):
-        with __builtin__.open(location_for('.activated'), 'w') as f:
-            print >> f, s
+    if s.endswith('.zip'):
+        try:
+            p = sciunit2.archiver.extract(s, _is_path_component, location_for)
+        except sciunit2.archiver.BadZipfile as exc:
+            raise CommandError(exc.message)
+        else:
+            _saved_opened(p)
+    elif _is_path_component(s):
+        path = location_for(s)
+        if os.path.isdir(path):
+            _saved_opened(path)
+        else:
+            raise CommandError('sciunit %r not found' % s)
     else:
-        raise CommandError('sciunit %r not found' % s)
+        raise CommandError('unrecognized source')
+
+
+def _saved_opened(path):
+    with __builtin__.open(location_for('.activated'), 'w') as f:
+        print >> f, path
 
 
 def at():
@@ -52,7 +68,7 @@ def at():
         with __builtin__.open(location_for('.activated')) as f:
             ln = f.readline()
             assert ln[-1] == '\n'
-            p = location_for(ln[:-1])
+            p = ln[:-1]
             os.stat(p)
             return p
 

@@ -1,3 +1,5 @@
 setuptools
 tzlocal
 utcdatetime
+zipfile2
+scandir
