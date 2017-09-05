@@ -9,6 +9,7 @@ from subprocess import PIPE
 import sys
 import os
 import shutil
+import errno
 
 
 class Vvpkg(object):
@@ -39,8 +40,18 @@ class Vvpkg(object):
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
 
+    def unlink(self, rev):
+        try:
+            os.unlink(self.__physical(rev))
+        except OSError as exc:
+            if exc.errno != errno.ENOENT:
+                raise  # pragma: no cover
+
     def cleanup(self, pkgdir):
         shutil.rmtree(pkgdir, ignore_errors=True)
 
     def __found(self, rev):
-        return os.path.isfile(os.path.join(self.location, '%s.json' % rev))
+        return os.path.isfile(self.__physical(rev))
+
+    def __physical(self, rev):
+        return os.path.join(self.location, '%s.json' % rev)

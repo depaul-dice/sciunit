@@ -37,3 +37,5 @@ class TestRm(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
             assert_equals(r.error_code, 1)
+
+        assert_is_none(testit.sciunit('exec', 'true'))

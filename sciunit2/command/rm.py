@@ -20,6 +20,7 @@ class RmCommand(AbstractCommand):
         optlist, args = getopt(args, '')
         if len(args) != 1:
             raise CommandLineError
-        emgr, _ = sciunit2.workspace.current()
+        emgr, repo = sciunit2.workspace.current()
         with emgr.exclusive():
             emgr.delete(args[0])
+            repo.unlink(args[0])
