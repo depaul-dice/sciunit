@@ -25,6 +25,7 @@ class Vvpkg(object):
         _, err = p.communicate()
         if p.wait() == 0:
             self.cleanup(pkgdir)
+            return int(err)
         else:
             raise CommandError('execution %r already exists' % rev
                                if self.__found(rev) else err)

@@ -29,5 +29,5 @@ class ExecCommand(AbstractCommand):
                 sciunit2.core.shell()
             else:
                 sciunit2.core.capture(args)
-            repo.checkin(rev, 'cde-package')
-            emgr.commit()
+            sz = repo.checkin(rev, 'cde-package')
+            emgr.commit(sz)

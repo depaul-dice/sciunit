@@ -18,3 +18,8 @@ def fmt_ls(dt):
     return (dt.strftime('%b %-2d %H:%M')
             if dt.year == _datetime.today().year
             else dt.strftime('%b %-2d %-5Y'))
+
+
+def fmt_iso(dt):
+    dt = localized(dt)
+    return dt.strftime('%Y-%m-%d %H:%M')

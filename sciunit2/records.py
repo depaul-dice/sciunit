@@ -11,6 +11,7 @@ try:
     import bsddb3 as bsddb
 except ImportError:
     import bsddb
+DBNotFoundError = bsddb._db.DBNotFoundError
 
 
 class Metadata(object):
@@ -37,6 +38,14 @@ class Metadata(object):
     def started(self):
         return timestamp.fromstring(self.__d['started'])
 
+    @property
+    def size(self):
+        return self.__d['size']
+
+    @size.setter
+    def size(self, val):
+        self.__d['size'] = val
+
 
 class ExecutionManager(object):
     __slots__ = ['__f', '__pending']
@@ -58,13 +67,14 @@ class ExecutionManager(object):
     def add(self, args):
         try:
             newid = self.__f.last()[0] + 1
-        except bsddb._db.DBNotFoundError:
+        except DBNotFoundError:
             newid = 1
         self.__pending = (newid, Metadata(args))
-        return 'e%d' % newid
+        return self.__to_rev(newid)
 
-    def commit(self):
+    def commit(self, size):
         k, v = self.__pending
+        v.size = size
         self.__f[k] = str(v)
 
     def get(self, rev):
@@ -73,11 +83,19 @@ class ExecutionManager(object):
         except KeyError:
             raise CommandError('execution %r not found' % rev)
 
+    def last(self):
+        id_, m = self.__f.last()
+        return (self.__to_rev(id_), Metadata.fromstring(m))
+
     def delete(self, rev):
         try:
             del self.__f[self.__to_id(rev)]
         except KeyError:
             pass
+
+    @staticmethod
+    def __to_rev(id_):
+        return 'e%d' % id_
 
     @staticmethod
     def __to_id(rev):
@@ -90,4 +108,4 @@ class ExecutionManager(object):
 
     def list(self):
         for k, v in self.__f.iteritems():
-            yield 'e%d' % k, Metadata.fromstring(v)
+            yield self.__to_rev(k), Metadata.fromstring(v)

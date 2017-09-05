@@ -5,3 +5,4 @@ zipfile2
 scandir
 poster
 retry
+humanfriendly

@@ -23,6 +23,7 @@ ExternalProject_Add(
 ExternalProject_Add(
   vvpkg
   GIT_REPOSITORY "git@bitbucket.org:depauldbgroup/vvpkg.git"
+  PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/files/vv-report-size.patch
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR}
   TEST_COMMAND <BINARY_DIR>/tests/run
