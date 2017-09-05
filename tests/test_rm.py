@@ -23,6 +23,10 @@ class TestRm(testit.LocalCase):
         assert_is_none(testit.sciunit('rm', 'e1'))
 
         with assert_raises(SystemExit) as r:
+            testit.sciunit('rm', 'e0')
+            assert_equals(r.error_code, 1)
+
+        with assert_raises(SystemExit) as r:
             testit.sciunit('rm', 'wat')
             assert_equals(r.error_code, 1)
 

@@ -6,6 +6,7 @@ from sciunit2 import timestamp
 import os
 import fcntl
 import json
+import re
 from contextlib import closing
 try:
     import bsddb3 as bsddb
@@ -99,12 +100,9 @@ class ExecutionManager(object):
 
     @staticmethod
     def __to_id(rev):
-        try:
-            if not rev.startswith('e'):
-                raise ValueError
-            return int(rev[1:])
-        except ValueError:
+        if not re.match(r'^e[1-9]\d*$', rev):
             raise MalformedExecutionId
+        return int(rev[1:])
 
     def list(self):
         for k, v in self.__f.iteritems():
