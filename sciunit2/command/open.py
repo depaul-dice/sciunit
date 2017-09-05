@@ -12,9 +12,9 @@ class OpenCommand(AbstractCommand):
 
     @property
     def usage(self):
-        return [('open <name>|<path to sciunit>.zip',
-                 'Open the sciunit under ~/sciunit/<name>, or one in '
-                 'a ZIP file by extracting it to a temporary directory')]
+        return [('open <name>|<token>#|<path to sciunit>.zip',
+                 'Open a sciunit by its <name>, through a token obtained '
+                 "from `sciunit open', or from a ZIP file")]
 
     def run(self, args):
         optlist, args = getopt(args, '')
