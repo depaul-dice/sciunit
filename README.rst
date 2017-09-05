@@ -50,11 +50,11 @@ Commands
           Create a new sciunit under *~/sciunit/<name>* and open it.
           If the directory already exists, exit with an error.
 
-``sciunit open`` <name>|<path to zipped sciunit>
-          Open the sciunit under *~/sciunit/<name>* if the directory
-          exists.  Otherwise, the argument should be a path to a zipped
-          sciunit package.  Decompress it to a temporary directory and
-          open it.
+``sciunit open`` <name>|<token>#|<path to sciunit>.zip
+          Open the sciunit under *~/sciunit/<name>* or designated by
+          a *<token>#* obtained from ``sciunit copy``, or one in a
+          zipped sciunit package by extracting it to a temporary
+          directory.
 
 ``sciunit exec`` <executable> [<args...>]
           Capture the execution of the given *executable* with
@@ -80,6 +80,11 @@ Commands
 ``sciunit list``
           List the existing executions in the currently opened sciunit.
 
+``sciunit show`` [<execution id>]
+          Show detailed information about an execution in the currently
+          opened sciunit.  The argument may be omitted for showing the
+          most recently captured execution.
+
 ``sciunit rm`` <execution id>
           Remove an existing execution from the currently opened
           sciunit.  A malformed execution id causes an error.
@@ -92,14 +97,20 @@ Commands
           Stage the currently opened sciunit for sharing on *service*.
           If the *service* argument is not supplied, a list of services
           will be prompted.  The supported services include
-          Figshare and Hydroshare.
+          figshare_ and HydroShare_.
 
 ``sciunit stage -u``
           Update the last staged content with the latest sciunit data.
 
+``sciunit copy``
+          Copy the currently opened sciunit and obtain a token for
+          remotely opening it.  The token is invalidated after being
+          accessed or after one day, whichever happens first.
+          This service is powered by `file.io <https://file.io/>`_.
+
 ``sciunit copy`` <remote>|<name>
           Copy a sciunit to a *remote* server or *~/sciunit/<name>*.
-          The supported remote protocols include Globus.
+          The supported remote protocols include Globus_.
 
 ``sciunit gc``
           Reduce the currently opened sciunit's disk usage by
@@ -117,3 +128,17 @@ Commands
           If the *path* ends with ``/``, exclude any paths prefixed
           with *path* when capturing; otherwise, exclude just *path*.
 
+SEE ALSO
+=============
+
+.. _HydroShare:
+
+HydroShare: https://www.hydroshare.org/
+
+.. _figshare:
+
+figshare: https://figshare.com/
+
+.. _Globus:
+
+Globus: https://www.globus.org/
