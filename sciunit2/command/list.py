@@ -14,7 +14,7 @@ class ListCommand(AbstractCommand):
 
     @property
     def usage(self):
-        return [('list', 'List the existing executions')]
+        return [('list', 'List executions in the sciunit')]
 
     def run(self, args):
         optlist, args = getopt(args, '')

@@ -14,7 +14,7 @@ class RmCommand(AbstractCommand):
 
     @property
     def usage(self):
-        return [('rm <execution id>', 'Remove an existing execution')]
+        return [('rm <execution id>', 'Remove an execution from the sciunit')]
 
     def run(self, args):
         optlist, args = getopt(args, '')

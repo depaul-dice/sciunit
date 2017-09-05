@@ -14,9 +14,9 @@ class ExecCommand(AbstractCommand):
     @property
     def usage(self):
         return [('exec <executable> [<args...>]',
-                 'Capture the execution of the given command line'),
+                 'Capture an execution of the given command line'),
                 ('exec -i',
-                 "Capture the user's interactions inside a shell")]
+                 "Capture user's interactions inside a shell")]
 
     def run(self, args):
         optlist, args = getopt(args, 'i')
