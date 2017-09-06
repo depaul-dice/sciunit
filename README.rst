@@ -29,8 +29,8 @@ DESCRIPTION
 ============
 
 A command line utility to create, manage, and share *sciunits*.
-A *sciunit* is a lightweight and portable unit to represent
-executions of programs.
+A *sciunit* is a lightweight and portable unit that contains captured,
+repeatable program executions.
 
 OPTIONS
 ========
@@ -50,54 +50,58 @@ Commands
           Create a new sciunit under *~/sciunit/<name>* and open it.
           If the directory already exists, exit with an error.
 
-``sciunit open`` <name>|<token>#|<path to sciunit>.zip
+``sciunit open`` <name>|<token#>|<path to sciunit.zip>
           Open the sciunit under *~/sciunit/<name>* or designated by
-          a *<token>#* obtained from ``sciunit copy``, or one in a
+          a *token#* obtained from ``sciunit copy``, or one in a
           zipped sciunit package by extracting it to a temporary
           directory.
 
-``sciunit open`` -m <name>
-          Rename the currently opened sciunit to *<name>* and open it.
+``sciunit open -m`` <name>
+          Rename the currently-opened sciunit to *<name>* and open it.
 
 ``sciunit exec`` <executable> [<args...>]
           Capture the execution of the given *executable* with
-          the command line arguments *args* without involving a
-          shell.  The newly created execution is added to the
-          currently opened sciunit and assigned execution id "*eN*",
+          the command line arguments *args*.  The newly-created
+          execution is added to the
+          currently-opened sciunit and assigned execution id "*eN*",
           where *N* is a monotonically-increasing decimal.
           The first execution created in a sciunit has execution id
           "*e1*".
 
+          Note that the command line is launched using `execvp(3)`
+          rather than interpreted by a shell.
+
 ``sciunit exec -i``
           Launch the current user's shell and capture the user's
           interactions with the shell.  This may involve executing
-          multiply commands.  A new execution is created on exiting
+          multiple commands.  A new execution is created on exiting
           the shell.
 
 ``sciunit repeat`` <execution id> [<args...>]
-          Repeat the execution of *execution id* form the currently
-          opened sciunit.  If *args* present, use them in place
-          of the command line arguments that was being capture with
-          the ``sciunit exec`` command.
+          Repeat the execution of *execution id* from the
+          currently-opened sciunit.  If *args* present, use them in
+          place of the command line arguments that were present when the
+          command was captured with the ``sciunit exec`` command.
 
 ``sciunit list``
-          List the existing executions in the currently opened sciunit.
+          List the existing executions in the currently-opened sciunit.
 
 ``sciunit show`` [<execution id>]
-          Show detailed information about an execution in the currently
-          opened sciunit.  The argument may be omitted for showing the
-          most recently captured execution.
+          Show detailed information about a specific execution (or the
+          most recent execution, if no argument present) in the
+          currently-opened sciunit.
 
 ``sciunit rm`` <execution id>
-          Remove an existing execution from the currently opened
+          Remove an existing execution from the currently-opened
           sciunit.  A malformed execution id causes an error.
           Removing a nonexistent execution has no effect.
 
           Note: the execution is removed from the records, but its
-          data preserves and may be shared with other executions.
+          data remains and may be shared with other executions.
 
 ``sciunit stage`` [<service>]
-          Stage the currently opened sciunit for sharing on *service*.
+          Stage the currently-opened sciunit to a web *service* for
+          sharing.
           If the *service* argument is not supplied, a list of services
           will be prompted.  The supported services include
           figshare_ and HydroShare_.
@@ -106,17 +110,17 @@ Commands
           Update the last staged content with the latest sciunit data.
 
 ``sciunit copy``
-          Copy the currently opened sciunit and obtain a token for
+          Copy the currently-opened sciunit to
+          `file.io <https://file.io/>`_ and obtain a token for
           remotely opening it.  The token is invalidated after being
           accessed or after one day, whichever happens first.
-          This service is powered by `file.io <https://file.io/>`_.
 
 ``sciunit copy`` <remote>|<name>
           Copy a sciunit to a *remote* server or *~/sciunit/<name>*.
           The supported remote protocols include Globus_.
 
 ``sciunit gc``
-          Reduce the currently opened sciunit's disk usage by
+          Reduce the currently-opened sciunit's disk usage by
           garbage-collecting the unreferenced execution data.
 
 ``sciunit alias`` <newcmd> <sub...>
