@@ -56,6 +56,9 @@ Commands
           zipped sciunit package by extracting it to a temporary
           directory.
 
+``sciunit open`` -m <name>
+          Rename the currently opened sciunit to *<name>* and open it.
+
 ``sciunit exec`` <executable> [<args...>]
           Capture the execution of the given *executable* with
           the command line arguments *args* without involving a
