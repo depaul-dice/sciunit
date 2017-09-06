@@ -28,3 +28,11 @@ ExternalProject_Add(
   INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR}
   TEST_COMMAND <BINARY_DIR>/tests/run
 )
+
+ExternalProject_Add_Step(vvpkg before_stash
+  COMMAND git config user.email "zhihao.yuan@depaul.edu"
+  COMMAND git config user.name "Zhihao Yuan"
+  DEPENDEES download
+  DEPENDERS update
+  WORKING_DIRECTORY <SOURCE_DIR>
+)
