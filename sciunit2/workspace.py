@@ -24,6 +24,19 @@ def _mkdir_p(path):
             raise
 
 
+def _try_rename(from_):
+    def _inner(to):
+        try:
+            os.rename(from_, to)
+            return True
+        except OSError as exc:
+            if exc.errno == errno.ENOTEMPTY:
+                return False
+            else:
+                raise
+    return _inner
+
+
 def _is_path_component(s):
     return re.match(r'^[\w -]+$', s)
 
@@ -37,10 +50,18 @@ def location_for(name):
 
 
 def create(name):
+    _create(name, _mkdir_p)
+
+
+def rename(name):
+    _create(name, _try_rename(at()))
+
+
+def _create(name, by):
     if not _is_path_component(name):
         raise CommandError('%r contains disallowed characters' % name)
 
-    if not _mkdir_p(location_for(name)):
+    if not by(location_for(name)):
         raise CommandError('directory %s already exists' %
                            location_for(pipes.quote(name)))
 
