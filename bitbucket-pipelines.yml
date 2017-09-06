@@ -3,6 +3,8 @@ image: ubuntu:16.04
 pipelines:
   default:
     - step:
+        caches:
+          - pip
         script:
           - apt-get update
           - apt-get install -y cmake python-pip git

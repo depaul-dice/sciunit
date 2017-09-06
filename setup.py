@@ -12,7 +12,7 @@ def localopen(fname):
 class BuildCommand(build_py):
     def run(self):
         subprocess.check_call(['cmake', '-DCMAKE_BUILD_TYPE=Release'])
-        subprocess.check_call(['make'])
+        subprocess.check_call(['make', '-j4'])
         build_py.run(self)
 
 
