@@ -4,6 +4,7 @@
 *.pyc
 venv
 *.egg-info
+.eggs/
 .tox
 dist/
 cover/
@@ -11,6 +12,7 @@ doc/_build
 build/
 sciunit2/libexec/*
 !sciunit2/libexec/*.py
+sciunit.1.gz
 
 # cmake
 Makefile

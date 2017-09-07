@@ -3,5 +3,4 @@ include requirements.txt
 include test-requirements.txt
 include CMakeLists.txt
 include files/*
-include sciunit.1.gz
 recursive-include sciunit2/libexec *

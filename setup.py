@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import subprocess
+import gzip
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
 
@@ -14,7 +15,17 @@ class BuildCommand(build_py):
         subprocess.check_call(['cmake', '-DCMAKE_BUILD_TYPE=Release'])
         subprocess.check_call(['make', '-j4'])
         build_py.run(self)
+        _build_manpage('README.rst', 'sciunit.1.gz')
 
+
+def _build_manpage(src, target):
+    from docutils.core import publish_file
+    from docutils.writers import manpage
+
+    with gzip.open(target, 'wb') as f:
+        publish_file(source_path=src,
+                     destination=f,
+                     writer=manpage.Writer())
 
 setup(
     name='sciunit2',
@@ -29,6 +40,7 @@ setup(
     keywords=['sciunit'],
     url='https://bitbucket.org/geotrust/sciunit2/src',
     long_description=localopen('README.rst').read(),
+    setup_requires=['docutils'],
     install_requires=localopen('requirements.txt').readlines(),
     tests_require=localopen('test-requirements.txt').readlines(),
     cmdclass={'build_py': BuildCommand},
