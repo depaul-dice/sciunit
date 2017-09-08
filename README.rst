@@ -4,7 +4,7 @@
 sciunit
 ==========================
 -------------------------------------------------------------
-deiliver reproducibility in your research
+deliver reproducibility in your research
 -------------------------------------------------------------
 :Author:    Zhihao Yuan <zhihao.yuan@depaul.edu>
 :Version:   sciunit2 0.1
