@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import version
 import os
 import subprocess
 import gzip
@@ -29,7 +30,7 @@ def _build_manpage(src, target):
 
 setup(
     name='sciunit2',
-    version='0.1',
+    version=version.get_version(),
     description='Sciunit command line',
     author='Zhihao Yuan',
     author_email='zhihao.yuan@depaul.edu',

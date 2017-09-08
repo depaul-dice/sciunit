@@ -13,6 +13,7 @@ build/
 sciunit2/libexec/*
 !sciunit2/libexec/*.py
 sciunit.1.gz
+RELEASE-VERSION
 
 # cmake
 Makefile
