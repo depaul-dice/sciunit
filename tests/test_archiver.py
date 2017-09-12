@@ -40,7 +40,7 @@ def test_layout():
                 p,
                 lambda x: True,
                 lambda x: os.path.join('tmp', x))
-            assert_equals(r.errno, errno.EEXIST)
+        assert_equals(r.exception.errno, errno.EEXIST)
 
     with zipfile.ZipFile(p, 'a') as f:
         f.write('tmp/test/a.txt', 'test/2nd/a.txt')

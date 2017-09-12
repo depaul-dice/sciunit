@@ -11,22 +11,22 @@ class TestCopy(testit.LocalCase):
     def test_all(self):
         with assert_raises(SystemExit) as r:
             testit.sciunit('copy', '-x')
-            assert_equals(r.error_code, 2)
+        assert_equals(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('copy', 'x')
-            assert_equals(r.error_code, 2)
+        assert_equals(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('copy')
-            assert_equals(r.error_code, 1)
+        assert_equals(r.exception.code, 1)
 
         testit.sciunit('create', 'ok')
         testit.sciunit('exec', 'pwd')
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('open', 'nonexistent#')
-            assert_equals(r.error_code, 1)
+        assert_equals(r.exception.code, 1)
 
         out = StringIO()
         with mock.patch('sys.stdout', out):
@@ -37,4 +37,4 @@ class TestCopy(testit.LocalCase):
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
-            assert_equals(r.error_code, 0)
+        assert_equals(r.exception.code, 0)

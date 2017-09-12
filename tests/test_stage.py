@@ -11,11 +11,11 @@ class TestStage(testit.LocalCase):
     def test_g(self):
         with assert_raises(SystemExit) as r:
             testit.sciunit('stage', '-x')
-            assert_equals(r.error_code, 2)
+        assert_equals(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('stage', 'x')
-            assert_equals(r.error_code, 2)
+        assert_equals(r.exception.code, 2)
 
         testit.sciunit('create', 'ok')
         testit.sciunit('exec', 'true')
@@ -30,4 +30,4 @@ class TestStage(testit.LocalCase):
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
-            assert_equals(r.error_code, 0)
+        assert_equals(r.exception.code, 0)
