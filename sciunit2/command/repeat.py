@@ -25,6 +25,7 @@ class RepeatCommand(AbstractCommand):
         emgr, repo = sciunit2.workspace.current()
         with emgr.shared():
             emgr.get(args[0])
+            pkgdir = os.path.join(repo.location, 'cde-package')
+            repo.cleanup(pkgdir)
             repo.checkout(args[0])
-            sys.exit(sciunit2.core.repeat(
-                os.path.join(repo.location, 'cde-package'), args[1:]))
+            sys.exit(sciunit2.core.repeat(pkgdir, args[1:]))

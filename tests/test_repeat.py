@@ -70,6 +70,10 @@ class TestRepeat(testit.LocalCase):
         assert_equals(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e1', '-L')
+        assert_equals(r.exception.code, 0)
+
+        with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
         assert_equals(r.exception.code, 0)
 
