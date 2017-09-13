@@ -8,7 +8,6 @@ from sciunit2.command.repeat import RepeatCommand
 from sciunit2.command.list import ListCommand
 from sciunit2.command.show import ShowCommand
 from sciunit2.command.rm import RmCommand
-from sciunit2.command.stage import StageCommand
 from sciunit2.command.copy import CopyCommand
 
 import sys
@@ -18,7 +17,7 @@ import textwrap
 import pkg_resources
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
-            ListCommand, ShowCommand, RmCommand, StageCommand, CopyCommand]
+            ListCommand, ShowCommand, RmCommand, CopyCommand]
 
 
 def short_usage(out):

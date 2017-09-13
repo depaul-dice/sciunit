@@ -15,13 +15,17 @@ class CopyCommand(AbstractCommand):
     @property
     def usage(self):
         return [('copy', 'Copy the sciunit and obtain a token for opening '
-                         'it over the Internet')]
+                         'it over the Internet'),
+                ('copy -n', 'Archive the sciunit to ~/sciunit/<name>.zip')]
 
     def run(self, args):
-        optlist, args = getopt(args, '')
+        optlist, args = getopt(args, 'n')
         if args:
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.shared():
             fn = sciunit2.archiver.make(repo.location)
-            print sciunit2.ephemeral.live(fn)
+            if optlist:
+                print fn
+            else:
+                print sciunit2.ephemeral.live(fn)

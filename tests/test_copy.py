@@ -38,3 +38,15 @@ class TestCopy(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1')
         assert_equals(r.exception.code, 0)
+
+        out = StringIO()
+        with mock.patch('sys.stdout', out):
+            testit.sciunit('copy', '-n')
+        path = out.getvalue().strip()
+
+        assert_true(path.endswith('.zip'))
+        assert_is_none(testit.sciunit('open', path))
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e1')
+        assert_equals(r.exception.code, 0)
