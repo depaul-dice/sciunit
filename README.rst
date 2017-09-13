@@ -119,6 +119,10 @@ Commands
           Copy a sciunit to a *remote* server or *~/sciunit/<name>*.
           The supported remote protocols include Globus_.
 
+``sciunit copy -n``
+          Archive the currently-opened sciunit to
+          *~/sciunit/<name>.zip*.
+
 ``sciunit gc``
           Reduce the currently-opened sciunit's disk usage by
           garbage-collecting the unreferenced execution data.
