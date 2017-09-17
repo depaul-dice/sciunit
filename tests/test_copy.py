@@ -24,7 +24,7 @@ class TestCopy(testit.LocalCase):
         testit.sciunit('create', 'ok')
         testit.sciunit('exec', 'pwd')
 
-        with assert_raises(SystemExit) as r:
+        with assert_raises(SystemExit) as r, mock.patch('time.sleep', id):
             testit.sciunit('open', 'nonexistent#')
         assert_equals(r.exception.code, 1)
 
