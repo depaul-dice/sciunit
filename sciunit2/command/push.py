@@ -3,10 +3,10 @@ from __future__ import absolute_import
 from sciunit2.command import AbstractCommand
 from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.sharing import NotAuthorized, NotFound
-from sciunit2.credentials import TokenPtr
 from sciunit2.sharing.terminal import TerminalWizard
 from sciunit2.sharing.hydroshare import HydroShare
 import sciunit2.sharing.article
+import sciunit2.credentials
 import sciunit2.workspace
 
 from getopt import gnu_getopt
@@ -48,7 +48,8 @@ class PushCommand(AbstractCommand):
         except KeyError:
             raise CommandError('unrecognized service %r' % srvname)
         else:
-            srv = srvcls(TokenPtr(srvcls.name), TerminalWizard())
+            srv = srvcls(sciunit2.credentials.for_(srvcls.name),
+                         TerminalWizard())
 
         with emgr.shared():
             try:

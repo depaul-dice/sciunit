@@ -7,7 +7,7 @@ import sys
 from tqdm import tqdm
 
 
-class TerminalWizard(AbstractWizard):
+class TerminalWizard(AbstractWizard):  # pragma: no cover
     def ask(self, msg, *args):
         ans = raw_input((msg + " [y/N] ") % args)
         return ans.strip() in 'yY'
@@ -24,7 +24,7 @@ class TerminalWizard(AbstractWizard):
                     miniters=1, ascii=not _has_unicode(sys.stderr))
 
 
-def _has_unicode(fp):
+def _has_unicode(fp):  # pragma: no cover
     try:
         u'\u2588\u2589'.encode(fp.encoding)
     except (UnicodeEncodeError, AttributeError):

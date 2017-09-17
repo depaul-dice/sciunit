@@ -34,14 +34,17 @@ class HydroShare(AbstractService):
 
     def __prepare_handle(self):
         if self.__h is None:
-            try:
-                self.__h = hs_restclient.HydroShare(
-                    auth=hs_restclient.HydroShareAuthOAuth2(
-                        client_id=CLIENT_ID,
-                        client_secret=CLIENT_SECRET,
-                        token=self.__t.get()))
-            except KeyError:
-                raise Unauthenticated
+            self.__assign_handle()
+
+    def __assign_handle(self):
+        try:
+            self.__h = hs_restclient.HydroShare(
+                auth=hs_restclient.HydroShareAuthOAuth2(
+                    client_id=CLIENT_ID,
+                    client_secret=CLIENT_SECRET,
+                    token=self.__t.get()))
+        except KeyError:
+            raise Unauthenticated
 
     def __authenticated(f):
         def inner(self, *args, **kwargs):
@@ -59,8 +62,7 @@ class HydroShare(AbstractService):
                                            code=code,
                                            client_secret=CLIENT_SECRET)
                 self.__t.reset(token)
-                self.__h = None
-                self.__prepare_handle()
+                self.__assign_handle()
                 self.__h.session = oauth2
                 return f(self, *args, **kwargs)
         return inner
@@ -81,16 +83,13 @@ class HydroShare(AbstractService):
 
     @__authenticated
     def __login(self):
-        try:
-            self.__prepare_handle()
-            self.__w.info(
-                u'Logged in as "{0[last_name]}, {0[first_name]} <{0[email]}>"'
-                .format(self.__h.getUserInfo()))
-
-        except hs_restclient.HydroShareHTTPException as exc:
-            if exc.status_code == 401:
-                raise Unauthenticated
-            raise
+        self.__prepare_handle()
+        u = self.__h.getUserInfo()
+        if 'username' not in u:
+            raise Unauthenticated
+        self.__w.info(
+            u'Logged in as "{0[last_name]}, {0[first_name]} <{0[email]}>"'
+            .format(u))
 
     @__refreshed
     def __get_title(self, article):
