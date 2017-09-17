@@ -23,7 +23,9 @@ class FaultyWizard(AbstractWizard):
         pass
 
     def progress(self, msg, nbytes):
-        return tqdm(disable=True)
+        bar = tqdm(disable=True)
+        bar.n = 0
+        return bar
 
 
 @requests_mock.mock()
@@ -64,9 +66,13 @@ def test_happy(m):
     m.post('/hsapi/resource/511debf8858a4ea081f78d66870da76c/files/',
            status_code=201,
            json={"resource_id": "511debf8858a4ea081f78d66870da76c"})
+
+    def upload_cb(request, context):
+        request.text.read()
+        return {"resource_id": "6dbb0dfb8f3a498881e4de428cb1587c"}
     m.post('/hsapi/resource/6dbb0dfb8f3a498881e4de428cb1587c/files/',
            status_code=201,
-           json={"resource_id": "6dbb0dfb8f3a498881e4de428cb1587c"})
+           json=upload_cb)
 
     cred = TokenPtr('hs', Config(unrepr=True))
     cred.reset({'access_token': 'sth', 'expires_in': 60})
