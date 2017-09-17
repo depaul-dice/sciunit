@@ -7,3 +7,5 @@ poster
 retry
 humanfriendly
 configobj
+contextlib2
+tqdm

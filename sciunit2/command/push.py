@@ -1,0 +1,62 @@
+from __future__ import absolute_import
+
+from sciunit2.command import AbstractCommand
+from sciunit2.exceptions import CommandLineError, CommandError
+from sciunit2.sharing import NotAuthorized, NotFound
+from sciunit2.credentials import TokenPtr
+from sciunit2.sharing.terminal import TerminalWizard
+from sciunit2.sharing.hydroshare import HydroShare
+import sciunit2.sharing.article
+import sciunit2.workspace
+
+from getopt import gnu_getopt
+
+
+class PushCommand(AbstractCommand):
+    name = 'push'
+
+    __srv = {'hs': HydroShare, HydroShare.name: HydroShare}
+
+    @property
+    def usage(self):
+        return [('push <codename> --setup ' + '|'.join(self.__srv.keys()),
+                 'Push the sciunit to a web service by creating an article '
+                 'and save it as <codename> for later use'),
+                ('push [<codename>]',
+                 'Update an article with the latest sciunit data')]
+
+    def run(self, args):
+        optlist, args = gnu_getopt(args, '', ['setup='])
+        if optlist and not args or len(args) > 1:
+            raise CommandLineError
+
+        emgr, repo = sciunit2.workspace.current()
+        if args:
+            article = sciunit2.sharing.article.of(repo.location, args[0])
+        else:
+            article = sciunit2.sharing.article.most_recent(repo.location)
+        if optlist:
+            srvname = optlist[0][1].lower()
+        else:
+            try:
+                srvname = article.service
+            except NotFound as exc:
+                raise CommandError(exc.message)
+
+        try:
+            srvcls = self.__srv[srvname]
+        except KeyError:
+            raise CommandError('unrecognized service %r' % srvname)
+        else:
+            srv = srvcls(TokenPtr(srvcls.name), TerminalWizard())
+
+        with emgr.shared():
+            try:
+                if optlist:
+                    article.service = srvcls.name
+                    srv.setup(article)
+                fn = sciunit2.archiver.make(repo.location)
+                srv.push(article, fn)
+                sciunit2.sharing.article.save_recent(repo.location, article)
+            except (NotAuthorized, NotFound) as exc:
+                raise CommandError(exc.message)

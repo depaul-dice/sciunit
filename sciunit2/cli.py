@@ -8,6 +8,7 @@ from sciunit2.command.repeat import RepeatCommand
 from sciunit2.command.list import ListCommand
 from sciunit2.command.show import ShowCommand
 from sciunit2.command.rm import RmCommand
+from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 
 import sys
@@ -17,7 +18,7 @@ import textwrap
 import pkg_resources
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
-            ListCommand, ShowCommand, RmCommand, CopyCommand]
+            ListCommand, ShowCommand, RmCommand, PushCommand, CopyCommand]
 
 
 def short_usage(out):
@@ -84,6 +85,8 @@ def _main(args):
                 except CommandError as exc:
                     err2(cls.name, exc.message)
                     sys.exit(1)
+                except EOFError:
+                    print
                 break
         else:
             raise GetoptError('subcommand %r unrecognized' % args[0])
