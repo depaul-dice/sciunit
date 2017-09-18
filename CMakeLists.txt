@@ -5,6 +5,7 @@ include(ExternalProject)
 
 set_directory_properties(PROPERTIES EP_BASE build)
 set(_LIBEXEC_DIR ${CMAKE_BINARY_DIR}/sciunit2/libexec)
+set(_FILES_DIR ${CMAKE_SOURCE_DIR}/files)
 
 ExternalProject_Add(
   ptu
@@ -23,7 +24,7 @@ ExternalProject_Add(
 ExternalProject_Add(
   vvpkg
   GIT_REPOSITORY "git@bitbucket.org:depauldbgroup/vvpkg.git"
-  PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/files/vv-report-size.patch
+  PATCH_COMMAND ${GIT_EXECUTABLE} apply ${_FILES_DIR}/vv-report-size.patch
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR}
   TEST_COMMAND <BINARY_DIR>/tests/run
