@@ -124,7 +124,7 @@ class TestPush(testit.LocalCase):
                    status_code=404)
 
             with assert_raises(SystemExit) as r:
-                testit.sciunit('push', 'x', '--setup', 'hs')
+                testit.sciunit('push', 'x', '--setup', 'HS')
             assert_equals(r.exception.code, 1)
 
             with assert_raises(SystemExit) as r:

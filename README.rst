@@ -7,7 +7,7 @@ sciunit
 deliver reproducibility in your research
 -------------------------------------------------------------
 :Author:    Zhihao Yuan <zhihao.yuan@depaul.edu>
-:Version:   sciunit2 0.1
+:Version:   sciunit2 0.2
 :Manual section: 1
 :Copyright: Copyright 2017, DePaul University
 :Licence:   FreeBSD License (BSD-2-Clause)
@@ -99,15 +99,18 @@ Commands
           Note: the execution is removed from the records, but its
           data remains and may be shared with other executions.
 
-``sciunit stage`` [<service>]
-          Stage the currently-opened sciunit to a web *service* for
-          sharing.
-          If the *service* argument is not supplied, a list of services
-          will be prompted.  The supported services include
-          figshare_ and HydroShare_.
+``sciunit push`` <codename> --setup <service>
+          Create an article on a research object sharing *service*
+          and attach the currently opened sciunit to the article.
+          Assign different *codenames* to track multiple articles or
+          multiple versions of an article created from a sciunit.
+          The supported services include
+          figshare_ (`fs`) and HydroShare_ (`hs`).
 
-``sciunit stage -u``
-          Update the last staged content with the latest sciunit data.
+``sciunit push`` [<codename>]
+          Update the last pushed article with the latest sciunit data
+          if no argument present.  Otherwise, update the article
+          referred to by *codename*.
 
 ``sciunit copy``
           Copy the currently-opened sciunit to
