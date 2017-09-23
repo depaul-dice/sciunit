@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from nose.tools import *
 import mock
+import shutil
 from cStringIO import StringIO
 
 import testit
@@ -33,6 +34,7 @@ class TestCopy(testit.LocalCase):
             testit.sciunit('copy')
         token = out.getvalue().strip()
 
+        shutil.rmtree('tmp', True)
         assert_is_none(testit.sciunit('open', token))
 
         with assert_raises(SystemExit) as r:

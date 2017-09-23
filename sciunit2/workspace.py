@@ -67,12 +67,12 @@ def _create(name, by):
 
 
 def open(s):
+    _mkdir_p(location_for(''))
     try:
         if s.endswith('.zip'):
-            p = sciunit2.archiver.extract(s, _is_path_component, location_for)
+            p = _extract(s)
         elif _is_once_token(s):
-            p = sciunit2.archiver.extract(sciunit2.ephemeral.fetch(
-                    s, location_for('tmp')), _is_path_component, location_for)
+            p = _extract(sciunit2.ephemeral.fetch(s, location_for('tmp')))
         elif _is_path_component(s):
             p = location_for(s)
             if not os.path.isdir(p):
@@ -93,6 +93,10 @@ def open(s):
 def _save_opened(path):
     with __builtin__.open(location_for('.activated'), 'w') as f:
         print >> f, path
+
+
+def _extract(fn):
+    return sciunit2.archiver.extract(fn, _is_path_component, location_for)
 
 
 def at():
