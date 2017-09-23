@@ -10,7 +10,7 @@ set(_FILES_DIR ${CMAKE_SOURCE_DIR}/files)
 ExternalProject_Add(
   ptu
   GIT_REPOSITORY "git@bitbucket.org:depauldbgroup/provenance-to-use.git"
-  CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_TESTING=OFF
   INSTALL_COMMAND install -s <BINARY_DIR>/ptu ${_LIBEXEC_DIR}
 )
 
