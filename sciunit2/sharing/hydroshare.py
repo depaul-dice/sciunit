@@ -15,7 +15,7 @@ CLIENT_SECRET = (
 
 AUTH_URL = 'https://www.hydroshare.org/o/authorize/'
 TOKN_URL = 'https://www.hydroshare.org/o/token/'
-CBCK_URL = 'https://www.hydroshare.org/my-resources/'
+CBCK_URL = 'https://sciunit.run/cb'
 
 
 class Unauthenticated(Exception):
