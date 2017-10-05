@@ -16,7 +16,7 @@ class BuildCommand(build_py):
         subprocess.check_call(['cmake', '-DCMAKE_BUILD_TYPE=Release'])
         subprocess.check_call(['make', '-j4'])
         build_py.run(self)
-        _build_manpage('README.rst', 'sciunit.1.gz')
+        _build_manpage('docs/sciunit.1.rst', 'sciunit.1.gz')
 
 
 def _build_manpage(src, target):
