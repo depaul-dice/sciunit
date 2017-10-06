@@ -21,13 +21,4 @@ class TerminalWizard(AbstractWizard):  # pragma: no cover
     def progress(self, msg, nbytes):
         return tqdm(desc=msg, total=nbytes,
                     unit='B', unit_scale=True,
-                    miniters=1, ascii=not _has_unicode(sys.stderr))
-
-
-def _has_unicode(fp):  # pragma: no cover
-    try:
-        u'\u2588\u2589'.encode(fp.encoding)
-    except (UnicodeEncodeError, AttributeError):
-        return False
-    else:
-        return True
+                    miniters=1)

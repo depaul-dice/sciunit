@@ -23,9 +23,7 @@ class FaultyWizard(AbstractWizard):
         pass
 
     def progress(self, msg, nbytes):
-        bar = tqdm(disable=True)
-        bar.n = 0
-        return bar
+        return tqdm(disable=True)
 
 
 @requests_mock.mock()

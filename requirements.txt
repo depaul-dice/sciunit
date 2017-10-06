@@ -9,4 +9,4 @@ humanfriendly
 configobj
 hs_restclient
 contextlib2
-tqdm
+tqdm>=4.17.1
