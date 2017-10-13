@@ -16,9 +16,11 @@ def capture(args):
 
 
 def shell():
+    print 'Interactive capturing started; press Ctrl-D to end'
     sciunit2.libexec.ptu([sciunit2.libexec.scripter.which,
-                          '-i', 'cde.stdin']).wait()
+                          '-qi', 'cde.stdin']).wait()
     assert os.path.isdir('cde-package')
+    print 'Interactive capturing ended'
     shutil.move('cde.stdin', 'cde-package')
     with open('cde-package/cde.log') as f:
         ls = shlex.split(f)
