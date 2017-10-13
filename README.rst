@@ -17,14 +17,14 @@ Requires: pip>=8.1.1, glibc>=2.17, python2.7 with headers and compiler
 
 Platform: amd64-pc-linux-gnu
 
-Ensure that `~/.local/bin` is in your `PATH` environment variable,
+Ensure that `~/.local/bin` is in your ``PATH`` environment variable,
 and then, run
 
 ::
 
     pip install --user sciunit2
 
-Add `--upgrade` to the command line arguments to upgrade an existing
+Add ``--upgrade`` to the command line arguments to upgrade an existing
 sciunit installation.
 
 Verify the installation with
@@ -41,7 +41,7 @@ in the form of
     export PATH=~/.local/bin:$PATH
 
 , it merely means that you will need the aforementioned binary path
-in `PATH` before proceeding; normally you should adjust it according
+in ``PATH`` before proceeding; normally you should adjust it according
 to your login shell and write it to a shell configuration such as
 `~/.profile`.
 
