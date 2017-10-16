@@ -130,8 +130,8 @@ Note that OpenSUSE defaults user-binary path to `~/bin` rather than
 Using
 ===========
 
-Checkout our `tutorial <docs/tutorial.md>`_ and `manpage
-<docs/sciunit.1.rst>`_. The manpage is also available as
+Checkout our `tutorial <https://sciunit.run/docs/>`_ and manpage.
+The manpage is available as
 
 ::
 
