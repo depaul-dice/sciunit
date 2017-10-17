@@ -16,6 +16,7 @@ from getopt import getopt, GetoptError
 from cStringIO import StringIO
 import textwrap
 import pkg_resources
+import os
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, RmCommand, PushCommand, CopyCommand]
@@ -68,8 +69,23 @@ def main():
 
 
 def _main(args):
-    optlist, args = getopt(args, '', ['help', 'version'])
-    if not optlist and args:
+    optlist, args = getopt(args, '', ['help', 'version', 'root='])
+
+    if optlist:
+        op, v = optlist[0]
+        if op == '--help':
+            short_usage(sys.stdout)
+            print
+            subcommand_usage(sys.stdout, [cls() for cls in __cmds__])
+            return
+        elif op == '--version':
+            print pkg_resources.require("sciunit2")[0]
+            return
+        elif op == '--root':  # pragma: no cover
+            import sciunit2.workspace
+            sciunit2.workspace.location_for = lambda p: os.path.join(v, p)
+
+    if args:
         for cls in __cmds__:
             if args[0] == cls.name:
                 cmd = cls()
@@ -90,15 +106,5 @@ def _main(args):
                 break
         else:
             raise GetoptError('subcommand %r unrecognized' % args[0])
-    elif optlist:
-        op, _ = optlist[0]
-        if op == '--help':
-            short_usage(sys.stdout)
-            print
-            subcommand_usage(sys.stdout, [cls() for cls in __cmds__])
-        elif op == '--version':
-            print pkg_resources.require("sciunit2")[0]
-        else:  # unreachable
-            pass
     else:
         raise CommandLineError
