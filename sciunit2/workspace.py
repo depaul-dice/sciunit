@@ -116,3 +116,11 @@ def current():
     p = at()
     return (sciunit2.records.ExecutionManager(p),
             sciunit2.version_control.Vvpkg(p))
+
+
+def project(p):
+    return _remove_prefix_if_present(p, location_for(''))
+
+
+def _remove_prefix_if_present(s, prefix):
+    return s[len(prefix):] if s.startswith(prefix) else s

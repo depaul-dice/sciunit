@@ -26,8 +26,7 @@ class ShowCommand(AbstractCommand):
             raise CommandLineError
 
         emgr, repo = sciunit2.workspace.current()
-        name = _remove_prefix_if_presents(
-            repo.location, sciunit2.workspace.location_for(''))
+        name = sciunit2.workspace.project(repo.location)
         if args:
             rev = args[0]
             e = emgr.get(rev)
@@ -44,7 +43,3 @@ class ShowCommand(AbstractCommand):
               ('started', timestamp.fmt_iso(e.started))]
         for ln in ls:
             sys.stdout.write('%7s: %s\n' % ln)
-
-
-def _remove_prefix_if_presents(s, prefix):
-    return s[len(prefix):] if s.startswith(prefix) else s
