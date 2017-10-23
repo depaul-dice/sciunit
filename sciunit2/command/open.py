@@ -29,4 +29,8 @@ class OpenCommand(AbstractCommand):
             v = args[0]
         else:
             raise CommandLineError
-        sciunit2.workspace.open(v)
+        return sciunit2.workspace.open(v)
+
+    def note(self, p):
+        return "Switched to sciunit '{0}'\n".format(
+            sciunit2.workspace.project(p))

@@ -88,6 +88,7 @@ def open(s):
 
     else:
         _save_opened(p)
+        return p
 
 
 def _save_opened(path):
