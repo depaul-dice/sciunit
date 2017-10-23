@@ -16,3 +16,6 @@ class AbstractCommand:
     @abstractmethod
     def run(self, args):
         raise NotImplementedError
+
+    def note(self, user_data):
+        raise NotImplementedError

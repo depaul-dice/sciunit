@@ -77,6 +77,7 @@ class ExecutionManager(object):
         k, v = self.__pending
         v.size = size
         self.__f[k] = str(v)
+        return (self.__to_rev(k), v)
 
     def get(self, rev):
         try:

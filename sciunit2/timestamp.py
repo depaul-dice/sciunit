@@ -2,7 +2,9 @@ from __future__ import absolute_import
 
 from utcdatetime import utcdatetime
 from datetime import datetime as _datetime
+from email.utils import formatdate
 import tzlocal
+import time
 
 
 now = utcdatetime.now
@@ -23,3 +25,8 @@ def fmt_ls(dt):
 def fmt_iso(dt):
     dt = localized(dt)
     return dt.strftime('%Y-%m-%d %H:%M')
+
+
+def fmt_rfc2822(dt):
+    dt = localized(dt)
+    return formatdate(time.mktime(dt.timetuple()), dt.tzinfo)

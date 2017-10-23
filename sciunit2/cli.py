@@ -90,7 +90,9 @@ def _main(args):
             if args[0] == cls.name:
                 cmd = cls()
                 try:
-                    cmd.run(args[1:])
+                    r = cmd.run(args[1:])
+                    if r is not None:
+                        sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
