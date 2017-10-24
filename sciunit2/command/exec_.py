@@ -8,6 +8,7 @@ import sciunit2.core
 import sciunit2.workspace
 
 from getopt import getopt
+from humanfriendly import Spinner
 
 
 class ExecCommand(AbstractCommand):
@@ -31,7 +32,8 @@ class ExecCommand(AbstractCommand):
                 sciunit2.core.shell()
             else:
                 sciunit2.core.capture(args)
-            sz = repo.checkin(rev, 'cde-package')
+            with Spinner('Committing') as sp:
+                sz = repo.checkin(rev, 'cde-package', sp)
             return (repo.location,) + emgr.commit(sz)
 
     def note(self, (p, rev, d)):

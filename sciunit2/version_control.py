@@ -18,13 +18,16 @@ class Vvpkg(object):
     def __init__(self, location):
         self.location = location
 
-    def checkin(self, rev, pkgdir):
+    def checkin(self, rev, pkgdir, spinner):
         cmd = quoted_format('tar cf - -C {1} {2} | {0} commit {3} -',
                             sciunit2.libexec.vv.which,
                             os.getcwd(), pkgdir, rev)
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
-        _, err = p.communicate()
-        if p.wait() == 0:
+        while p.poll() is None:
+            spinner.step()
+            spinner.sleep()
+        err = p.stderr.read()
+        if p.returncode == 0:
             self.cleanup(pkgdir)
             return int(err)
         else:
