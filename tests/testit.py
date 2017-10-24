@@ -8,6 +8,9 @@ import shutil
 import sciunit2.cli
 import sciunit2.workspace
 
+from humanfriendly.testing import touch
+from humanfriendly.testing import make_dirs as mkdir
+
 
 class LocalCase(unittest.TestCase):
     def setUp(self):

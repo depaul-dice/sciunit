@@ -97,7 +97,7 @@ class TestOpen(testit.LocalCase):
         assert_equals(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
-            open('tmp/new', 'w').close()
+            testit.touch('tmp/new')
             testit.sciunit('open', '-m', 'new')
         assert_equals(r.exception.code, 1)
 

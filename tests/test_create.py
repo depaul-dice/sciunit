@@ -24,7 +24,7 @@ class TestCreate(testit.LocalCase):
         assert_equals(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
-            open('tmp/notok', 'w').close()
+            testit.touch('tmp/notok')
             testit.sciunit('create', 'notok')
         assert_equals(r.exception.code, 1)
 

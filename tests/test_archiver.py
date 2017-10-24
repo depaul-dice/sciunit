@@ -7,6 +7,7 @@ import mock
 import errno
 import zipfile
 
+import testit
 import sciunit2.archiver
 
 
@@ -29,8 +30,8 @@ def test_empty():
 
 @with_setup(prepare, cleanup)
 def test_layout():
-    open('tmp/test/a.txt', 'w').close()
-    os.mkdir('tmp/test/b')
+    testit.touch('tmp/test/a.txt')
+    testit.mkdir('tmp/test/b')
 
     p = sciunit2.archiver.make('tmp/test')
 

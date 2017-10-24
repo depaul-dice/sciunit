@@ -22,7 +22,7 @@ class TestExec(testit.LocalCase):
         testit.sciunit('create', 'ok')
         assert_is_none(testit.sciunit('exec', 'pwd'))
 
-        open('tmp/ok/e2.json', 'w').close()
+        testit.touch('tmp/ok/e2.json')
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('exec', 'pwd')
