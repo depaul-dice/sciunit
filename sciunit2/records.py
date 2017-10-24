@@ -95,6 +95,29 @@ class ExecutionManager(object):
         except KeyError:
             pass
 
+    def deletemany(self, revrange):
+        bg, ed = self.__to_id_range(revrange)
+        with closing(self.__f.db.cursor()) as c:
+            try:
+                if ed is None:
+                    p = c.last()
+                    ed = p[0]
+                else:
+                    # XXX set_range not functioning
+                    try:
+                        p = c.set(ed)
+                    except bsddb._db.DBError:
+                        p = c.last()
+
+                while not p[0] < bg:
+                    if not ed < p[0]:
+                        c.delete()
+                        yield self.__to_rev(p[0])
+                    p = c.prev()
+
+            except DBNotFoundError:
+                pass
+
     @staticmethod
     def __to_rev(id_):
         return 'e%d' % id_
@@ -104,6 +127,13 @@ class ExecutionManager(object):
         if not re.match(r'^e[1-9]\d*$', rev):
             raise MalformedExecutionId
         return int(rev[1:])
+
+    @staticmethod
+    def __to_id_range(revrange):
+        r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
+        if not r:
+            raise MalformedExecutionId
+        return tuple(int(x) if x is not None else x for x in r.groups())
 
     def list(self):
         for k, v in self.__f.iteritems():
