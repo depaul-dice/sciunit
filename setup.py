@@ -48,7 +48,7 @@ setup(
     entry_points={'console_scripts': ['sciunit=sciunit2.cli:main']},
     data_files=[('man/man1', ['sciunit.1.gz'])],
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: BSD License',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 2.7',
