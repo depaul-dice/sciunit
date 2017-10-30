@@ -7,7 +7,7 @@ sciunit
 deliver reproducibility in your research
 -------------------------------------------------------------
 :Author:    Zhihao Yuan <zhihao.yuan@depaul.edu>
-:Version:   sciunit2 0.2
+:Version:   sciunit2 0.3
 :Manual section: 1
 :Copyright: Copyright 2017, DePaul University
 :Licence:   FreeBSD License (BSD-2-Clause)
@@ -98,6 +98,11 @@ Commands
 
           Note: the execution is removed from the records, but its
           data remains and may be shared with other executions.
+
+``sciunit rm`` *eN*-[*M*]
+          Remove executions within a range, from *eN* to *eM*,
+          inclusive.  *M* may be omitted for a range from *eN* to
+          the most recent.
 
 ``sciunit push`` <codename> --setup <service>
           Create an article on a research object sharing *service*
