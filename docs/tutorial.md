@@ -4,25 +4,26 @@ From time to time, you may find that it is hard to verify or reproduce someone
 else's research, even though it is only programs, data, and output.
 Programs may be built in different ways, may behave differently if not running
 in the author's environment, and can accept different arguments at runtime.
-All these factors contribute to the difficulties of trying out others' work.
+All these factors contribute to the difficulties of trying out, if not
+reproducing, others work.
 How about, starting from your next paper, you publish the article along with a
-"sciunit" research object to encapsulate all the workflows you plan to
+'sciunit' research object to encapsulate all the workflows you plan to
 demonstrate, allowing your readers and reviewer to try out your work?
 
 ## Basic concepts
 
 ### Sciunit
 
-"Sciunit" is both the name of the reusable research object we defined and also
+'Sciunit' is both the name of the reusable research object we defined and also
 the name of command-line tool that creates, manages, and shares *sciunits*.  A
 sciunit consists of multiple *executions*.  Each execution refers to an
 execution of a command under Linux.  The command may be a single binary, may
 start with the name of a specific virtual machine for managed languages, such
-as "java," or may be a shell script that contains multiple commands. An
+as Java, or may be a shell script that contains multiple commands. An
 execution may also be a series of terminal inputs that capture your
 interaction with a UNIX shell. In all cases, the execution have its runtime
-dependencies determined during an "auditing" phase, saved to a sciunit, and
-can be "repeated" later on a different machine without pulling in any
+dependencies determined during an *auditing* phase, saved to a sciunit, and
+can be *repeated* later on a different machine without pulling in any
 dependencies of the execution.
 
 Each execution is assigned an execution id, starting from `e1`.  In your
