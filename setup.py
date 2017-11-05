@@ -39,7 +39,7 @@ setup(
     zip_safe=False,
     license='BSD',
     keywords=['sciunit'],
-    url='https://bitbucket.org/geotrust/sciunit2/src',
+    url='https://bitbucket.org/geotrust/sciunit2',
     long_description=localopen('README.rst').read(),
     setup_requires=['docutils'],
     install_requires=localopen('requirements.txt').readlines(),

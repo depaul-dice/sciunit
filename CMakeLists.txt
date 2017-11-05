@@ -9,21 +9,21 @@ set(_FILES_DIR ${CMAKE_SOURCE_DIR}/files)
 
 ExternalProject_Add(
   ptu
-  GIT_REPOSITORY "git@bitbucket.org:depauldbgroup/provenance-to-use.git"
+  GIT_REPOSITORY "https://bitbucket.org/depauldbgroup/provenance-to-use"
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_TESTING=OFF
   INSTALL_COMMAND install -s <BINARY_DIR>/ptu ${_LIBEXEC_DIR}
 )
 
 ExternalProject_Add(
   scripter
-  GIT_REPOSITORY "git@bitbucket.org:geotrust/scripter.git"
+  GIT_REPOSITORY "https://bitbucket.org/geotrust/scripter"
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   INSTALL_COMMAND install -s <BINARY_DIR>/scripter ${_LIBEXEC_DIR}
 )
 
 ExternalProject_Add(
   vvpkg
-  GIT_REPOSITORY "git@bitbucket.org:depauldbgroup/vvpkg.git"
+  GIT_REPOSITORY "https://bitbucket.org/depauldbgroup/vvpkg"
   PATCH_COMMAND ${GIT_EXECUTABLE} apply ${_FILES_DIR}/vv-report-size.patch
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR}
