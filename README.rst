@@ -127,6 +127,22 @@ Note that OpenSUSE defaults user-binary path to `~/bin` rather than
     export PATH=~/.local/bin:$PATH
     pip install --user sciunit2
 
+Known Issues
+~~~~~~~~~~~~~~
+
+If your environment is not listed, or you missed some prerequisites
+before issuing `pip`, you may observe the following error when
+running `sciunit`:
+
+::
+
+    ImportError: No module named _bsddb
+
+Fortunately, there are more than one ways to fulfill this dependency.
+Try to find and install a package often named "python-bsddb" or
+"python-bsddb3" with your system package manager.  In Anaconda,
+you will need a port called "bsddb."
+
 Using
 ===========
 
