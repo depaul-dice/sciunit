@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from sciunit2.util import quoted
-from sciunit2.core import read_cmd
+from sciunit2.cdelog import open
 from sciunit2 import timestamp
 import sciunit2.workspace
 
@@ -19,7 +19,7 @@ class CommitMixin(object):
     def do_getcmd(self, dir=''):
         try:
             with open(os.path.join(dir, 'cde-package/cde.log')) as f:
-                ls = read_cmd(f)
+                ls = f.read_cmd()
             yield ls
         except IOError as exc:
             if exc.errno != errno.ENOENT:
