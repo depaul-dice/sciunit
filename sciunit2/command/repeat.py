@@ -24,8 +24,8 @@ class RepeatCommand(AbstractCommand):
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.shared():
-            emgr.get(args[0])
+            orig = emgr.get(args[0]).cmd
             pkgdir = os.path.join(repo.location, 'cde-package')
             repo.cleanup(pkgdir)
             repo.checkout(args[0])
-            sys.exit(sciunit2.core.repeat(pkgdir, args[1:]))
+            sys.exit(sciunit2.core.repeat(pkgdir, orig, args[1:]))
