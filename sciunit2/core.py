@@ -57,3 +57,11 @@ def write_cmd(fp, args):
     fp.write('# ')
     json.dump(args, fp)
     fp.write('\n')
+
+
+def read_cmd(fp):
+    ln = fp.readline()
+    if ln.startswith('# ['):
+        return json.loads(ln[2:])
+    else:
+        return []

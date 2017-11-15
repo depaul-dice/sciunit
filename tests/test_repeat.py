@@ -69,6 +69,12 @@ class TestRepeat(testit.LocalCase):
             testit.sciunit('repeat', 'e2', '-l')
         assert_equals(r.exception.code, 1)
 
+        assert_is_none(testit.sciunit('commit'))
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('repeat', 'e3')
+        assert_equals(r.exception.code, 0)
+
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1', '-L')
         assert_equals(r.exception.code, 0)

@@ -7,6 +7,7 @@ from sciunit2.command.exec_ import ExecCommand
 from sciunit2.command.repeat import RepeatCommand
 from sciunit2.command.list import ListCommand
 from sciunit2.command.show import ShowCommand
+from sciunit2.command.commit import CommitCommand
 from sciunit2.command.rm import RmCommand
 from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
@@ -19,7 +20,8 @@ import pkg_resources
 import os
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
-            ListCommand, ShowCommand, RmCommand, PushCommand, CopyCommand]
+            ListCommand, ShowCommand, CommitCommand, RmCommand,
+            PushCommand, CopyCommand]
 
 
 def short_usage(out):

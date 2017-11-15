@@ -19,9 +19,10 @@ class Vvpkg(object):
         self.location = location
 
     def checkin(self, rev, pkgdir, spinner):
+        parent, name = os.path.split(os.path.abspath(pkgdir))
         cmd = quoted_format('tar cf - -C {1} {2} | {0} commit {3} -',
                             sciunit2.libexec.vv.which,
-                            os.getcwd(), pkgdir, rev)
+                            parent, name, rev)
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         while p.poll() is None:
             spinner.step()
