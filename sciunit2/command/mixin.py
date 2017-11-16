@@ -6,24 +6,13 @@ from sciunit2 import timestamp
 import sciunit2.workspace
 
 from humanfriendly import Spinner
-import os
-import errno
 
 
 class CommitMixin(object):
-    def do_commit(self, rev, emgr, repo, dir=''):
+    def do_commit(self, pkgdir, rev, emgr, repo):
         with Spinner('Committing') as sp:
-            sz = repo.checkin(rev, os.path.join(dir, 'cde-package'), sp)
+            sz = repo.checkin(rev, pkgdir, sp)
         return (repo.location,) + emgr.commit(sz)
-
-    def do_getcmd(self, dir=''):
-        try:
-            with open(os.path.join(dir, 'cde-package/cde.log')) as f:
-                ls = f.read_cmd()
-            yield ls
-        except IOError as exc:
-            if exc.errno != errno.ENOENT:
-                raise  # pragma: no cover
 
     def note(self, (p, rev, d)):
         return "\n[%s %s] %s\n Date: %s\n" % (

@@ -30,4 +30,4 @@ class ExecCommand(CommitMixin, AbstractCommand):
                 sciunit2.core.shell()
             else:
                 sciunit2.core.capture(args)
-            return self.do_commit(rev, emgr, repo)
+            return self.do_commit('cde-package', rev, emgr, repo)

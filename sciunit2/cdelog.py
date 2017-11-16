@@ -5,10 +5,28 @@ from sciunit2.util import quoted_format, quoted
 
 import shlex
 import json
+import os
+import errno
 
 
 def open(fn, mode='r'):
     return Script(__builtin__.open(fn, mode))
+
+
+class DetachedExecution(object):
+    __slots__ = '__fn'
+
+    def __init__(self, dir):
+        self.__fn = os.path.join(dir, 'cde.log')
+
+    def getcmd(self):
+        try:
+            with open(self.__fn) as f:
+                ls = f.read_cmd()
+            yield ls
+        except IOError as exc:
+            if exc.errno != errno.ENOENT:
+                raise  # pragma: no cover
 
 
 class Script(object):

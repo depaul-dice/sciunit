@@ -3,9 +3,11 @@ from __future__ import absolute_import
 from sciunit2.command import AbstractCommand
 from sciunit2.command.mixin import CommitMixin
 from sciunit2.exceptions import CommandLineError, CommandError
+from sciunit2.cdelog import DetachedExecution
 import sciunit2.workspace
 
 from getopt import getopt
+import os
 
 
 class CommitCommand(CommitMixin, AbstractCommand):
@@ -21,9 +23,10 @@ class CommitCommand(CommitMixin, AbstractCommand):
         if args:
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
+        pkgdir = os.path.join(repo.location, 'cde-package')
         with emgr.exclusive():
-            for cmd in self.do_getcmd(repo.location):
+            for cmd in DetachedExecution(pkgdir).getcmd():
                 rev = emgr.add(cmd)
-                return self.do_commit(rev, emgr, repo, dir=repo.location)
+                return self.do_commit(pkgdir, rev, emgr, repo)
             else:
                 raise CommandError('nothing to commit')
