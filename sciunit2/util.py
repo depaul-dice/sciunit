@@ -5,6 +5,7 @@ import pipes
 import tempfile
 import itertools
 import errno
+from glob import glob
 
 
 def quoted_format(fmt, *args):
@@ -13,6 +14,16 @@ def quoted_format(fmt, *args):
 
 def quoted(args):
     return ' '.join(map(pipes.quote, args))
+
+
+def globsub(ptrn, args):
+    files = glob(ptrn)
+    try:
+        i = args.index('%')
+        args[i:i+1] = files
+    except ValueError:
+        pass
+    return (files, args)
 
 
 def _temp_names_derivedfrom(base, sep):

@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from nose.tools import *
+import shutil
 
 import testit
 
@@ -27,3 +28,5 @@ class TestExec(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('exec', 'pwd')
         assert_equals(r.exception.code, 1)
+
+        shutil.rmtree('cde-package', True)

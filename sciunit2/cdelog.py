@@ -28,6 +28,10 @@ class DetachedExecution(object):
             if exc.errno != errno.ENOENT:
                 raise  # pragma: no cover
 
+    def cwd_on_host(self):
+        with open(self.__fn) as f:
+            return os.path.join(os.path.dirname(self.__fn), next(f)[1])
+
 
 class Script(object):
     __slots__ = ['__f', '__sh']

@@ -7,6 +7,7 @@ from sciunit2.command.exec_ import ExecCommand
 from sciunit2.command.repeat import RepeatCommand
 from sciunit2.command.list import ListCommand
 from sciunit2.command.show import ShowCommand
+from sciunit2.command.given import GivenCommand
 from sciunit2.command.commit import CommitCommand
 from sciunit2.command.rm import RmCommand
 from sciunit2.command.push import PushCommand
@@ -20,7 +21,7 @@ import pkg_resources
 import os
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
-            ListCommand, ShowCommand, CommitCommand, RmCommand,
+            ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
             PushCommand, CopyCommand]
 
 
@@ -99,11 +100,11 @@ def _main(args):
                     subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
                 except GetoptError as exc:
-                    err2(cls.name, exc.msg)
+                    err2(cmd.name, exc.msg)
                     subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
                 except CommandError as exc:
-                    err2(cls.name, exc.message)
+                    err2(cmd.name, exc.message)
                     sys.exit(1)
                 except EOFError:
                     print
