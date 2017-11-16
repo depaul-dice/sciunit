@@ -23,7 +23,7 @@ class RepeatCommand(AbstractCommand):
         if not args:
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
-        with emgr.shared():
+        with emgr.exclusive():
             orig = emgr.get(args[0]).cmd
             pkgdir = os.path.join(repo.location, 'cde-package')
             repo.cleanup(pkgdir)
