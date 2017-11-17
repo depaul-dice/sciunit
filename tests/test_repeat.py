@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from nose.tools import *
+import mock
 import os
 
 import testit
@@ -58,8 +59,8 @@ class TestRepeat(testit.LocalCase):
         assert_equals(r.exception.code, 0)
 
         testit.sciunit('open', 'ok')
-        # XXX Ctrl-D
-        assert_is_none(testit.sciunit('exec', '-i'))
+        with mock.patch.dict(os.environ, {'SHELL': '/bin/true'}):
+            assert_is_none(testit.sciunit('exec', '-i'))
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e2')
