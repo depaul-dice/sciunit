@@ -63,7 +63,7 @@ def _create(name, by):
 
     if not by(location_for(name)):
         raise CommandError('directory %s already exists' %
-                           location_for(pipes.quote(name)))
+                           pipes.quote(location_for(name)))
 
 
 def open(s):
