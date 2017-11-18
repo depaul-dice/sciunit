@@ -73,7 +73,7 @@ def read_git_version():
         if proc.returncode:
             return
         ver = data.splitlines()[0].strip()
-    except:
+    except subprocess.CalledProcessError:
         return
 
     if not ver:
@@ -103,7 +103,7 @@ def read_release_version():
             sys.stderr.write('version: release version (%s) is invalid, '
                              'will use it anyway\n' % (ver,))
         return ver
-    except:
+    except IOError:
         return
 
 

@@ -28,6 +28,7 @@ def _build_manpage(src, target):
                      destination=f,
                      writer=manpage.Writer())
 
+
 setup(
     name='sciunit2',
     version=version.get_version(),
