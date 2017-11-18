@@ -10,6 +10,7 @@ import sys
 import os
 import shutil
 import errno
+from backports.tempfile import TemporaryDirectory
 
 
 class Vvpkg(object):
@@ -50,6 +51,13 @@ class Vvpkg(object):
         except OSError as exc:
             if exc.errno != errno.ENOENT:
                 raise  # pragma: no cover
+
+    def chain_rename(self, revls):
+        with TemporaryDirectory(dir=self.location) as dname:
+            for orig, _ in revls:
+                os.link(self.__physical(orig), os.path.join(dname, orig))
+            for from_, to in revls:
+                os.rename(os.path.join(dname, from_), self.__physical(to))
 
     def cleanup(self, pkgdir):
         shutil.rmtree(pkgdir, ignore_errors=True)

@@ -8,6 +8,7 @@ import fcntl
 import json
 import re
 from contextlib import closing
+from tempfile import NamedTemporaryFile
 try:
     import bsddb3 as bsddb
 except ImportError:
@@ -49,10 +50,11 @@ class Metadata(object):
 
 
 class ExecutionManager(object):
-    __slots__ = ['__f', '__pending']
+    __slots__ = ['__f', '__pending', '__fn']
 
     def __init__(self, location):
-        self.__f = bsddb.rnopen(os.path.join(location, 'sciunit.db'), 'c')
+        self.__fn = os.path.join(location, 'sciunit.db')
+        self.__f = bsddb.rnopen(self.__fn)
 
     def close(self):
         self.__f.close()
@@ -80,10 +82,13 @@ class ExecutionManager(object):
         return (self.__to_rev(k), v)
 
     def get(self, rev):
+        return Metadata.fromstring(self.__get(self.__to_id(rev)))
+
+    def __get(self, i):
         try:
-            return Metadata.fromstring(self.__f[self.__to_id(rev)])
+            return self.__f.db.get(i)
         except KeyError:
-            raise CommandError('execution %r not found' % rev)
+            raise CommandError('execution %r not found' % self.__to_rev(i))
 
     def last(self):
         id_, m = self.__f.last()
@@ -117,6 +122,56 @@ class ExecutionManager(object):
 
             except DBNotFoundError:
                 pass
+
+    def sort(self, revls):
+        ls = map(self.__to_id, revls)
+        d = set(ls)
+        if len(d) < len(ls):
+            raise CommandError('duplicated entries')
+        mismatched = min(ls)
+        rename_list = []
+
+        def need_to_rename(from_, to):
+            if to != from_:
+                rename_list.append((self.__to_rev(from_), self.__to_rev(to)))
+
+        with NamedTemporaryFile(dir=os.path.dirname(self.__fn)) as fp:
+            guard = closing(bsddb.rnopen(fp.name, 'w'))
+            with guard as tmp:
+                self.__for_upto(mismatched, lambda (k, v): tmp.db.put(k, v))
+                for i in ls:
+                    j = tmp.db.append(self.__get(i))
+                    need_to_rename(i, j)
+                self.__for_from(mismatched, lambda (k, v):
+                                k not in d and
+                                need_to_rename(k, tmp.db.append(v)))
+
+                yield rename_list
+                os.rename(fp.name, self.__fn)
+                fp.delete = False
+                x = self.__f
+                self.__f = guard.thing
+                guard.thing = x
+
+    def __for_upto(self, last, f):
+        with closing(self.__f.db.cursor()) as c:
+            try:
+                pair = c.first()
+                while pair[0] < last:
+                    f(pair)
+                    pair = c.next()
+            except DBNotFoundError:
+                pass
+
+    def __for_from(self, first, f):
+        with closing(self.__f.db.cursor()) as c:
+            pair = c.set(first)
+            while True:
+                f(pair)
+                try:
+                    pair = c.next()
+                except DBNotFoundError:
+                    break
 
     @staticmethod
     def __to_rev(id_):

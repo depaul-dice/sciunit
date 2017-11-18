@@ -10,6 +10,7 @@ from sciunit2.command.show import ShowCommand
 from sciunit2.command.given import GivenCommand
 from sciunit2.command.commit import CommitCommand
 from sciunit2.command.rm import RmCommand
+from sciunit2.command.sort import SortCommand
 from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 
@@ -22,7 +23,7 @@ import os
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
-            PushCommand, CopyCommand]
+            SortCommand, PushCommand, CopyCommand]
 
 
 def short_usage(out):

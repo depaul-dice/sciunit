@@ -21,8 +21,12 @@ class ListCommand(AbstractCommand):
         if args:
             raise CommandLineError
         emgr, _ = sciunit2.workspace.current()
-        for rev, d in emgr.list():
-            print '%5s %s %s' % (
-                rev,
-                timestamp.fmt_ls(d.started),
-                quoted(d.cmd))
+        run_listing(emgr)
+
+
+def run_listing(emgr):
+    for rev, d in emgr.list():
+        print '%5s %s %s' % (
+            rev,
+            timestamp.fmt_ls(d.started),
+            quoted(d.cmd))
