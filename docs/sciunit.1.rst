@@ -123,29 +123,9 @@ Commands
           remotely opening it.  The token is invalidated after being
           accessed or after one day, whichever happens first.
 
-``sciunit copy`` <remote>|<name>
-          Copy a sciunit to a *remote* server or *~/sciunit/<name>*.
-          The supported remote protocols include Globus_.
-
 ``sciunit copy -n``
           Archive the currently-opened sciunit to
           *~/sciunit/<name>.zip*.
-
-``sciunit gc``
-          Reduce the currently-opened sciunit's disk usage by
-          garbage-collecting the unreferenced execution data.
-
-``sciunit alias`` <newcmd> <sub...>
-          Add a new entry under the ``[alias]`` section in the
-          user-wide config file *~/sciunit/config*.  The setting
-          enables ``sciunit`` *<newcmd> [<args...>]* to be
-          reinterpreted as ``sciunit`` *<sub...> [<args...>]*.
-
-``sciunit ignore`` <path>
-          Add a new entry under the ``[ignore]`` section in the
-          unit-specific config file *~/sciunit/<name>/config*.
-          If the *path* ends with ``/``, exclude any paths prefixed
-          with *path* when capturing; otherwise, exclude just *path*.
 
 SEE ALSO
 =============
@@ -157,7 +137,3 @@ HydroShare: https://www.hydroshare.org/
 .. _figshare:
 
 figshare: https://figshare.com/
-
-.. _Globus:
-
-Globus: https://www.globus.org/
