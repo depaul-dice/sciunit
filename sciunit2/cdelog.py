@@ -32,6 +32,9 @@ class DetachedExecution(object):
         with open(self.__fn) as f:
             return os.path.join(os.path.dirname(self.__fn), next(f)[1])
 
+    def root_on_host(self):
+        return os.path.join(os.path.dirname(self.__fn), 'cde-root')
+
 
 class Script(object):
     __slots__ = ['__f', '__sh']

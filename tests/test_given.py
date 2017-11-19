@@ -57,3 +57,11 @@ class TestGiven(testit.LocalCase):
             testit.sciunit('given', 'tmp/file2',
                            'repeat', 'e2', 'tmp/d/file3', '%')
         assert_equals(r.exception.code, 0)
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('given', 'tmp', 'repeat', 'e2', 'tmp/d/file3')
+        assert_equals(r.exception.code, 1)
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('given', '/etc/hostname', 'repeat', 'e1', '%')
+        assert_equals(r.exception.code, 0)
