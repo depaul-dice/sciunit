@@ -1,12 +1,16 @@
-image: ubuntu:16.04
-
 pipelines:
   default:
     - step:
+        image: geotrust/build-essential:ubuntu16.04
         caches:
           - pip
         script:
-          - apt-get update
-          - apt-get install -y cmake python-pip git
           - pip install tox
+          - tox
+    - step:
+        image: geotrust/devtoolset:centos6.devtoolset-4
+        caches:
+          - pip
+        script:
+          - pip install -U tox setuptools
           - tox
