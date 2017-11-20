@@ -91,6 +91,20 @@ Commands
           most recent execution, if no argument present) in the
           currently-opened sciunit.
 
+``sciunit given`` <glob> ``repeat`` <execution id> [<%|args...>]
+          Repeat the execution of *execution id* with additional files
+          specified by *glob*.  The command expands *glob* into a list
+          of filenames in the style of `glob(3)`, substitutes the first
+          occurrence of *%*, if any, in the optional *args* for the
+          ``repeat`` mini-command with those filenames, and repeats the
+          execution as if those files are available relative to its
+          current working directory at capture time.
+
+``sciunit commit``
+          Commit the last repetition done by the ``repeat`` or the
+          ``given`` ... ``repeat`` command in the currently-opened
+          sciunit as a new execution.
+
 ``sciunit rm`` <execution id>
           Remove an existing execution from the currently-opened
           sciunit.  A malformed execution id causes an error.
@@ -104,9 +118,14 @@ Commands
           inclusive.  *M* may be omitted for a range from *eN* to
           the most recent.
 
+``sciunit sort`` <execution ids...>
+          Reorder the executions in the currently-opened sciunit to
+          ensure that the executions specified in the arguments
+          appear consecutively in the ``sciunit list`` command.
+
 ``sciunit push`` <codename> --setup <service>
           Create an article on a research object sharing *service*
-          and attach the currently opened sciunit to the article.
+          and attach the currently-opened sciunit to the article.
           Assign different *codenames* to track multiple articles or
           multiple versions of an article created from a sciunit.
           The supported services include
