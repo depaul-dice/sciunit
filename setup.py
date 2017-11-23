@@ -48,6 +48,7 @@ setup(
     cmdclass={'build_py': BuildCommand},
     entry_points={'console_scripts': ['sciunit=sciunit2.cli:main']},
     data_files=[('man/man1', ['sciunit.1.gz'])],
+    package_data={'sciunit2.command.post_install': ['sciunit-completion.*']},
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: BSD License',
