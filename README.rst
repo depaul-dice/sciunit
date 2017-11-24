@@ -127,12 +127,20 @@ Note that OpenSUSE defaults user-binary path to *~/bin* rather than
     export PATH=~/.local/bin:$PATH
     pip install --user sciunit2
 
-Known Issues
-~~~~~~~~~~~~~~
+Post-install
+=============
 
-If your environment is not listed, or you missed some prerequisites
-before issuing ``pip``, you may observe the following error when
-running ``sciunit``:
+Execute
+
+::
+
+    sciunit post-install
+
+as a normal user to add command-line completion support for
+**sciunit** to your login shell.  When running this or any other
+sciunit command, if your environment is not listed in the
+`Installing`_ section, or you missed some prerequisites before
+issuing ``pip``, you may observe the following error:
 
 ::
 
@@ -142,6 +150,13 @@ Fortunately, there are more than one ways to fulfill this dependency.
 Try to find and install a package often named "python-bsddb" or
 "python-bsddb3" with your system package manager.  In Anaconda,
 you will need a port called "bsddb."
+
+To make the command-line completion work, if you are a **bash** users,
+make sure that you have the "bash-completion" package installed on your
+system.  If you are a **tcsh** user, make sure that you have
+``source ~/.complete`` in *~/.cshrc* or *~/.tcshrc* as suggested by
+the stock `completion script
+<https://github.com/tcsh-org/tcsh/blob/master/complete.tcsh>`_.
 
 Using
 ===========
