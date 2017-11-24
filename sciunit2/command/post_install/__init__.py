@@ -42,7 +42,8 @@ class PostInstallCommand(AbstractCommand):
         a = '# --------- BEGIN -- maintained by sciunit --------------\n'
         b = '# --------- END ---- maintained by sciunit --------------\n'
         to_ = os.path.expanduser(to)
-        with tempfile.NamedTemporaryFile('w', prefix='pip-tmp') as tmp:
+        with tempfile.NamedTemporaryFile(dir=os.path.dirname(to_),
+                                         prefix='pip-tmp') as tmp:
             script = pkg_resources.resource_stream(__name__, from_)
             try:
                 with closing(script) as g, closing(open(to_, 'a+')) as f:

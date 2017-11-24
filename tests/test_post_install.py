@@ -10,21 +10,19 @@ import re
 import testit
 
 
-patch_tilde = mock.patch('os.path.expanduser',
-                         lambda x: x.replace('~/', 'tmp/'))
-
-
 @ddt.ddt
 class TestGiven(testit.LocalCase):
     @ddt.data('/usr/local/bash', '/bin/tcsh', '/opt/bin/fish')
-    @patch_tilde
     def test_all(self, shell):
         def mock_getpwuid(uid):
             return pwd.struct_passwd(['', '', '', '', '', '', shell])
 
         testit.mkdir('tmp')
 
+        patch_tilde = mock.patch('os.path.expanduser',
+                                 lambda x: x.replace('~/', 'tmp/'))
         with mock.patch('pwd.getpwuid', mock_getpwuid):
+            patch_tilde.start()
             with assert_raises(SystemExit) as r:
                 testit.sciunit('post-install', '-x')
             assert_equals(r.exception.code, 2)
@@ -33,6 +31,7 @@ class TestGiven(testit.LocalCase):
                 testit.sciunit('post-install')
 
             if not out.getvalue():
+                patch_tilde.stop()
                 return
 
             assert_true(out.getvalue().startswith('x '))
@@ -69,6 +68,5 @@ class TestGiven(testit.LocalCase):
                 testit.sciunit('post-install')
 
             patch_tilde.stop()
-            po = re.search(r'^\s*(~/[^\n]*)$', out.getvalue(), re.M).group(1)
+            po = re.search(r'^\s*(~?/[^\n]*)$', out.getvalue(), re.M).group(1)
             assert_true(os.path.isfile(os.path.expanduser(po)))
-            patch_tilde.start()
