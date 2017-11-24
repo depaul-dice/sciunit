@@ -46,6 +46,9 @@ _sciunit ()
     repeat|show)
     COMPREPLY=( $( compgen -W "$(python -c "$_sciunit_ls_py")" -- $cur ) )
     return;;
+    given)
+    _filedir
+    return;;
     push)
     COMPREPLY=( $( compgen -W "$(python -c "$_sciunit_articles_py")" -- $cur ) )
     return;;
