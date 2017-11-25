@@ -47,7 +47,7 @@ class Script(object):
     def __enter__(self):
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *exc_info):
         self.__f.close()
 
     def prepend_cmd(self, args):
