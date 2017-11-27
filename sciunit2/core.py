@@ -17,10 +17,10 @@ def capture(args):
         f.prepend_cmd(args)
 
 
-def shell():
+def shell(env=None):
     print 'Interactive capturing started; press Ctrl-D to end'
     sciunit2.libexec.ptu([sciunit2.libexec.scripter.which,
-                          '-qi', 'cde.stdin']).wait()
+                          '-qi', 'cde.stdin'], env=env).wait()
     assert os.path.isdir('cde-package')
     print 'Interactive capturing ended'
     shutil.move('cde.stdin', 'cde-package')

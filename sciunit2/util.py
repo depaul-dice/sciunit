@@ -48,6 +48,12 @@ def mkdir_derivedfrom(base, sep, mode=0777):
     raise IOError(errno.EEXIST, "No usable temporary directory name found")
 
 
+def path_injection_for(fn):
+    env = os.environ.copy()
+    env['PATH'] = ':'.join([os.path.dirname(fn), env['PATH']])
+    return env
+
+
 class Chdir(object):
     __slots__ = ['cwd', 'target']
 
