@@ -2,6 +2,10 @@ from __future__ import absolute_import
 
 from nose.tools import *
 import os
+import threading
+from SocketServer import TCPServer
+from SimpleHTTPServer import SimpleHTTPRequestHandler
+from contextlib2 import ExitStack
 
 import testit
 import sciunit2.archiver
@@ -106,3 +110,43 @@ class TestOpen(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('open', '-m', 'notempty')
         assert_equals(r.exception.code, 1)
+
+    def test_url(self):
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('open', 'sftp://localhost/a.zip')
+        assert_equals(r.exception.code, 1)
+
+        TCPServer.allow_reuse_address = True
+        server = TCPServer(("localhost", 5001), SimpleHTTPRequestHandler)
+        started = threading.Event()
+        stopped = threading.Event()
+
+        def run():
+            started.set()
+            while not stopped.is_set():
+                server.handle_request()
+                stopped.wait(0.01)
+
+        httpd = threading.Thread(target=run)
+        httpd.start()
+
+        while not started.is_set():
+            started.wait()
+
+        with ExitStack() as st:
+            st.callback(httpd.join)
+            st.callback(stopped.set)
+
+            testit.sciunit('create', 'a')
+            testit.sciunit('exec', 'true')
+            testit.sciunit('copy', '-n')
+
+            testit.sciunit('open', 'http://localhost:5001/tmp/a.zip')
+
+            with assert_raises(SystemExit) as r:
+                testit.sciunit('repeat', 'e1')
+            assert_equals(r.exception.code, 0)
+
+            with assert_raises(SystemExit) as r:
+                testit.sciunit('open', 'http://localhost:5001/tmp/b.zip')
+            assert_equals(r.exception.code, 1)

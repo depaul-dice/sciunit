@@ -12,7 +12,7 @@ class OpenCommand(AbstractCommand):
 
     @property
     def usage(self):
-        return [('open <name>|<token#>|<path-to-sciunit.zip>',
+        return [('open <name>|<token#>|<path-to-sciunit.zip>|<url>',
                  'Open a sciunit by its <name>, through a token obtained '
                  "from 'sciunit copy', or from a ZIP file"),
                 ('open -m <name>',

@@ -50,11 +50,11 @@ Commands
           Create a new sciunit under *~/sciunit/<name>* and open it.
           If the directory already exists, exit with an error.
 
-``sciunit open`` <name>|<token#>|<path to sciunit.zip>
+``sciunit open`` <name>|<token#>|<path to sciunit.zip>|<url>
           Open the sciunit under *~/sciunit/<name>* or designated by
           a *token#* obtained from ``sciunit copy``, or one in a
-          zipped sciunit package by extracting it to a temporary
-          directory.
+          zipped sciunit package which may come from a <url> by
+          extracting it to a temporary directory.
 
 ``sciunit open -m`` <name>
           Rename the currently-opened sciunit to *<name>* and open it.

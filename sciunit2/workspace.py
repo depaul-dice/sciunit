@@ -6,11 +6,13 @@ import sciunit2.version_control
 import sciunit2.records
 import sciunit2.archiver
 import sciunit2.ephemeral
+import sciunit2.wget
 
 import os
 import re
 import pipes
 import errno
+from urlparse import urlparse
 
 
 def _mkdir_p(path):
@@ -69,7 +71,9 @@ def _create(name, by):
 def open(s):
     _mkdir_p(location_for(''))
     try:
-        if s.endswith('.zip'):
+        if urlparse(s).scheme:
+            p = _extract(sciunit2.wget.fetch(s, location_for('wget-tmp')))
+        elif s.endswith('.zip'):
             p = _extract(s)
         elif _is_once_token(s):
             p = _extract(sciunit2.ephemeral.fetch(s, location_for('tmp')))
