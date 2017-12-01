@@ -52,6 +52,9 @@ _sciunit ()
     push)
     COMPREPLY=( $( compgen -W "$(python -c "$_sciunit_articles_py")" -- $cur ) )
     return;;
+    --setup)
+    COMPREPLY=( $( compgen -W 'hs hydroshare fs figshare' -- $cur ) )
+    return;;
     -i)
     return;;
   esac
@@ -62,9 +65,6 @@ _sciunit ()
     return;;
     push)
     COMPREPLY=( $( compgen -W '--setup --' -- $cur ) )
-    return;;
-    --setup)
-    COMPREPLY=( $( compgen -W 'hs hydroshare fs figshare' -- $cur ) )
     return;;
     copy)
     COMPREPLY=( $( compgen -W '-n --' -- $cur ) )
