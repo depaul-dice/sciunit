@@ -72,7 +72,10 @@ class HydroShare(AbstractService):
             try:
                 return f(self, *args, **kwargs)
             except TokenExpiredError:
-                token = self.__h.session.refresh_token(TOKN_URL)
+                token = self.__h.session.refresh_token(
+                    TOKN_URL,
+                    client_id=CLIENT_ID,
+                    client_secret=CLIENT_SECRET)
                 self.__t.reset(token)
                 return f(self, *args, **kwargs)
             except hs_restclient.HydroShareNotAuthorized as exc:
@@ -84,12 +87,16 @@ class HydroShare(AbstractService):
     @__authenticated
     def __login(self):
         self.__prepare_handle()
-        u = self.__h.getUserInfo()
+        u = self.__get_user()
         if 'username' not in u:
             raise Unauthenticated
         self.__w.info(
             u'Logged in as "{0[last_name]}, {0[first_name]} <{0[email]}>"'
             .format(u))
+
+    @__refreshed
+    def __get_user(self):
+        return self.__h.getUserInfo()
 
     @__refreshed
     def __get_title(self, article):
