@@ -11,7 +11,7 @@ from getopt import getopt
 import sys
 import os
 from distutils.errors import DistutilsFileError
-from distutils.dir_util import create_tree
+from distutils.dir_util import create_tree, copy_tree, _path_created
 from distutils.file_util import copy_file
 
 
@@ -21,8 +21,8 @@ class GivenCommand(AbstractCommand):
     @property
     def usage(self):
         return [('given <glob> repeat <execution id> [<%|args...>]',
-                 "Repeat <execution id> with additional files specified "
-                 "by <glob>")]
+                 "Repeat <execution id> with additional files or directories "
+                 "specified by <glob>")]
 
     def run(self, args):
         optlist, args = getopt(args, '')
@@ -47,7 +47,12 @@ class GivenCommand(AbstractCommand):
                     join_fn = os.path.join
 
                 for fn in files:
-                    copy_file(fn, join_fn(dst, fn))
+                    target = join_fn(dst, fn)
+                    if os.path.isdir(fn):
+                        copy_tree(fn, target)
+                    else:
+                        copy_file(fn, target)
+                _path_created.clear()
 
             except DistutilsFileError as e:
                 raise CommandError(e)

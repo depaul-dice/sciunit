@@ -93,11 +93,13 @@ Commands
 
 ``sciunit given`` <glob> ``repeat`` <execution id> [<%|args...>]
           Repeat the execution of *execution id* with additional files
+          or directories
           specified by *glob*.  The command expands *glob* into a list
           of filenames in the style of `glob(3)`, substitutes the first
           occurrence of *%*, if any, in the optional *args* for the
           ``repeat`` mini-command with those filenames, and repeats the
-          execution as if those files are available relative to its
+          execution as if those files or directories are available
+          relative to its
           current working directory at capture time.
 
 ``sciunit commit``
