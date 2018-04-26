@@ -245,3 +245,49 @@ one.  If you answer '`y`', the article will be a new "version" (HydroShare
 feature) of the existing one; if you answer '`n`', the new article can have a
 different title.  In case you accidentally run into this query and cannot
 answer it, just press "Ctrl-D" to cancel the operation.
+
+## Testing your Sciunit on HydroShare JupyterHub
+
+If your resource is **public** on HydroShare, right-clicking the zip file in
+the "Content" browser, you can obtain a link to that zipped sciunit via the
+"Get file URL" option, then you may use `sciunit open` to download and open
+the sciunit locally.  However, before you finish the paper, it is very likely
+that you want to keep your article private and to give it more tests.
+HydroShare JupyterHub is the platform you immediately have access to right
+after having your Sciunit uploaded to HydroShare, for exactly that purpose.
+
+In the top-right corner on your article page, open the article with "JupyterHub."
+
+![](https://i.imgur.com/acds9oq.png)
+
+You will be redirected to the Welcome notebook of HydroShare JupyterHub.  By
+clicking the " Run" button a few times, you will be prompted to enter your
+HydroShare password.  After seeing the message "Successfully established a
+connection with HydroShare," click the " Run" button a few more times until
+seeing a "Path to resource content: " message.  Copy the path to clipboard.
+
+![](https://i.imgur.com/XMPhfPY.png)
+
+Now go to the "Control Panel" via the button in the top-right corner of the
+page,
+
+![](https://i.imgur.com/8KBxpat.png)
+
+access the "Terminal" by creating one in the control panel.
+
+![](https://i.imgur.com/IsOw3qC.png)
+
+What stands behind the terminal is an isolated, full-fledged Linux
+environment, which should not surprise you if you are familiar with
+[JupyterHub](http://jupyter.org/).  Change the working directory to the
+resource path you copied before,
+
+![](https://i.imgur.com/1HunWAv.png)
+
+and now you can open the zipped sciunit you just uploaded regardless whether
+the article is private.  Of course, HydroShare JupyterHub is also an ideal
+place for everyone to read the sciunit manpage with
+
+    man sciunit
+
+and exercise more sciunit commands.
