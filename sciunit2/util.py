@@ -54,6 +54,12 @@ def path_injection_for(fn):
     return env
 
 
+def make_executable(fn):
+    mode = os.stat(fn).st_mode
+    mode |= (mode & 0444) >> 2
+    os.chmod(fn, mode)
+
+
 class Chdir(object):
     __slots__ = ['cwd', 'target']
 
