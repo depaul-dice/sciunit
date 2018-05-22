@@ -5,3 +5,4 @@ nose-capturestderr
 requests-mock
 freezegun
 ddt
+testpath

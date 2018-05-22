@@ -33,7 +33,8 @@ class RewroteInputFile(object):
         self.__driver = tempfile.NamedTemporaryFile(suffix='.py', delete=False)
         txt = self.__ptn.sub(
             "analysis_drivers = '{0}'".format(self.__driver.name), self.__txt)
-        fd, self.__name = tempfile.mkstemp(prefix=self.__orig)
+        fd, self.__name = tempfile.mkstemp(
+            prefix=os.path.basename(self.__orig))
         with os.fdopen(fd, 'w') as fp:
             fp.write(txt)
         return self
