@@ -83,6 +83,13 @@ Commands
           place of the command line arguments that were present when the
           command was captured with the ``sciunit exec`` command.
 
+``sciunit repeat`` <path to Dakota input file.in> [<args...>]
+          Repeat an execution with various of parameters described by
+          the Dakota input file with the execution id specified as the
+          ``analysis_driver``.
+          The optional *args* are extra command line arguments to be
+          passed to the ``dakota`` CLI.
+
 ``sciunit list``
           List the existing executions in the currently-opened sciunit.
 
