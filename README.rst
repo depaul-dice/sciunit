@@ -22,7 +22,7 @@ and then, run
 
 ::
 
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 Add ``--upgrade`` to the command line arguments to upgrade an existing
 sciunit installation.
@@ -51,7 +51,7 @@ Ubuntu 16.04
 
     sudo apt update
     sudo apt install python-dev python-pip
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 Ubuntu 14.04
 ~~~~~~~~~~~~~
@@ -59,9 +59,9 @@ Ubuntu 14.04
 
     sudo apt update
     sudo apt install python-dev python-pip
-    pip install --user -U pip
+    pip2 install --user -U pip
     export PATH=~/.local/bin:$PATH
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 
 Arch Linux
@@ -77,7 +77,7 @@ Fedora 26
 ::
 
     sudo dnf install python2-pip python2-devel gcc redhat-rpm-config
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 CentOS 7
 ~~~~~~~~~~~~~
@@ -85,7 +85,7 @@ CentOS 7
 
     sudo yum install -y epel-release
     sudo yum install python2-pip python-devel gcc
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 RHEL 7
 ~~~~~~~~~~~~~
@@ -93,7 +93,7 @@ RHEL 7
 
     sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sudo yum install python2-pip python-devel gcc
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 Debian 9
 ~~~~~~~~~~~~~
@@ -102,7 +102,7 @@ Debian 9
     sudo apt update
     sudo apt install python-dev python-pip
     export PATH=~/.local/bin:$PATH
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 Debian 8
 ~~~~~~~~~~~~~
@@ -110,9 +110,9 @@ Debian 8
 
     sudo apt update
     sudo apt install python-dev python-pip
-    pip install --user -U pip
+    pip2 install --user -U pip
     export PATH=~/.local/bin:$PATH
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 OpenSUSE 42
 ~~~~~~~~~~~~~
@@ -123,9 +123,9 @@ Note that OpenSUSE defaults user-binary path to *~/bin* rather than
 ::
 
     sudo zypper install python-pip python-devel gcc
-    pip install --user -U pip
+    pip2 install --user -U pip
     export PATH=~/.local/bin:$PATH
-    pip install --user sciunit2
+    pip2 install --user sciunit2
 
 Post-install
 =============
