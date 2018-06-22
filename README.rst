@@ -10,8 +10,7 @@ work.
 Installing
 =============
 
-*[ Note* This section introduces the binary distributions of sciunit.
-*--end note ]*
+This section introduces the binary distributions of sciunit.
 
 Requires: pip>=8.1.1, glibc>=2.17, python2.7 with headers and compiler
 
@@ -26,6 +25,11 @@ and then, run
 
 Add ``--upgrade`` to the command line arguments to upgrade an existing
 sciunit installation.
+
+*[ Note*
+Attempt to install sciunit with "pip install sciunit" will get you something
+else; our PyPI project is registered as "sciunit2".
+*--end note ]*
 
 Verify the installation with
 
