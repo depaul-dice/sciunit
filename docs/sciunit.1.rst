@@ -6,10 +6,10 @@ sciunit
 -------------------------------------------------------------
 deliver reproducibility in your research
 -------------------------------------------------------------
-:Author:    Zhihao Yuan <zhihao.yuan@depaul.edu>
-:Version:   sciunit2 0.3
+:Author:    Zhihao Yuan <lichray@gmail.com>
+:Version:   sciunit2 0.4
 :Manual section: 1
-:Copyright: Copyright 2017, DePaul University
+:Copyright: Copyright 2017-2018, DePaul University
 :Licence:   FreeBSD License (BSD-2-Clause)
 
 .. raw:: manpage
