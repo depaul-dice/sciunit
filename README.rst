@@ -131,6 +131,15 @@ Note that OpenSUSE defaults user-binary path to *~/bin* rather than
     export PATH=~/.local/bin:$PATH
     pip2 install --user sciunit2
 
+Build from Source
+~~~~~~~~~~~~~~~~~~~
+
+Instructions for `custom build
+<https://bitbucket.org/geotrust/sciunit2/src/master/docs/build.md>`_
+of sciunit2 is available in our Bitbucket project repository.  You may
+want to check it out if you are running on a system that is not
+supported by the binary distribution.
+
 Post-install
 =============
 
@@ -174,11 +183,5 @@ The manpage is available as
 
 after a successful installation.
 
-Build from Source
-===================
-
-Instructions for `custom build
-<https://bitbucket.org/geotrust/sciunit2/src/master/docs/build.md>`_
-of sciunit2 is available in our Bitbucket project repository.  You may
-want to check it out if you are running on a system that is not
-supported by the binary distribution.
+Sciunit acknowledges support from the National Science Foundation,
+Bloomberg Foundation, and DePaul University.
