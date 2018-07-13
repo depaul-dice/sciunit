@@ -2,8 +2,8 @@ set _sciunit_ls_py = 'import sciunit2.workspace; print " ".join(["e%d" % x for x
 set _sciunit_articles_py = 'import sciunit2.workspace; import sciunit2.config; print " ".join([x[9:-1] for x in sciunit2.config.Config(sciunit2.workspace.current()[1].location+"/config").keys()])'
 complete -sciu* 'p/0/(sciunit)/'
 complete sciunit \
-  'C/--/(--help --version --setup)/' \
-  'C/-/(-m -i -n --setup)/' \
+  'C/--/(--help --version --setup --file)/' \
+  'C/-/(-m -i -n --setup --file)/' \
   'p/1/(create open exec repeat list show \
         given commit rm sort push copy gc)/' \
   'n/create/x:<sciunit name>/' \
@@ -22,8 +22,10 @@ complete sciunit \
   'n/rm/x:eN[-M]/' \
   'N/rm/n/' \
   'n/sort/x:<execution ids...>/' \
+  'n/--file/f/' \
+  'N/--file/n/' \
   'n/push/`python -c "$_sciunit_articles_py"`/' \
-  'N/push/(--setup --)/' \
+  'N/push/(--setup --file --)/' \
   'n/--setup/(hs hydroshare fs figshare)/' \
   'N/--setup/n/' \
   'n/copy/(-n --)/' \

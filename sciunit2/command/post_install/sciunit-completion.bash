@@ -21,10 +21,10 @@ _sciunit ()
 
   case "$cur" in
     --*)
-    COMPREPLY=( $( compgen -W '--help --version --setup' -- $cur ) )
+    COMPREPLY=( $( compgen -W '--help --version --setup --file' -- $cur ) )
     return;;
     -*)
-    COMPREPLY=( $( compgen -W '-m -i -n --setup' -- $cur ) )
+    COMPREPLY=( $( compgen -W '-m -i -n --setup --file' -- $cur ) )
     return;;
   esac
 
@@ -55,6 +55,9 @@ _sciunit ()
     --setup)
     COMPREPLY=( $( compgen -W 'hs hydroshare fs figshare' -- $cur ) )
     return;;
+    --file)
+    _filedir
+    return;;
     -i)
     return;;
   esac
@@ -64,7 +67,7 @@ _sciunit ()
     COMPREPLY=( $( compgen -W 'repeat exec' -- $cur ) )
     return;;
     push)
-    COMPREPLY=( $( compgen -W '--setup --' -- $cur ) )
+    COMPREPLY=( $( compgen -W '--setup --file --' -- $cur ) )
     return;;
     copy)
     COMPREPLY=( $( compgen -W '-n --' -- $cur ) )
