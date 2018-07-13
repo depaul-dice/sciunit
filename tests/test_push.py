@@ -41,6 +41,14 @@ class TestPush(testit.LocalCase):
         assert_equals(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
+            testit.sciunit('push', '--file')
+        assert_equals(r.exception.code, 2)
+
+        with assert_raises(SystemExit) as r:
+            testit.sciunit('push', '--file', 'x', '--setup', 'hs')
+        assert_equals(r.exception.code, 2)
+
+        with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x', '--setup', 'hs')
         assert_equals(r.exception.code, 1)
 
@@ -102,6 +110,9 @@ class TestPush(testit.LocalCase):
         m.delete('/hsapi/resource/511debf8858a4ea081f78d66870da76c/files/'
                  'yes.zip',
                  status_code=404)
+        m.delete('/hsapi/resource/511debf8858a4ea081f78d66870da76c/files/'
+                 'setup.py',
+                 status_code=404)
         m.post('/hsapi/resource/511debf8858a4ea081f78d66870da76c/files/',
                status_code=201,
                json={"resource_id": "511debf8858a4ea081f78d66870da76c"})
@@ -113,6 +124,7 @@ class TestPush(testit.LocalCase):
             testit.sciunit('push', 'x', '--setup', 'hs')
             testit.sciunit('push')
             testit.sciunit('push', 'x', '--setup', 'hydroshare')
+            testit.sciunit('push', '--file', 'setup.py')
 
             with freeze_time() as clock:
                 clock.tick(timedelta(seconds=60))
