@@ -1,0 +1,13 @@
+setuptools
+tzlocal
+utcdatetime
+zipfile2
+scandir
+poster
+retry
+humanfriendly
+configobj
+hs_restclient
+contextlib2
+tqdm>=4.17.1
+backports.tempfile

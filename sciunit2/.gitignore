@@ -1,0 +1,23 @@
+*~
+.*.swp
+.coverage
+*.pyc
+venv
+*.egg-info
+.eggs/
+.tox
+dist/
+cover/
+doc/_build
+build/
+sciunit2/libexec/*
+!sciunit2/libexec/*.py
+sciunit.1.gz
+RELEASE-VERSION
+
+# cmake
+Makefile
+/*.cmake
+CMakeCache.txt
+CMakeFiles/
+install_manifest.txt
