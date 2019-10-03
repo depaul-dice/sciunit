@@ -1,3 +1,4 @@
+#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.util import quoted
@@ -14,9 +15,11 @@ class CommitMixin(object):
             sz = repo.checkin(rev, pkgdir, sp)
         return (repo.location,) + emgr.commit(sz)
 
-    def note(self, (p, rev, d)):
+    #def note(self, (p, rev, d)):
+    #def note(self, p, rev, d):
+    def note(self, aList):
         return "\n[%s %s] %s\n Date: %s\n" % (
-            sciunit2.workspace.project(p),
-            rev,
-            quoted(d.cmd),
-            timestamp.fmt_rfc2822(d.started))
+            sciunit2.workspace.project(aList[0]),
+            aList[1],
+            quoted(aList[2].cmd),
+            timestamp.fmt_rfc2822(aList[2].started))

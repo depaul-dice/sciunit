@@ -1,5 +1,0 @@
-interface
-  analysis_drivers  = e1
-    fork
-    parameters_file = 'params.in'
-    results_file    = 'results.out'

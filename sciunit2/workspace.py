@@ -1,5 +1,7 @@
+#Note: Converted
+
 from __future__ import absolute_import
-import __builtin__
+import builtins
 
 from sciunit2.exceptions import CommandError
 import sciunit2.version_control
@@ -12,7 +14,10 @@ import os
 import re
 import pipes
 import errno
-from urlparse import urlparse
+#from urlparse import urlparse
+from urllib.parse import urlparse
+import urllib.request
+import urllib.error
 
 
 def _mkdir_p(path):
@@ -87,7 +92,7 @@ def open(s):
     except sciunit2.archiver.BadZipfile as exc:
         raise CommandError(exc.message)
 
-    except sciunit2.ephemeral.HTTPError as exc:
+    except urllib.error.HTTPError as exc:
         raise CommandError('%d %s' % (exc.code, exc.msg))
 
     else:
@@ -96,8 +101,9 @@ def open(s):
 
 
 def _save_opened(path):
-    with __builtin__.open(location_for('.activated'), 'w') as f:
-        print >> f, path
+    with builtins.open(location_for('.activated'), 'w') as f:
+        #print >> f, path
+        print(path, file=f)
 
 
 def _extract(fn):
@@ -106,7 +112,7 @@ def _extract(fn):
 
 def at():
     try:
-        with __builtin__.open(location_for('.activated')) as f:
+        with builtins.open(location_for('.activated')) as f:
             ln = f.readline()
             assert ln.endswith('\n')
             p = ln[:-1]
@@ -119,9 +125,15 @@ def at():
 
 def current():
     p = at()
+    creat_Diff_repo() #TODO: only create if does not exists
     return (sciunit2.records.ExecutionManager(p),
             sciunit2.version_control.Vvpkg(p))
 
+def creat_Diff_repo():
+    p = at()
+    p = os.path.join(p, 'Diff')
+    _mkdir_p(p)
+    return p
 
 def project(p):
     return _remove_prefix_if_present(p, location_for(''))

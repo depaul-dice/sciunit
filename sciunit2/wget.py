@@ -1,8 +1,12 @@
+#Note: Converted
+
 from __future__ import absolute_import
 
-from urllib2 import HTTPError
+#from urllib2 import HTTPError
 from tqdm import tqdm
-import urllib
+#import urllib
+import urllib.request
+import urllib.error
 import tempfile
 
 
@@ -12,9 +16,9 @@ class TqdmHook(tqdm):
         self.update(b * bsize - self.n)
 
 
-class ThrowOnErrorOpener(urllib.FancyURLopener):
+class ThrowOnErrorOpener(urllib.request.FancyURLopener):
     def http_error_default(self, url, fp, code, msg, hdrs):
-        raise HTTPError(url, code, msg.title(), hdrs, fp)
+        raise urllib.error.HTTPError(url, code, msg.title(), hdrs, fp)
 
     http_error_401 = http_error_default
     http_error_407 = http_error_default
