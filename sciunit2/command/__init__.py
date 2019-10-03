@@ -1,9 +1,7 @@
-#Note: Converted
 from __future__ import absolute_import
 
 import abc
 from abc import abstractmethod, abstractproperty
-
 
 
 class AbstractCommand:

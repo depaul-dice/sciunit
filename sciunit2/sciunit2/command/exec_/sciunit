@@ -1,0 +1,3 @@
+#!/bin/sh
+echo 'sciunit: exec -i inflight; press Ctrl-D to finish'
+exit 1

@@ -1,11 +1,10 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 import os
 
 import testit
-#import tests.testit
+
 
 class TestBasics(testit.LocalCase):
     def test_all(self):

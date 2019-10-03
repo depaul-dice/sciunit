@@ -1,5 +1,3 @@
-#Note: Converted
-# Module bsddb3 cannot be installed on this machine, other machines are fine
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError, MalformedExecutionId
@@ -11,13 +9,11 @@ import json
 import re
 from contextlib import closing
 from tempfile import NamedTemporaryFile
-#try:
-#    import bsddb3 as bsddb
-#except ImportError:
-#    import bsddb
-#DBNotFoundError = bsddb._db.DBNotFoundError
-import bsddb3
-DBNotFoundError = bsddb3.db.DBNotFoundError
+try:
+    import bsddb3 as bsddb
+except ImportError:
+    import bsddb
+DBNotFoundError = bsddb._db.DBNotFoundError
 
 
 class Metadata(object):
@@ -27,7 +23,7 @@ class Metadata(object):
         if isinstance(args, list):
             self.__d = {'cmd': args, 'started': str(timestamp.now())}
         else:
-            self.__d = json.loads(args.decode('utf-8'))
+            self.__d = json.loads(args)
 
     def __str__(self):
         return json.dumps(self.__d, separators=(',', ':'))
@@ -58,7 +54,7 @@ class ExecutionManager(object):
 
     def __init__(self, location):
         self.__fn = os.path.join(location, 'sciunit.db')
-        self.__f = bsddb3.rnopen(self.__fn)
+        self.__f = bsddb.rnopen(self.__fn)
 
     def close(self):
         self.__f.close()
@@ -115,7 +111,7 @@ class ExecutionManager(object):
                     # XXX set_range not functioning
                     try:
                         p = c.set(ed)
-                    except bsddb3.db.DBError:
+                    except bsddb._db.DBError:
                         p = c.last()
 
                 while not p[0] < bg:
@@ -128,7 +124,7 @@ class ExecutionManager(object):
                 pass
 
     def sort(self, revls):
-        ls = list(map(self.__to_id, revls))
+        ls = map(self.__to_id, revls)
         d = set(ls)
         if len(d) < len(ls):
             raise CommandError('duplicated entries')
@@ -140,15 +136,15 @@ class ExecutionManager(object):
                 rename_list.append((self.__to_rev(from_), self.__to_rev(to)))
 
         with NamedTemporaryFile(dir=os.path.dirname(self.__fn)) as fp:
-            guard = closing(bsddb3.rnopen(fp.name, 'w'))
+            guard = closing(bsddb.rnopen(fp.name, 'w'))
             with guard as tmp:
-                self.__for_upto(mismatched, lambda k, v: tmp.db.put(k, v))
+                self.__for_upto(mismatched, lambda (k, v): tmp.db.put(k, v))
                 for i in ls:
                     j = tmp.db.append(self.__get(i))
                     need_to_rename(i, j)
-                self.__for_from(mismatched, lambda k, v: #?Return type of lambda
+                self.__for_from(mismatched, lambda (k, v):
                                 k not in d and
-                                need_to_rename(k, tmp.db.append(v)))#Problem here
+                                need_to_rename(k, tmp.db.append(v)))
 
                 yield rename_list
                 os.rename(fp.name, self.__fn)

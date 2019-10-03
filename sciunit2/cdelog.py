@@ -1,7 +1,5 @@
-#Note: converted
 from __future__ import absolute_import
-#import __builtin__
-import builtins
+import __builtin__
 
 from sciunit2.util import quoted_format, quoted
 
@@ -12,7 +10,7 @@ import errno
 
 
 def open(fn, mode='r'):
-    return Script(builtins.open(fn, mode))
+    return Script(__builtin__.open(fn, mode))
 
 
 class DetachedExecution(object):
@@ -66,8 +64,7 @@ class Script(object):
     def read_cmd(self):
         ln = self.__f.readline()
         if ln.startswith('# ['):
-            #return json.loads(ln[2:])
-            return json.loads(ln[2:].decode('utf-8'))
+            return json.loads(ln[2:])
         else:
             self.__sh.push_source(ln)
             return []
@@ -75,7 +72,7 @@ class Script(object):
     def __iter__(self):
         return self
 
-    def __next__(self):
+    def next(self):
         lno = 0
         ls = []
         while True:
@@ -97,5 +94,4 @@ class Script(object):
         self.__f.write(quoted_format(fmt, *args))
 
     def insert(self, args):
-        #print >> self.__f, quoted(args)
-        print(quoted(args), file=self.__f)
+        print >> self.__f, quoted(args)

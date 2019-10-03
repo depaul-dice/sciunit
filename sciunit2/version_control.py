@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError
@@ -45,21 +44,6 @@ class Vvpkg(object):
         if p.wait() != 0:
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
-    def checkout_Diff(self, rev):
-        cmd = quoted_format('{0} checkout {1} - | tar xf -',
-                            sciunit2.libexec.vv.which, rev)
-        temp_repo = os.path.join(self.location, 'cde-package')
-        self.cleanup(temp_repo)
-        p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
-        _, err = p.communicate()
-        if p.wait() != 0:
-            raise CommandError('execution %r not found' % rev
-                               if not self.__found(rev) else err)
-        diff_repo = os.path.join(self.location, 'Diff')
-        rev_repo = os.path.join(diff_repo, rev)
-        self._mkdir_p(rev_repo)
-        self.cleanup(os.path.join(rev_repo, 'cde-package'))
-        shutil.move(temp_repo, rev_repo)
 
     def unlink(self, rev):
         try:
@@ -83,13 +67,3 @@ class Vvpkg(object):
 
     def __physical(self, rev):
         return os.path.join(self.location, '%s.json' % rev)
-
-    def _mkdir_p(self, path):
-        try:
-            os.makedirs(path)
-            return True
-        except OSError as exc:
-            if exc.errno == errno.EEXIST and os.path.isdir(path):
-                return False
-            else:
-                raise

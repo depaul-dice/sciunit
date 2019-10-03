@@ -1,16 +1,13 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 import os
 import shutil
-#import mock
-from unittest import mock
+import mock
 import errno
 import zipfile
 
-#import testit # this line should be used instead of the following line
-import tests.testit
+import testit
 import sciunit2.archiver
 
 

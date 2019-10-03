@@ -14,26 +14,17 @@ from sciunit2.command.sort import SortCommand
 from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 from sciunit2.command.post_install import PostInstallCommand
-from sciunit2.command.diff import DiffCommand
-
-#Note: Converted
 
 import sys
 from getopt import getopt, GetoptError
-from io import StringIO
+from cStringIO import StringIO
 import textwrap
 import pkg_resources
 import os
-#import pdb
 
-#__cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
-#            ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
-#            SortCommand, PushCommand, CopyCommand, PostInstallCommand]
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
-            SortCommand, PushCommand, CopyCommand, PostInstallCommand,
-            DiffCommand]
-#__cmds__ = []
+            SortCommand, PushCommand, CopyCommand, PostInstallCommand]
 
 
 def short_usage(out):
@@ -81,15 +72,9 @@ def main():
             err1(exc.strerror)
         sys.exit(1)
 
-#def hai(args):
-#    print (args)
-#    print ("Hai")
 
 def _main(args):
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
-    #print optlist
-    #print args
-    #pdb.set_trace()
 
     if optlist:
         op, v = optlist[0]
@@ -99,7 +84,7 @@ def _main(args):
             subcommand_usage(sys.stdout, [cls() for cls in __cmds__])
             return
         elif op == '--version':
-            print (pkg_resources.require("sciunit2")[0])
+            print pkg_resources.require("sciunit2")[0]
             return
         elif op == '--root':  # pragma: no cover
             import sciunit2.workspace
@@ -121,7 +106,7 @@ def _main(args):
                     subcommand_usage(sys.stderr, [cmd])
                     sys.exit(2)
                 except CommandError as exc:
-                    err2(cmd.name, exc)
+                    err2(cmd.name, exc.message)
                     sys.exit(1)
                 except EOFError:
                     print

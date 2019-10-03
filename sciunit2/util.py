@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 import os
@@ -34,7 +33,7 @@ def _temp_names_derivedfrom(base, sep):
         yield base + sep + name
 
 
-def mkdir_derivedfrom(base, sep, mode=0o777):
+def mkdir_derivedfrom(base, sep, mode=0777):
     base = os.path.normpath(base)
 
     for p in _temp_names_derivedfrom(base, sep):
@@ -57,7 +56,7 @@ def path_injection_for(fn):
 
 def make_executable(fn):
     mode = os.stat(fn).st_mode
-    mode |= (mode & 0o444) >> 2
+    mode |= (mode & 0444) >> 2
     os.chmod(fn, mode)
 
 
