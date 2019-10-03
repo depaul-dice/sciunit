@@ -1,3 +1,4 @@
+#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.util import mkdir_derivedfrom
@@ -6,7 +7,7 @@ import os
 import zipfile2
 from zipfile import BadZipfile
 from scandir import scandir
-
+from functools import reduce
 
 # create a single rooted zip64 file aside the root
 # ignore any subdirectories

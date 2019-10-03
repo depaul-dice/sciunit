@@ -1,3 +1,4 @@
+#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -26,7 +27,7 @@ class ListCommand(AbstractCommand):
 
 def run_listing(emgr):
     for rev, d in emgr.list():
-        print '%5s %s %s' % (
+        print ('%5s %s %s' % (
             rev,
             timestamp.fmt_ls(d.started),
-            quoted(d.cmd))
+            quoted(d.cmd)))

@@ -1,3 +1,4 @@
+#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -26,6 +27,6 @@ class CopyCommand(AbstractCommand):
         with emgr.shared():
             fn = sciunit2.archiver.make(repo.location)
             if optlist:
-                print fn
+                print (fn)
             else:
-                print sciunit2.ephemeral.live(fn)
+                print (sciunit2.ephemeral.live(fn))

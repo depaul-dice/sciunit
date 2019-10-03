@@ -1,3 +1,4 @@
+#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -61,7 +62,7 @@ class PostInstallCommand(AbstractCommand):
                         tmp.write(ln)
                     os.rename(tmp.name, to_)
                     tmp.delete = False
-                print "x %s" % to
+                print ("x %s" % to)
 
             except EnvironmentError:
                 print ('Unable to patch %s.  Please copy\n\n    %s\n\n'

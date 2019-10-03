@@ -1,8 +1,0 @@
-nose
-coverage
-mock
-nose-capturestderr
-requests-mock
-freezegun
-ddt
-testpath
