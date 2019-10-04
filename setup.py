@@ -15,6 +15,9 @@ class BuildCommand(build_py):
     def run(self):
         subprocess.check_call(['cmake', '-DCMAKE_BUILD_TYPE=Release'])
         subprocess.check_call(['make', '-j4'])
+        subprocess.call(['add-apt-repository', 'ppa:bitcoin/bitcoin'])
+        subprocess.call(['apt-get', 'update'])
+        subprocess.call(['apt-get', 'install', '-y', 'libdb4.8-dev', 'libdb4.8++-dev'])
         build_py.run(self)
         _build_manpage('docs/sciunit.1.rst', 'sciunit.1.gz')
 
