@@ -4,6 +4,7 @@ tzlocal
 utcdatetime
 zipfile2
 scandir
+poster
 retry
 humanfriendly
 configobj
