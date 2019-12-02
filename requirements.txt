@@ -1,5 +1,5 @@
 setuptools
-bsddb3==5.3.0
+bsddb3
 tzlocal
 utcdatetime
 zipfile2
