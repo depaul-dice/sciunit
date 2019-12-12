@@ -1,7 +1,7 @@
 pipelines:
   default:
     - step:
-        image: geotrust/build-essential:ubuntu18.04
+        image: geotrust/build-essential:ubuntu16.04
         caches:
           - pip
         script:
