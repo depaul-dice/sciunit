@@ -1,14 +1,13 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 import os
-import mock
+from unittest import mock
 import ddt
 import pwd
 import re
 
-import testit
+from tests import testit
 
 
 @ddt.ddt
@@ -26,7 +25,7 @@ class TestGiven(testit.LocalCase):
             patch_tilde.start()
             with assert_raises(SystemExit) as r:
                 testit.sciunit('post-install', '-x')
-            assert_equals(r.exception.code, 2)
+            assert_equal(r.exception.code, 2)
 
             with testit.CaptureOutput() as out:
                 testit.sciunit('post-install')
@@ -36,7 +35,7 @@ class TestGiven(testit.LocalCase):
                 return
 
             assert_true(out.getvalue().startswith('x '))
-
+            # 'p' points to file .bash_completion
             p = os.path.expanduser(out.getvalue().rstrip()[2:])
             assert_true(os.path.isfile(p))
 
@@ -47,7 +46,7 @@ class TestGiven(testit.LocalCase):
                 testit.sciunit('post-install')
 
             with open(p) as fp:
-                assert_equals(fp.read(), content)
+                assert_equal(fp.read(), content)
 
             a = 'echo "old code"\n'
             b = 'more code\n'
@@ -60,7 +59,7 @@ class TestGiven(testit.LocalCase):
                 testit.sciunit('post-install')
 
             with open(p) as fp:
-                assert_equals(fp.read(), a + content + b)
+                assert_equal(fp.read(), a + content + b)
 
             os.unlink(p)
             os.mkdir(p)

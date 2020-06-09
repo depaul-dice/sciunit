@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -48,24 +47,26 @@ class PostInstallCommand(AbstractCommand):
             script = pkg_resources.resource_stream(__name__, from_)
             try:
                 with closing(script) as g, closing(open(to_, 'a+')) as f:
+                    f.seek(0)
                     for ln in f:
                         if ln == a:
                             break
-                        tmp.write(ln)
-                    tmp.write(a)
+                        tmp.write(ln.encode())
+                    tmp.write(a.encode())
                     copyfileobj(g, tmp)
-                    tmp.write(b)
+                    tmp.write(b.encode())
                     for ln in f:
                         if ln == b:
                             break
                     for ln in f:
-                        tmp.write(ln)
+                        tmp.write(ln.encode())
                     os.rename(tmp.name, to_)
                     tmp.delete = False
-                print ("x %s" % to)
+                    tmp._closer.delete = False
+                print("x %s" % to)
 
             except EnvironmentError:
-                print ('Unable to patch %s.  Please copy\n\n    %s\n\n'
-                       'to a subdirectory of your home directory '
-                       'and "source" it in %s.' %
-                       (to, format_path(script.name), rcfile))
+                print('Unable to patch %s.  Please copy\n\n    %s\n\n'
+                      'to a subdirectory of your home directory '
+                      'and "source" it in %s.' %
+                      (to, format_path(script.name), rcfile))
