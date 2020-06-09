@@ -1,5 +1,3 @@
-#Note: Converted
-
 from __future__ import absolute_import
 import builtins
 
@@ -14,12 +12,13 @@ import os
 import re
 import pipes
 import errno
-#from urlparse import urlparse
 from urllib.parse import urlparse
 import urllib.request
 import urllib.error
 
 
+# acts like mkdir -p. Creates the complete
+# directory tree if it does not exist
 def _mkdir_p(path):
     try:
         os.makedirs(path)
@@ -44,6 +43,7 @@ def _try_rename(from_):
     return _inner
 
 
+# checks if 's' is a valid dir name
 def _is_path_component(s):
     return re.match(r'^[\w -]+$', s)
 
@@ -64,6 +64,7 @@ def rename(name):
     _create(name, _try_rename(at()))
 
 
+# creates the given folder if does not exist
 def _create(name, by):
     if not _is_path_component(name):
         raise CommandError('%r contains disallowed characters' % name)
@@ -73,6 +74,7 @@ def _create(name, by):
                            pipes.quote(location_for(name)))
 
 
+# opens a sciunit container already created
 def open(s):
     _mkdir_p(location_for(''))
     try:
@@ -90,7 +92,7 @@ def open(s):
             raise CommandError('unrecognized source')
 
     except sciunit2.archiver.BadZipfile as exc:
-        raise CommandError(exc.message)
+        raise CommandError(exc)
 
     except urllib.error.HTTPError as exc:
         raise CommandError('%d %s' % (exc.code, exc.msg))
@@ -102,14 +104,18 @@ def open(s):
 
 def _save_opened(path):
     with builtins.open(location_for('.activated'), 'w') as f:
-        #print >> f, path
         print(path, file=f)
 
 
+# extracts contents of zip file 'fn' and
+# returns in a dir
 def _extract(fn):
     return sciunit2.archiver.extract(fn, _is_path_component, location_for)
 
 
+# returns the location of .activated file in ~/sciunit
+# .activated file contains the name of the currently
+# active sciunit project
 def at():
     try:
         with builtins.open(location_for('.activated')) as f:
@@ -124,16 +130,18 @@ def at():
 
 
 def current():
-    p = at()
-    creat_Diff_repo() #TODO: only create if does not exists
+    p = at()   # returns directory of the active sciunit project
+    creat_Diff_repo()
     return (sciunit2.records.ExecutionManager(p),
             sciunit2.version_control.Vvpkg(p))
+
 
 def creat_Diff_repo():
     p = at()
     p = os.path.join(p, 'Diff')
     _mkdir_p(p)
     return p
+
 
 def project(p):
     return _remove_prefix_if_present(p, location_for(''))
