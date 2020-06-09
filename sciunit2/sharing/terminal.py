@@ -1,10 +1,7 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.sharing import AbstractWizard
 
-import readline
-import sys
 from tqdm import tqdm
 
 
@@ -17,7 +14,7 @@ class TerminalWizard(AbstractWizard):  # pragma: no cover
         return input((msg + ' ') % args).strip()
 
     def info(self, msg, *args):
-        print (msg % args)
+        print(msg % args)
 
     def progress(self, msg, nbytes):
         return tqdm(desc=msg, total=nbytes,

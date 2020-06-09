@@ -26,8 +26,7 @@ def most_recent(path):
 
 def save_recent(path, article):
     with open(os.path.join(path, '.most_recent'), 'w') as f:
-        #print >> f, article.codename
-        print (article.codename, file=f)
+        print(article.codename, file=f)
 
 
 class Article(object):

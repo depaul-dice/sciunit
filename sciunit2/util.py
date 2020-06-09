@@ -1,4 +1,4 @@
-#Note: Converted
+# Note: Converted
 from __future__ import absolute_import
 
 import os
@@ -17,14 +17,17 @@ def quoted(args):
     return ' '.join(map(pipes.quote, args))
 
 
+# expands 'ptrn' into a list of filenames in the style of unix glob(3),
+# substitutes the first occurrence of %, if any, in 'args'
+# of the repeat mini-command with those filenames
 def globsub(ptrn, args):
     files = glob(ptrn)
     try:
         i = args.index('%')
-        args[i:i+1] = files
+        args[i:i + 1] = files
     except ValueError:
         pass
-    return (files, args)
+    return files, args
 
 
 def _temp_names_derivedfrom(base, sep):

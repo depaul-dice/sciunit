@@ -1,4 +1,4 @@
-#Note: Converted
+# Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -23,7 +23,7 @@ class CommitCommand(CommitMixin, AbstractCommand):
         optlist, args = getopt(args, '')
         if args:
             raise CommandLineError
-        emgr, repo = sciunit2.workspace.current()
+        emgr, repo = sciunit2.workspace.current()  # repo is vvpkg
         pkgdir = os.path.join(repo.location, 'cde-package')
         with emgr.exclusive():
             for cmd in DetachedExecution(pkgdir).getcmd():

@@ -1,10 +1,6 @@
-#Note: Converted
-
 from __future__ import absolute_import
 
-#from urllib2 import HTTPError
 from tqdm import tqdm
-#import urllib
 import urllib.request
 import urllib.error
 import tempfile

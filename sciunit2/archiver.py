@@ -1,4 +1,4 @@
-#Note: Converted
+# Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.util import mkdir_derivedfrom
@@ -8,6 +8,7 @@ import zipfile2
 from zipfile import BadZipfile
 from scandir import scandir
 from functools import reduce
+
 
 # create a single rooted zip64 file aside the root
 # ignore any subdirectories
@@ -25,13 +26,16 @@ def make(directory):
 
 # extract a single rooted zip file
 # avoid overwriting by randomizing the directory postfix
+# root_constraint is the function '_is_path_component'
+# root_transform is the function 'location_for'
 def extract(fn, root_constraint, root_transform):
     with zipfile2.ZipFile(fn) as f:
-        ls = f.namelist()
+        ls = f.namelist()  # list of file names in the archive
         if not ls:
             raise BadZipfile('empty ZIP file')
-        p = reduce(lambda x, y: x if x == y else '',
-                   map(_get_root, ls))
+        # p contains all unique dirs referenced in the zip file
+        # the map gets names of all directories in the zip file
+        p = reduce(lambda x, y: x if x == y else '', map(_get_root, ls))
         if not root_constraint(p):
             raise BadZipfile('suspicious ZIP source')
         np = mkdir_derivedfrom(root_transform(p), '__')
