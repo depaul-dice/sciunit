@@ -1,5 +1,3 @@
-#Note: Converted
-# Module bsddb3 cannot be installed on this machine, other machines are fine
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError, MalformedExecutionId
@@ -11,15 +9,12 @@ import json
 import re
 from contextlib import closing
 from tempfile import NamedTemporaryFile
-#try:
-#    import bsddb3 as bsddb
-#except ImportError:
-#    import bsddb
-#DBNotFoundError = bsddb._db.DBNotFoundError
 import bsddb3
 DBNotFoundError = bsddb3.db.DBNotFoundError
 
 
+# contains metadata for a sciunit execution including
+# the executed command, time of execution and its size in bytes
 class Metadata(object):
     __slots__ = '__d'
 
@@ -32,8 +27,17 @@ class Metadata(object):
     def __str__(self):
         return json.dumps(self.__d, separators=(',', ':'))
 
+    # cls is the class through which this method is invoked
+    # s is the berkeleydb object for the project
     @classmethod
     def fromstring(cls, s):
+        # cls is the construction function which constructs the
+        # class object which calls it and then calls its __init__ function.
+        # cls is a class factory. cls(s) is the same as calling Metadata(s)
+        # or the constructor of the class which called this function.
+
+        # returns the class object of type with which fromstring() is called.
+        # It could be Metadata or any of its subclasses.
         return cls(s)
 
     @property
@@ -53,6 +57,7 @@ class Metadata(object):
         self.__d['size'] = val
 
 
+# encloses the sciunit database and handles all db operations
 class ExecutionManager(object):
     __slots__ = ['__f', '__pending', '__fn']
 
@@ -60,17 +65,21 @@ class ExecutionManager(object):
         self.__fn = os.path.join(location, 'sciunit.db')
         self.__f = bsddb3.rnopen(self.__fn)
 
+    # closes the database object
     def close(self):
         self.__f.close()
 
+    # places a non-blocking exclusive lock on the database file descriptor
     def exclusive(self):
         fcntl.flock(self.__f.db.fd(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         return closing(self)
 
+    # places a non-blocking shared lock on the database file descriptor
     def shared(self):
         fcntl.flock(self.__f.db.fd(), fcntl.LOCK_SH | fcntl.LOCK_NB)
         return closing(self)
 
+    # adds a new execution id to the database
     def add(self, args):
         try:
             newid = self.__f.last()[0] + 1
@@ -80,12 +89,17 @@ class ExecutionManager(object):
         return self.__to_rev(newid)
 
     def commit(self, size):
-        k, v = self.__pending
+        # __pending is the id, args pair for
+        # the newly added execution via add()
+        k, v = self.__pending   # eid, Metadata
         v.size = size
         self.__f[k] = str(v)
-        return (self.__to_rev(k), v)
+        return self.__to_rev(k), v
 
     def get(self, rev):
+        # rev is the execution id in the format e<number>
+        # looks up rev in the project database and
+        # returns a new object of type Metadata.
         return Metadata.fromstring(self.__get(self.__to_id(rev)))
 
     def __get(self, i):
@@ -96,8 +110,9 @@ class ExecutionManager(object):
 
     def last(self):
         id_, m = self.__f.last()
-        return (self.__to_rev(id_), Metadata.fromstring(m))
+        return self.__to_rev(id_), Metadata.fromstring(m)
 
+    # removes an execution from the database by id
     def delete(self, rev):
         try:
             del self.__f[self.__to_id(rev)]
@@ -138,25 +153,32 @@ class ExecutionManager(object):
         def need_to_rename(from_, to):
             if to != from_:
                 rename_list.append((self.__to_rev(from_), self.__to_rev(to)))
-
+        # rnopen opens db in Record format file.
+        # records are accessed in the order they were originally written
         with NamedTemporaryFile(dir=os.path.dirname(self.__fn)) as fp:
             guard = closing(bsddb3.rnopen(fp.name, 'w'))
             with guard as tmp:
-                self.__for_upto(mismatched, lambda k, v: tmp.db.put(k, v))
+                self.__for_upto(mismatched,
+                                lambda pair: tmp.db.put(pair[0], pair[1]))
                 for i in ls:
                     j = tmp.db.append(self.__get(i))
                     need_to_rename(i, j)
-                self.__for_from(mismatched, lambda k, v: #?Return type of lambda
-                                k not in d and
-                                need_to_rename(k, tmp.db.append(v)))#Problem here
+                self.__for_from(mismatched, lambda pair:
+                                pair[0] not in d and
+                                need_to_rename(pair[0],
+                                               tmp.db.append(pair[1])))
 
                 yield rename_list
                 os.rename(fp.name, self.__fn)
                 fp.delete = False
+                fp._closer.delete = False
                 x = self.__f
                 self.__f = guard.thing
                 guard.thing = x
 
+    # gets the executions from database with
+    # execution ids from [0-'last').
+    # puts them in the temp dab opened in function 'f'
     def __for_upto(self, last, f):
         with closing(self.__f.db.cursor()) as c:
             try:
@@ -167,6 +189,8 @@ class ExecutionManager(object):
             except DBNotFoundError:
                 pass
 
+    # gets the executions from database with
+    # execution ids starting from 'first'
     def __for_from(self, first, f):
         with closing(self.__f.db.cursor()) as c:
             pair = c.set(first)
