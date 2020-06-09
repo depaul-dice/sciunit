@@ -3,18 +3,14 @@ pipelines:
     - step:
         image: geotrust/build-essential:ubuntu16.04
         caches:
-          - pip
+          - pip3
         script:
-          - python --version
-          - pip --version
-          - pip install tox
+          - pip3 install tox
           - tox
     - step:
         image: geotrust/devtoolset:centos6.devtoolset-4
         caches:
-          - pip
+          - pip3
         script:
-          - python --version
-          - pip --version
-          - pip install -U tox setuptools
+          - pip3 install -U tox setuptools
           - tox
