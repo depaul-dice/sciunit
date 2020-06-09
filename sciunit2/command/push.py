@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -43,7 +42,7 @@ class PushCommand(AbstractCommand):
             try:
                 srvname = article.service
             except NotFound as exc:
-                raise CommandError(exc.message)
+                raise CommandError(exc)
 
         try:
             srvcls = self.__srv[srvname]
@@ -65,4 +64,4 @@ class PushCommand(AbstractCommand):
                 srv.push(article, fn)
                 sciunit2.sharing.article.save_recent(repo.location, article)
             except (NotAuthorized, NotFound) as exc:
-                raise CommandError(exc.message)
+                raise CommandError(exc)
