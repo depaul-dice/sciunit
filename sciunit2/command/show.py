@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
@@ -36,6 +35,8 @@ class ShowCommand(AbstractCommand):
                 rev, e = emgr.last()
             except DBNotFoundError:
                 raise CommandError('sciunit %r is empty' % name)
+            if len(args) == 0:
+                raise CommandLineError
 
         ls = [('id', rev),
               ('sciunit', name),
