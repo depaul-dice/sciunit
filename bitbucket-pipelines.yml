@@ -5,6 +5,8 @@ pipelines:
         caches:
           - pip
         script:
+          - python --version
+          - pip --version
           - pip install tox
           - tox
     - step:
@@ -12,5 +14,7 @@ pipelines:
         caches:
           - pip
         script:
+          - python --version
+          - pip --version
           - pip install -U tox setuptools
           - tox
