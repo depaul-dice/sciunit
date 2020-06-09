@@ -6,8 +6,8 @@ pipelines:
           - pip
         script:
           - python --version
-          - pip --version
-          - pip install tox
+          - pip3 --version
+          - pip3 install tox
           - tox
     - step:
         image: geotrust/devtoolset:centos6.devtoolset-4
