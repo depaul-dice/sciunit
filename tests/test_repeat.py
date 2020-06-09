@@ -89,19 +89,3 @@ class TestRepeat(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e2')
         assert_equal(r.exception.code, 1)
-
-    # def test_dakota(self):
-    #     with assert_raises(SystemExit) as r:
-    #         testit.sciunit('repeat', 'MANIFEST.in')
-    #     assert_equal(r.exception.code, 1)
-    #
-    #     testit.sciunit('create', 'ok')
-    #     testit.sciunit('exec', '/bin/true')
-    #
-    #     with assert_raises(SystemExit) as r:
-    #         testit.sciunit('repeat', 'files/dakota_sample.in')
-    #     assert_equal(r.exception.code, 1)
-    #
-    #     with assert_raises(SystemExit) as r, testpath.assert_calls('dakota'):
-    #         testit.sciunit('repeat', 'files/dakota_sample.in')
-    #     assert_equal(r.exception.code, 0)
