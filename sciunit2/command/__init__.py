@@ -1,9 +1,7 @@
-#Note: Converted
 from __future__ import absolute_import
 
 import abc
-from abc import abstractmethod, abstractproperty
-
+from abc import abstractmethod
 
 
 class AbstractCommand:
@@ -11,7 +9,8 @@ class AbstractCommand:
 
     name = NotImplemented
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def usage(self):
         raise NotImplementedError
 
