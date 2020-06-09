@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError
@@ -19,11 +18,11 @@ def capture(args):
 
 
 def shell(env=None):
-    print ('Interactive capturing started; press Ctrl-D to end')
+    print('Interactive capturing started; press Ctrl-D to end')
     sciunit2.libexec.ptu([sciunit2.libexec.scripter.which,
                           '-qi', 'cde.stdin'], env=env).wait()
     assert os.path.isdir('cde-package')
-    print ('Interactive capturing ended')
+    print('Interactive capturing ended')
     shutil.move('cde.stdin', 'cde-package')
     with open('cde-package/cde.log') as f:
         cd, ls = f
@@ -43,8 +42,16 @@ def repeat(pkgdir, orig, newargs):
                 cd, ls = f
             os.rename('cde.log', 'cde.log.1')
             with open('cde.log', 'w') as f:
+                # adds the command in a comment
                 f.write_cmd(orig[:1] + newargs)
+                # dir to cd into for executing the commands
                 f.insert(cd)
+                # commands to execute with new arguments
                 f.insert(ls[:1] + newargs)
-
-    return subprocess.call(['/bin/sh', 'cde.log'], cwd=pkgdir)
+    try:
+        subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
+    except subprocess.CalledProcessError as exc:
+        print(exc.output)
+        return exc.returncode
+    else:
+        return 0
