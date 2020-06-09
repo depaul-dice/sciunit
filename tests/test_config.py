@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
@@ -13,11 +12,11 @@ def test_indent():
     x.section('a')['g'] = 3
     ls = x.write()
 
-    assert_equals(ls, ['[a "doe"]',
-                       '	k = 1',
-                       '[a]',
-                       '	k = 2',
-                       '	g = 3'])
+    assert_equal(ls, ['[a "doe"]',
+                      '	k = 1',
+                      '[a]',
+                      '	k = 2',
+                      '	g = 3'])
 
     with assert_raises(sciunit2.config.ConfigObjError):
         x.section('a', '"master"')

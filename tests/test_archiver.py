@@ -1,16 +1,13 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 import os
 import shutil
-#import mock
 from unittest import mock
 import errno
 import zipfile
 
-#import testit # this line should be used instead of the following line
-import tests.testit
+from tests import testit
 import sciunit2.archiver
 
 
@@ -25,7 +22,7 @@ def cleanup():
 @with_setup(prepare, cleanup)
 def test_empty():
     p = sciunit2.archiver.make('tmp/test')
-    assert_equals(p, 'tmp/test.zip')
+    assert_equal(p, 'tmp/test.zip')
 
     with assert_raises(sciunit2.archiver.BadZipfile):
         sciunit2.archiver.extract(p, lambda x: True, lambda x: x)
@@ -44,7 +41,7 @@ def test_layout():
                 p,
                 lambda x: True,
                 lambda x: os.path.join('tmp', x))
-        assert_equals(r.exception.errno, errno.EEXIST)
+        assert_equal(r.exception.errno, errno.EEXIST)
 
     with zipfile.ZipFile(p, 'a') as f:
         f.write('tmp/test/a.txt', 'test/2nd/a.txt')

@@ -40,7 +40,6 @@ modifications by Michal Nazarewicz. Here is a nice write-up of the original:
     http://dcreager.net/2010/02/10/setuptools-git-version-numbers/
 
 """
-#Note: Converted
 import re
 import subprocess
 import sys

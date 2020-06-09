@@ -1,16 +1,15 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 from tqdm import tqdm
 import requests_mock
-import mock
+from unittest import mock
 from freezegun import freeze_time
 from datetime import timedelta
 
 from sciunit2.sharing import AbstractWizard
 
-import testit
+from tests import testit
 
 
 class NonEmptyWizard(AbstractWizard):
@@ -31,41 +30,41 @@ class TestPush(testit.LocalCase):
     def test_cli(self):
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', '--setup')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x', 'y')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x', 'y', '--setup', 'hs')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', '--file')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', '--file', 'x', '--setup', 'hs')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x', '--setup', 'hs')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         testit.sciunit('create', 'yes')
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x', '--setup', 'nonexistent')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('push', 'x')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         class CancellingWizard(NonEmptyWizard):
             def prompt(self, msg, *args):
@@ -120,12 +119,13 @@ class TestPush(testit.LocalCase):
 
         testit.sciunit('create', 'yes')
 
+        testit.touch('tmp/setup.py')
         with mock.patch('sciunit2.command.push.TerminalWizard',
                         NonEmptyWizard):
             testit.sciunit('push', 'x', '--setup', 'hs')
             testit.sciunit('push')
             testit.sciunit('push', 'x', '--setup', 'hydroshare')
-            testit.sciunit('push', '--file', 'setup.py')
+            testit.sciunit('push', '--file', 'tmp/setup.py')
 
             with freeze_time() as clock:
                 clock.tick(timedelta(seconds=60))
@@ -138,8 +138,8 @@ class TestPush(testit.LocalCase):
 
             with assert_raises(SystemExit) as r:
                 testit.sciunit('push', 'x', '--setup', 'HS')
-            assert_equals(r.exception.code, 1)
+            assert_equal(r.exception.code, 1)
 
             with assert_raises(SystemExit) as r:
                 testit.sciunit('push', 'x')
-            assert_equals(r.exception.code, 1)
+            assert_equal(r.exception.code, 1)

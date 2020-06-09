@@ -1,7 +1,5 @@
-#Note: Converted
 from __future__ import absolute_import
 
-#import mock
 from unittest import mock
 import unittest
 import os
@@ -10,6 +8,7 @@ import shutil
 import sciunit2.cli
 import sciunit2.workspace
 
+# these are important packages, used through arguments
 from humanfriendly.testing import touch, CaptureOutput
 from humanfriendly.testing import make_dirs as mkdir
 

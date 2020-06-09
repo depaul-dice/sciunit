@@ -17,7 +17,7 @@ install the following:
 		sudo pip3 install requests-oauthlib
 		sudo pip3 install zipfile2
 		sudo pip3 install scandir
-		
+
 		sudo add-apt-repository ppa:bitcoin/bitcoin
 		sudo apt-get update
 		sudo apt-get install -y libdb4.8-dev libdb4.8++-dev
