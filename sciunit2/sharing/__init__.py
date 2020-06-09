@@ -5,15 +5,11 @@ from abc import abstractmethod, abstractproperty
 
 
 class NotAuthorized(Exception):
-    @property
-    def message(self):
-        return str(self[0])
+    pass
 
 
 class NotFound(Exception):
-    @property
-    def message(self):
-        return str(self[0])
+    pass
 
 
 class AbstractWizard:
