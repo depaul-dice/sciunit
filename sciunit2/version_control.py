@@ -1,4 +1,3 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError
@@ -7,29 +6,38 @@ import sciunit2.libexec
 
 import subprocess
 from subprocess import PIPE
-import sys
 import os
 import shutil
 import errno
 from backports.tempfile import TemporaryDirectory
 
 
+# this class maintains the de-duplication engine
+# and supports the necessary operations to
+# store and retrieve execution instances
 class Vvpkg(object):
     __slots__ = 'location'
 
     def __init__(self, location):
         self.location = location
 
+    # adds a new execution to the de-duplication engine
     def checkin(self, rev, pkgdir, spinner):
         parent, name = os.path.split(os.path.abspath(pkgdir))
+        # creates a tar file from dir 'name' in 'parent' dir,
+        # writes it to stdout, then commits it to
+        # de-duplication engine using 'vv' under the 'rev' eid
+        # after reading from stdin
         cmd = quoted_format('tar cf - -C {1} {2} | {0} commit {3} -',
                             sciunit2.libexec.vv.which,
                             parent, name, rev)
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
+        # spinner creates a spinning animation as feedback
+        # for users to display indefinite activity
         while p.poll() is None:
             spinner.step()
             spinner.sleep()
-        err = p.stderr.read()
+        _, err = p.communicate()
         if p.returncode == 0:
             self.cleanup(pkgdir)
             return int(err)
@@ -37,6 +45,8 @@ class Vvpkg(object):
             raise CommandError('execution %r already exists' % rev
                                if self.__found(rev) else err)
 
+    # brings out the execution identified by 'rev'
+    # from the de-duplication engine
     def checkout(self, rev):
         cmd = quoted_format('{0} checkout {1} - | tar xf -',
                             sciunit2.libexec.vv.which, rev)
@@ -45,6 +55,7 @@ class Vvpkg(object):
         if p.wait() != 0:
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
+
     def checkout_Diff(self, rev):
         cmd = quoted_format('{0} checkout {1} - | tar xf -',
                             sciunit2.libexec.vv.which, rev)
