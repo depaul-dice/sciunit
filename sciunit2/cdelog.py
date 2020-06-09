@@ -1,6 +1,4 @@
-#Note: converted
 from __future__ import absolute_import
-#import __builtin__
 import builtins
 
 from sciunit2.util import quoted_format, quoted
@@ -11,25 +9,36 @@ import os
 import errno
 
 
+# opens cde.log file as Script object
 def open(fn, mode='r'):
     return Script(builtins.open(fn, mode))
 
 
+# This class runs an arbitrary execution
+# before it is committed to the database.
+# It is named thus as if it is in detached state
+# from the normal execution tree of sciunit executions.
 class DetachedExecution(object):
     __slots__ = '__fn'
 
-    def __init__(self, dir):
-        self.__fn = os.path.join(dir, 'cde.log')
+    # note: cde stands for code, data and environment
+    # which is an application versioning tool that
+    # ptu is built on top of.
+    def __init__(self, _dir):
+        # dir is location for cde-package/
+        # __fn is location of cde.log
+        self.__fn = os.path.join(_dir, 'cde.log')
 
     def getcmd(self):
         try:
-            with open(self.__fn) as f:
-                ls = f.read_cmd()
+            with open(self.__fn) as f:  # opens cde.log as a Script object
+                ls = f.read_cmd()   # reads the commands from cde.log
             yield ls
         except IOError as exc:
             if exc.errno != errno.ENOENT:
                 raise  # pragma: no cover
 
+    # returns project dir path starting from ../cde-root/root/home/
     def cwd_on_host(self):
         with open(self.__fn) as f:
             return os.path.join(os.path.dirname(self.__fn), next(f)[1])
@@ -38,6 +47,8 @@ class DetachedExecution(object):
         return os.path.join(os.path.dirname(self.__fn), 'cde-root')
 
 
+# reads, writes and executes the execution
+# script from cde-package/cde.log
 class Script(object):
     __slots__ = ['__f', '__sh']
 
@@ -66,8 +77,7 @@ class Script(object):
     def read_cmd(self):
         ln = self.__f.readline()
         if ln.startswith('# ['):
-            #return json.loads(ln[2:])
-            return json.loads(ln[2:].decode('utf-8'))
+            return json.loads(ln[2:])
         else:
             self.__sh.push_source(ln)
             return []
@@ -97,5 +107,4 @@ class Script(object):
         self.__f.write(quoted_format(fmt, *args))
 
     def insert(self, args):
-        #print >> self.__f, quoted(args)
         print(quoted(args), file=self.__f)
