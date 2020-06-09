@@ -1,23 +1,23 @@
-#Note: Converted
 from __future__ import absolute_import
 
+import distutils
+import os
+import sys
+from distutils.dir_util import create_tree, copy_tree
+from distutils.errors import DistutilsFileError
+from distutils.file_util import copy_file
+from getopt import getopt
+
+import sciunit2.core
+import sciunit2.workspace
+from sciunit2.cdelog import DetachedExecution
 from sciunit2.command import AbstractCommand
 from sciunit2.command.context import CheckoutContext
+from sciunit2.command.mixin import CommitMixin
 from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.util import globsub
-from sciunit2.cdelog import open, DetachedExecution
-import sciunit2.core
 
-from getopt import getopt
-import sys
-import os
-from distutils.errors import DistutilsFileError
-from distutils.dir_util import create_tree, copy_tree, _path_created
-from distutils.file_util import copy_file
 
-from sciunit2.command.mixin import CommitMixin
-
-#class GivenCommand(AbstractCommand):
 class GivenCommand(CommitMixin, AbstractCommand):
     name = 'given'
 
@@ -27,10 +27,12 @@ class GivenCommand(CommitMixin, AbstractCommand):
                  "Repeat <execution id> with additional files or directories "
                  "specified by <glob>")]
 
-    def run(self, args): # args = <glob> repeat <execution id> %
-        optlist, args = getopt(args, '') # args = <glob> repeat <execution id> %
+    # args = <glob> repeat <execution id> <args for repeat>|%
+    def run(self, args):
+        optlist, args = getopt(args, '')
         if len(args) < 3 or args[1] != 'repeat':
             raise CommandLineError
+        # args = <execution id> <file names in glob>
         files, args = globsub(args[0], args[2:])
         # files = list of files or dirs in <glob>
         # args = <execution id> list of args after % + files
@@ -38,22 +40,16 @@ class GivenCommand(CommitMixin, AbstractCommand):
             raise CommandError('no match')
         self.name = 'repeat'
         optlist, args = getopt(args, '')
-        #print('Hai test: ')
-        #print(args)
 
         with CheckoutContext(args[0]) as (pkgdir, orig):
             try:
-                #pkgdir = /path/to/sciunit/currentproject/cde-package
-                #print('pkgdir and orig')
-                #print(pkgdir)
-                #print(orig)
                 de = DetachedExecution(pkgdir)
                 if os.path.isabs(files[0]):
-                    dst = de.root_on_host()
-                    create_tree(dst, (os.path.relpath(p, '/') for p in files))
+                    dst = de.root_on_host()  # project_dir/cde-package/cde-root
+                    create_tree(dst, [os.path.relpath(p, '/') for p in files])
                     join_fn = str.__add__
                 else:
-                    dst = de.cwd_on_host()
+                    dst = de.cwd_on_host()  # project dir inside ./cde-root/root/home
                     create_tree(dst, files)
                     join_fn = os.path.join
 
@@ -63,19 +59,18 @@ class GivenCommand(CommitMixin, AbstractCommand):
                         copy_tree(fn, target)
                     else:
                         copy_file(fn, target)
-                _path_created.clear()
+                distutils.dir_util._path_created.clear()
+                # maybe use shutil.rmtree
 
             except DistutilsFileError as e:
                 raise CommandError(e)
             else:
-                #sys.exit(sciunit2.core.repeat(pkgdir, orig, args[1:]))
-                sciunit2.core.repeat(pkgdir, orig, args[1:])
+                repeat_out = sciunit2.core.repeat(pkgdir, orig, args[1:])
+                if repeat_out != 0:
+                    sys.exit(repeat_out)
         emgr, repo = sciunit2.workspace.current()
         pkgdir = os.path.join(repo.location, 'cde-package')
-        print(pkgdir)
         with emgr.exclusive():
             rev = emgr.add(args[1:])
-            return self.do_commit(pkgdir, rev, emgr, repo)
-
-    #def note(self, aList):
-    #    return "\n %s \n %s \n" % (aList[0].decode('utf-8'), aList[1].decode('utf-8'))
+            self.do_commit(pkgdir, rev, emgr, repo)
+            return sys.exit(repeat_out)

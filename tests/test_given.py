@@ -1,32 +1,31 @@
-#Note: Converted
 from __future__ import absolute_import
 
 from nose.tools import *
 
-import testit
+from tests import testit
 
 
 class TestGiven(testit.LocalCase):
     def test_cli(self):
         with assert_raises(SystemExit) as r:
             testit.sciunit('given')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '-i', 'repeat', 'e1')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '*', 'repeat', '-x')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '*', 'commit', 'e1')
-        assert_equals(r.exception.code, 2)
+        assert_equal(r.exception.code, 2)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '*-', 'repeat', 'e1')  # no match
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
     def test_all(self):
         testit.sciunit('create', 'ok')
@@ -38,35 +37,33 @@ class TestGiven(testit.LocalCase):
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1', 'tmp/file2')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/file?', 'repeat', 'e1', 'tmp/file2')
-        assert_equals(r.exception.code, 0)
+        assert_equal(r.exception.code, 0)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/d', 'repeat', 'e1', 'tmp/d/file3')
-        assert_equals(r.exception.code, 0)
+        assert_equal(r.exception.code, 0)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%')
-        assert_equals(r.exception.code, 0)
-
-        testit.sciunit('commit')
+        assert_equal(r.exception.code, 0)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%', '%')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/file2',
                            'repeat', 'e2', 'tmp/d/file3', '%')
-        assert_equals(r.exception.code, 0)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '/dev/stdin', 'repeat', 'e2', '%')
-        assert_equals(r.exception.code, 1)
+        assert_equal(r.exception.code, 1)
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', '/etc/hostname', 'repeat', 'e1', '%')
-        assert_equals(r.exception.code, 0)
+        assert_equal(r.exception.code, 0)
