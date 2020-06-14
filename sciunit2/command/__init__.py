@@ -9,6 +9,8 @@ class AbstractCommand:
 
     name = NotImplemented
 
+    # this method is used to print the usage
+    # format of the command
     @property
     @abstractmethod
     def usage(self):
@@ -18,5 +20,7 @@ class AbstractCommand:
     def run(self, args):
         raise NotImplementedError
 
+    # this method is used to print out the
+    # output after the command execution
     def note(self, user_data):
         raise NotImplementedError

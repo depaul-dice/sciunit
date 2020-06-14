@@ -8,6 +8,8 @@ import sciunit2.workspace
 from getopt import getopt
 
 
+# this class creates a new sciunit project
+# under ~/sciunit identified by <name>
 class CreateCommand(AbstractCommand):
     name = 'create'
 
@@ -23,5 +25,5 @@ class CreateCommand(AbstractCommand):
         sciunit2.workspace.create(args[0])
         return sciunit2.workspace.open(args[0])
 
-    def note(self, p):
-        return quoted_format('Opened empty sciunit at {0}\n', p)
+    def note(self, project_dir):
+        return quoted_format('Opened empty sciunit at {0}\n', project_dir)

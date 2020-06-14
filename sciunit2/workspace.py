@@ -76,7 +76,7 @@ def _create(name, by):
 
 # opens a sciunit container already created
 def open(s):
-    _mkdir_p(location_for(''))
+    _mkdir_p(location_for(''))  # makes sure that sciunit/ is present
     try:
         if urlparse(s).scheme:
             p = _extract(sciunit2.wget.fetch(s, location_for('wget-tmp')))

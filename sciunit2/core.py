@@ -10,6 +10,7 @@ import shutil
 import subprocess
 
 
+# capture the execution of commands from cde.log
 def capture(args):
     sciunit2.libexec.ptu(args).wait()
     assert os.path.isdir('cde-package')
@@ -17,6 +18,7 @@ def capture(args):
         f.prepend_cmd(args)
 
 
+# capture the execution of commands from interactive shell
 def shell(env=None):
     print('Interactive capturing started; press Ctrl-D to end')
     sciunit2.libexec.ptu([sciunit2.libexec.scripter.which,
