@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-MAINTAINER Zhihao Yuan <zhihao.yuan@depaul.edu>
+MAINTAINER Zhihao Yuan <tanu.malik@depaul.edu>
 
 RUN apt-get update && apt-get install -y cmake && \
     apt-get clean
