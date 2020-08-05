@@ -39,20 +39,27 @@ class DiffCommand(AbstractCommand):
             cmd = quoted_format('rsync -nai --delete {0}/ {1}/', args[0], args[1])
             p = subprocess.Popen(cmd, shell=True, cwd=diffdir, stderr=PIPE, stdout=PIPE)
             out, err = p.communicate()
-            p_status = p.wait()
+            p_return_code = p.wait()
+            if p_return_code != 0:
+                return "error executing diff command!", err
+
             # process output by rsync command
-            new_e1, new_e2, size_changed, time_changed, perms_changed = \
-                self.parse_rsync(out)
-            output = "Files only in e1:\n" + '\n'.join(new_e1) + "\n\n" + \
-                     "Files only in e2:\n" + '\n'.join(new_e2) + "\n\n" + \
-                     "Files with changed size:\n" + '\n'.join(size_changed) + "\n\n" + \
-                     "Files with changed modified time:\n" + '\n'.join(time_changed) + "\n\n" + \
-                     "Files with changed permissions:\n" + '\n'.join(perms_changed) + "\n\n"
+            try:
+                new_e1, new_e2, size_changed, time_changed, perms_changed = \
+                    self.parse_rsync(out)
+                output = "Difference in e1 and e2:\n" + \
+                         "Files only in e1:\n" + '\n'.join(new_e1) + "\n\n" + \
+                         "Files only in e2:\n" + '\n'.join(new_e2) + "\n\n" + \
+                         "Files with changed size:\n" + '\n'.join(size_changed) + "\n\n" + \
+                         "Files with changed modified time:\n" + '\n'.join(time_changed) + "\n\n" + \
+                         "Files with changed permissions:\n" + '\n'.join(perms_changed) + "\n\n"
+            except Exception:
+                output = "error executing diff command!"
 
             return output, err
 
     """
-    This function parses the result of rsync command 
+    This function parses the result of rsync command
     and outputs in the following format:
      Files only in e1:
      Files only in e2:
@@ -75,6 +82,7 @@ class DiffCommand(AbstractCommand):
         perms_changed = []
         for line in lines:
             splits = line.split()
+            assert len(splits) == 2
             YXcstpoguax = splits[0].strip()
             file_name = splits[1].strip()
             update_type = YXcstpoguax[0]
@@ -111,4 +119,4 @@ class DiffCommand(AbstractCommand):
         return new_e1, new_e2, size_changed, time_changed, perms_changed
 
     def note(self, aList):
-        return "\n %s \n %s \n" % (aList[0].decode('utf-8'), aList[1].decode('utf-8'))
+        return "\n%s\n%s n" % (aList[0], aList[1].decode('utf-8'))
