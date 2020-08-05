@@ -19,7 +19,7 @@ class TestShow(testit.LocalCase):
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('show')
-        assert_equal(r.exception.code, 1)
+        assert_equal(r.exception.code, 2)
 
         testit.sciunit('exec', 'pwd')
         with assert_raises(SystemExit) as r:
@@ -44,4 +44,4 @@ class TestShow(testit.LocalCase):
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('show')
-        assert_equal(r.exception.code, 1)
+        assert_equal(r.exception.code, 2)

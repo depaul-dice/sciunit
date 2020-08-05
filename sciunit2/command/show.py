@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from sciunit2.command import AbstractCommand
 from sciunit2.exceptions import CommandLineError, CommandError
-from sciunit2.records import DBNotFoundError
+# from sciunit2.records import DBNotFoundError
 from sciunit2.util import quoted
 from sciunit2 import timestamp
 import sciunit2.workspace
@@ -27,16 +27,19 @@ class ShowCommand(AbstractCommand):
 
         emgr, repo = sciunit2.workspace.current()
         name = sciunit2.workspace.project(repo.location)
-        if args:
-            rev = args[0]
-            e = emgr.get(rev)
-        else:
-            try:
-                rev, e = emgr.last()
-            except DBNotFoundError:
-                raise CommandError('sciunit %r is empty' % name)
-            if len(args) == 0:
-                raise CommandLineError
+
+        # if args:
+        if len(args) == 0:
+            raise CommandLineError
+        rev = args[0]
+        e = emgr.get(rev)
+        # else:
+        #     try:
+        #         rev, e = emgr.last()
+        #     except DBNotFoundError:
+        #         raise CommandError('sciunit %r is empty' % name)
+        # if len(args) == 0:
+        #     raise CommandLineError
 
         ls = [('id', rev),
               ('sciunit', name),

@@ -1,5 +1,4 @@
 setuptools
-bsddb3
 tzlocal
 utcdatetime
 zipfile2
