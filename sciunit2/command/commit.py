@@ -31,3 +31,10 @@ class CommitCommand(CommitMixin, AbstractCommand):
                 return self.do_commit(pkgdir, rev, emgr, repo)
             else:
                 raise CommandError('nothing to commit')
+
+    def note(self, data):
+        line = ""
+        for x in data[2].cmd:
+            line = line + x + " "
+        line = line[:-1]
+        return "Committed execution {0} with command {2} at sciunit {1}\n".format(data[1], data[0], line)
