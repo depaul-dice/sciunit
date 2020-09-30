@@ -33,8 +33,4 @@ class CommitCommand(CommitMixin, AbstractCommand):
                 raise CommandError('nothing to commit')
 
     def note(self, data):
-        line = ""
-        for x in data[2].cmd:
-            line = line + x + " "
-        line = line[:-1]
-        return "Committed execution {0} with command {2} at sciunit {1}\n".format(data[1], data[0], line)
+        return "Committed execution {0} at sciunit {1}\n".format(data[1], data[0])
