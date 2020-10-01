@@ -22,4 +22,11 @@ class RepeatCommand(AbstractCommand):
         if not args:
             raise CommandLineError
         with CheckoutContext(args[0]) as (pkgdir, orig):
-            sys.exit(sciunit2.core.repeat(pkgdir, orig, args[1:]))
+            returnValue = sciunit2.core.repeat(pkgdir, orig, args[1:])
+        if returnValue != 0:
+            sys.exit(returnValue)
+
+        return args
+
+    def note(self, data):
+        return "Repeated execution {0}\n".format(data[0])
