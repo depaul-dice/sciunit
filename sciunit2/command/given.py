@@ -73,4 +73,10 @@ class GivenCommand(CommitMixin, AbstractCommand):
         with emgr.exclusive():
             rev = emgr.add(args[1:])
             self.do_commit(pkgdir, rev, emgr, repo)
-            return sys.exit(repeat_out)
+            if repeat_out != 0:
+                sys.exit(repeat_out)
+
+        return args
+
+    def note(self, data):
+        return "Repeated execution {0} with glob {1}\n".format(data[0], data[1])
