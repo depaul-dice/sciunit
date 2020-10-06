@@ -21,12 +21,20 @@ class ListCommand(AbstractCommand):
         if args:
             raise CommandLineError
         emgr, _ = sciunit2.workspace.current()
-        run_listing(emgr)
+        entries = run_listing(emgr)
+        if entries == 0:
+            self.none()
+
+    def none(self):
+        print("Sciunit Empty\n")
 
 
 def run_listing(emgr):
+    counter = 0
     for rev, d in emgr.list():
         print('%5s %s %s' % (
             rev,
             timestamp.fmt_ls(d.started),
             quoted(d.cmd)))
+        ++counter
+    return counter
