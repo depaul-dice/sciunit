@@ -26,9 +26,11 @@ class TestCommit(testit.LocalCase):
             testit.sciunit('commit')
         assert_equal(r.exception.code, 1)
 
-        with assert_raises(SystemExit) as r:
-            testit.sciunit('repeat', 'e1', '-P')
-        assert_equal(r.exception.code, 0)
+        #with assert_raises(SystemExit) as r:
+        #    testit.sciunit('repeat', 'e1', '-P')
+        #assert_equal(r.exception.code, 0)
+
+        assert_is_none(testit.sciunit('repeat', 'e1', '-P'))
 
         assert_is_none(testit.sciunit('commit'))
 
@@ -36,6 +38,8 @@ class TestCommit(testit.LocalCase):
             testit.sciunit('commit')
         assert_equal(r.exception.code, 1)
 
-        with assert_raises(SystemExit) as r:
-            testit.sciunit('repeat', 'e2')
-        assert_equal(r.exception.code, 0)
+        #with assert_raises(SystemExit) as r:
+        #    testit.sciunit('repeat', 'e2')
+        #assert_equal(r.exception.code, 0)
+
+        assert_is_none(testit.sciunit('repeat', 'e2'))

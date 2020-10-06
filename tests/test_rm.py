@@ -32,9 +32,11 @@ class TestRm(testit.LocalCase):
 
         testit.sciunit('exec', 'pwd')
 
-        with assert_raises(SystemExit) as r:
-            testit.sciunit('repeat', 'e1')
-        assert_equal(r.exception.code, 0)
+        #with assert_raises(SystemExit) as r:
+        #    testit.sciunit('repeat', 'e1')
+        #assert_equal(r.exception.code, 0)
+
+        assert_is_none(testit.sciunit('repeat', 'e1'))
 
         assert_is_none(testit.sciunit('rm', 'e1'))
 
@@ -68,9 +70,11 @@ class TestRm(testit.LocalCase):
 
         testit.sciunit('rm', 'e5-4')
 
-        with assert_raises(SystemExit) as r:
-            testit.sciunit('repeat', 'e5')
-        assert_equal(r.exception.code, 0)
+        #with assert_raises(SystemExit) as r:
+        #    testit.sciunit('repeat', 'e5')
+        #assert_equal(r.exception.code, 0)
+
+        assert_is_none(testit.sciunit('repeat', 'e5'))
 
         testit.sciunit('rm', 'e4-5')
 
