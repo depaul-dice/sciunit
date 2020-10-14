@@ -39,23 +39,14 @@ class TestGiven(testit.LocalCase):
             testit.sciunit('repeat', 'e1', 'tmp/file2')
         assert_equal(r.exception.code, 1)
 
-        #Qwith assert_raises(SystemExit) as r:
-        #    testit.sciunit('given', 'tmp/file?', 'repeat', 'e1', 'tmp/file2')
-        #assert_equal(r.exception.code, 0)
+        assert_is_none(
+            testit.sciunit('given', 'tmp/file?', 'repeat', 'e1', 'tmp/file2'))
 
-        assert_is_none(testit.sciunit('given', 'tmp/file?', 'repeat', 'e1', 'tmp/file2'))
+        assert_is_none(
+            testit.sciunit('given', 'tmp/d', 'repeat', 'e1', 'tmp/d/file3'))
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('given', 'tmp/d', 'repeat', 'e1', 'tmp/d/file3')
-        #assert_equal(r.exception.code, 0)
-
-        assert_is_none(testit.sciunit('given', 'tmp/d', 'repeat', 'e1', 'tmp/d/file3'))
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%')
-        #assert_equal(r.exception.code, 0)
-
-        assert_is_none(testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%'))
+        assert_is_none(
+            testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%'))
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('given', 'tmp/*/file?', 'repeat', 'e1', '%', '%')
@@ -70,8 +61,5 @@ class TestGiven(testit.LocalCase):
             testit.sciunit('given', '/dev/stdin', 'repeat', 'e2', '%')
         assert_equal(r.exception.code, 1)
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('given', '/etc/hostname', 'repeat', 'e1', '%')
-        #assert_equal(r.exception.code, 0)
-
-        assert_is_none(testit.sciunit('given', '/etc/hostname', 'repeat', 'e1', '%'))
+        assert_is_none(
+            testit.sciunit('given', '/etc/hostname', 'repeat', 'e1', '%'))

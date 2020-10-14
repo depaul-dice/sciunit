@@ -56,10 +56,6 @@ class TestOpen(testit.LocalCase):
         finally:
             os.unlink('tmp_x.zip')
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
         assert_is_none(testit.sciunit('open', 'yes'))
@@ -90,10 +86,6 @@ class TestOpen(testit.LocalCase):
         with assert_raises(SystemExit) as r:
             testit.sciunit('open', 'old')
         assert_equal(r.exception.code, 1)
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
 
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
@@ -146,10 +138,6 @@ class TestOpen(testit.LocalCase):
             testit.sciunit('copy', '-n')
 
             testit.sciunit('open', 'http://localhost:5001/tmp/a.zip')
-
-            #with assert_raises(SystemExit) as r:
-            #    testit.sciunit('repeat', 'e1')
-            #assert_equal(r.exception.code, 0)
 
             assert_is_none(testit.sciunit('repeat', 'e1'))
 

@@ -34,14 +34,6 @@ class TestCopy(testit.LocalCase):
             testit.sciunit('copy')
         token = out.getvalue().strip()
 
-        # this case fails due to ssl handshake error
-        # shutil.rmtree('tmp', True)
-        # assert_is_none(testit.sciunit('open', token))
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
         out = StringIO()
@@ -51,9 +43,5 @@ class TestCopy(testit.LocalCase):
 
         assert_true(path.endswith('.zip'))
         assert_is_none(testit.sciunit('open', path))
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
 
         assert_is_none(testit.sciunit('repeat', 'e1'))

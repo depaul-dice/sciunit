@@ -33,10 +33,6 @@ class TestRepeat(testit.LocalCase):
 
         testit.sciunit('exec', 'pwd')
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
         testit.sciunit('create', 'ok2')
@@ -48,29 +44,17 @@ class TestRepeat(testit.LocalCase):
 
         testit.sciunit('open', 'ok')
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e1', '-x')
         assert_equal(r.exception.code, 1)
 
-       # with assert_raises(SystemExit) as r:
-       #     testit.sciunit('repeat', 'e1', '-L', '-P')
-       # assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1', '-L', '-P'))
 
         testit.sciunit('open', 'ok')
         with testpath.modified_env({'SHELL': '/bin/true'}):
             assert_is_none(testit.sciunit('exec', '-i'))
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e2')
-        #assert_equal(r.exception.code, 0)
 
         assert_is_none(testit.sciunit('repeat', 'e2'))
 
@@ -80,21 +64,9 @@ class TestRepeat(testit.LocalCase):
 
         assert_is_none(testit.sciunit('commit'))
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e3')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e3'))
 
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1', '-L')
-        #assert_equal(r.exception.code, 0)
-
         assert_is_none(testit.sciunit('repeat', 'e1', '-L'))
-
-        #with assert_raises(SystemExit) as r:
-        #    testit.sciunit('repeat', 'e1')
-        #assert_equal(r.exception.code, 0)
 
         assert_is_none(testit.sciunit('repeat', 'e1'))
 
