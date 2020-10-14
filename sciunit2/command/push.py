@@ -70,4 +70,5 @@ class PushCommand(AbstractCommand):
         return datatuple
 
     def note(self, data):
-        return "Pushed sciunit {0} to sharing service {1} with id {2}\n".format(data[1], data[0].service, data[0].id)
+        return "pushed sciunit {0} to sharing service {1} with id {2}\n".format(
+            data[1], data[0].service, data[0].id)

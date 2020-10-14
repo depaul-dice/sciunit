@@ -60,7 +60,6 @@ class RmCommand(AbstractCommand):
                 for _id in range(bounds[0], bounds[1] + 1):
                     repo.unlink(self.__to_rev(_id))
 
-
             except MalformedExecutionId:
                 emgr.delete(arg)
                 repo.unlink(arg)
@@ -68,4 +67,5 @@ class RmCommand(AbstractCommand):
         return args
 
     def note(self, data):
-        return "Removed Executions(s) with Execution ID {0}\n".format(data[0])
+        return "removed executions(s) with execution ID {0}\n".format(
+            data[0])

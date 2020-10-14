@@ -34,4 +34,4 @@ class CopyCommand(AbstractCommand):
         return sciunit2.workspace.project(repo.location)
 
     def note(self, user_data):
-        return quoted_format('Copied sciunit at {0}\n', user_data)
+        return quoted_format('copied sciunit {0} to remote location\n', user_data)

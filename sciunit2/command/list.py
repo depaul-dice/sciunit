@@ -26,15 +26,16 @@ class ListCommand(AbstractCommand):
             self.none()
 
     def none(self):
-        print("Sciunit Empty\n")
+        print("No Executions Found\n")
 
 
 def run_listing(emgr):
     counter = 0
     for rev, d in emgr.list():
+        counter = counter + 1
         print('%5s %s %s' % (
             rev,
             timestamp.fmt_ls(d.started),
             quoted(d.cmd)))
-        ++counter
+
     return counter

@@ -29,4 +29,5 @@ class RepeatCommand(AbstractCommand):
         return args
 
     def note(self, data):
-        return "Repeated execution {0}\n".format(data[0])
+        return "repeated execution {0}\n".format(
+            data[0])

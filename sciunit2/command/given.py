@@ -49,7 +49,8 @@ class GivenCommand(CommitMixin, AbstractCommand):
                     create_tree(dst, [os.path.relpath(p, '/') for p in files])
                     join_fn = str.__add__
                 else:
-                    dst = de.cwd_on_host()  # project dir inside ./cde-root/root/home
+                    dst = de.cwd_on_host()
+                    # project dir inside ./cde-root/root/home
                     create_tree(dst, files)
                     join_fn = os.path.join
 
@@ -79,4 +80,5 @@ class GivenCommand(CommitMixin, AbstractCommand):
         return args
 
     def note(self, data):
-        return "Repeated execution {0} with glob {1}\n".format(data[0], data[1])
+        return "repeated execution {0} with arguments {1}\n".format(
+            data[0], data[1])

@@ -26,4 +26,5 @@ class CreateCommand(AbstractCommand):
         return sciunit2.workspace.open(args[0])
 
     def note(self, project_dir):
-        return quoted_format('Created and opened empty sciunit at {0}\n', project_dir)
+        return "created and opened empty sciunit at {0}\n".format(
+            project_dir)
