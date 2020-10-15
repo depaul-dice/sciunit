@@ -77,25 +77,15 @@ Commands
           multiple commands.  A new execution is created on exiting
           the shell.
 
-``sciunit repeat`` <execution id> [<args...>]
+``sciunit repeat`` <execution id>
           Repeat the execution of *execution id* from the
-          currently-opened sciunit.  If *args* present, use them in
-          place of the command line arguments that were present when the
-          command was captured with the ``sciunit exec`` command.
-
-``sciunit repeat`` <path to Dakota input file.in> [<args...>]
-          Repeat an execution with various of parameters described by
-          the Dakota input file with the execution id specified as the
-          ``analysis_driver``.
-          The optional *args* are extra command line arguments to be
-          passed to the ``dakota`` CLI.
+          currently-opened sciunit exactly as it happened earlier.
 
 ``sciunit list``
           List the existing executions in the currently-opened sciunit.
 
 ``sciunit show`` [<execution id>]
-          Show detailed information about a specific execution (or the
-          most recent execution, if no argument present) in the
+          Show detailed information about a specific execution in the
           currently-opened sciunit.
 
 ``sciunit given`` <glob> ``repeat`` <execution id> [<%|args...>]
@@ -111,7 +101,7 @@ Commands
 
 ``sciunit commit``
           Commit the last repetition done by the ``repeat`` or the
-          ``given`` ... ``repeat`` command in the currently-opened
+          ``given`` command in the currently-opened
           sciunit as a new execution.
 
 ``sciunit rm`` <execution id>
