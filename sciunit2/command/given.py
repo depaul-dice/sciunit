@@ -74,8 +74,6 @@ class GivenCommand(CommitMixin, AbstractCommand):
         with emgr.exclusive():
             rev = emgr.add(args[1:])
             self.do_commit(pkgdir, rev, emgr, repo)
-            if repeat_out != 0:
-                sys.exit(repeat_out)
 
         return args
 
