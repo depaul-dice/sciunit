@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y cmake && \
 RUN apt-get update & apt-get install -y software-properties-common && \
     apt-get clean
 
-RUN apt-get update && apt-get install -y python3.6 && \
+RUN apt-get update && apt-get install -y python3.7 && \
     apt-get clean
 
 RUN apt-get update && apt-get install -y python3-pip && \
