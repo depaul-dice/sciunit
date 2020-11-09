@@ -8,6 +8,8 @@ import itertools
 import errno
 from glob import glob
 
+import sciunit2.logger
+
 
 def quoted_format(fmt, *args):
     return fmt.format(*map(pipes.quote, args))
@@ -47,8 +49,10 @@ def mkdir_derivedfrom(base, sep, mode=0o777):
         except OSError as exc:
             if exc.errno == errno.EEXIST:
                 continue
-            raise  # pragma: no cover
 
+            sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "OSError", "util.py")
+            raise  # pragma: no cover
+    sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "IOError No usable temporary directory name found", "util.py")
     raise IOError(errno.EEXIST, "No usable temporary directory name found")
 
 
