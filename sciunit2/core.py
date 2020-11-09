@@ -4,6 +4,7 @@ from sciunit2.exceptions import CommandError
 from sciunit2.util import Chdir
 from sciunit2.cdelog import open
 import sciunit2.libexec
+import sciunit2.logger
 
 import os
 import shutil
@@ -37,6 +38,7 @@ def shell(env=None):
 def repeat(pkgdir, orig, newargs):
     if newargs:
         if not orig:
+            sciunit2.logger.runlog("error", "repeat", "interactive sciunit doesn't react to arguments", "core.py")
             raise CommandError(
                 "interactive sciunit doesn't react to arguments")
         with Chdir(pkgdir):
@@ -54,6 +56,7 @@ def repeat(pkgdir, orig, newargs):
         subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
     except subprocess.CalledProcessError as exc:
         print(exc.output)
+        sciunit2.logger.runlog("error", "repeat", exc.output, "core.py")
         return exc.returncode
     else:
         return 0
