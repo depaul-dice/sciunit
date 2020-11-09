@@ -16,6 +16,7 @@ from sciunit2.command.copy import CopyCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
 
+
 import sys
 from getopt import getopt, GetoptError
 from io import StringIO
@@ -56,7 +57,6 @@ def err1(msg):
 def err2(msg1, msg2):
     sys.stderr.write("sciunit: %s: %s\n" % (msg1, msg2))
 
-
 def main():
     try:
         _main(sys.argv[1:])
@@ -76,6 +76,7 @@ def main():
 
 
 def _main(args):
+    import sciunit2.logger
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
     if optlist:
         op, v = optlist[0]
@@ -101,18 +102,24 @@ def _main(args):
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
+                    sciunit2.logger.runlog("error", cmd.name, "command line error", "cli.py")
                     sys.exit(2)
                 except GetoptError as exc:
                     err2(cmd.name, exc.msg)
                     subcommand_usage(sys.stderr, [cmd])
+                    sciunit2.logger.runlog("error", cmd.name, exc.msg, "cli.py")
                     sys.exit(2)
                 except CommandError as exc:
                     err2(cmd.name, exc)
+                    sciunit2.logger.runlog("error", cmd.name, exc, "cli.py")
                     sys.exit(1)
                 except EOFError:
                     err1("End of file error!")
+                    sciunit2.logger.runlog("error", cmd.name, "end of file error", "cli.py")
                 break
         else:
+            sciunit2.logger.runlog("error", args[0], 'subcommand %r unrecognized' % args[0], "cli.py")
             raise GetoptError('subcommand %r unrecognized' % args[0])
     else:
+        sciunit2.logger.runlog("error", "none", "CommandLineError no arguments", "cli.py")
         raise CommandLineError
