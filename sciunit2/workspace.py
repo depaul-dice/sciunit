@@ -7,6 +7,7 @@ import sciunit2.records
 import sciunit2.archiver
 import sciunit2.ephemeral
 import sciunit2.wget
+import sciunit2.logger
 
 import os
 import re
@@ -126,6 +127,7 @@ def at():
             return p
 
     except (OSError, IOError):
+        sciunit2.logger.runlogat("error", "at()", "no opened sciunit", "workspace.py")
         raise CommandError('no opened sciunit')
 
 
