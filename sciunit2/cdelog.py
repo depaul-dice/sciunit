@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import builtins
 
 from sciunit2.util import quoted_format, quoted
+import sciunit2.logger
 
 import shlex
 import json
@@ -36,6 +37,7 @@ class DetachedExecution(object):
             yield ls
         except IOError as exc:
             if exc.errno != errno.ENOENT:
+                sciunit2.logger.runlog("error", "getcmd()", "IOError", "cdelog.py")
                 raise  # pragma: no cover
 
     # returns project dir path starting from ../cde-root/root/home/
