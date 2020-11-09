@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError, MalformedExecutionId
 from sciunit2 import timestamp
+import sciunit2.logger
 
 import os
 # import fcntl
@@ -120,6 +121,7 @@ class ExecutionManager(object):
                 last_id = last_row_id + 1
 
         except Error as e:
+            sciunit2.logger.runlog("error", "add", e, "records.py")
             print(e)
 
         self.__pending = (last_id, Metadata(args))
@@ -172,6 +174,7 @@ class ExecutionManager(object):
         if row != None:
             return row[1]
         else:
+            sciunit2.logger.runlog("error", "__get", 'execution %r not found' % self.__to_rev(i), "records.py")
             raise CommandError('execution %r not found' % self.__to_rev(i))
 
     def last(self):
@@ -309,6 +312,7 @@ class ExecutionManager(object):
     @staticmethod
     def __to_id(rev):
         if not re.match(r'^e[1-9]\d*$', rev):
+            sciunit2.logger.runlog("error", "__to_id", "malformed execution id", "records.py")
             raise MalformedExecutionId
         return int(rev[1:])
 
@@ -316,6 +320,7 @@ class ExecutionManager(object):
     def __to_id_range(revrange):
         r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
         if not r:
+            sciunit2.logger.runlog("error", "__to_id_range", "malformed execution id", "records.py")
             raise MalformedExecutionId
         return tuple(int(x) if x is not None else x for x in r.groups())
 
