@@ -18,10 +18,7 @@ def runlog(level, command, message, file):
         elif level == 'error':
             logger.error("{0} {1} {2} {3}".format(sciunit2.workspace.at(), command, message, file))
     except CommandError:
-        if level == 'warning':
-            logger.warning("{0} {1} {2}".format(command, message, file))
-        elif level == 'error':
-            logger.error("{0} {1} {2}".format(command, message, file))
+        runlogat(level, command, message, file)
 
 
 def runlogat(level, command, message, file):
