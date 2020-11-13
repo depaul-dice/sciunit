@@ -24,10 +24,11 @@ def _mkdir_p(path):
     try:
         os.makedirs(path)
         return True
-    except OSError as exc:
+    except OSError as exc:          #TODO: logging
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             return False
         else:
+            sciunit2.logger.runlog("error", "_mkdir_p()", "OSError", "workspace.py")
             raise
 
 
@@ -36,10 +37,11 @@ def _try_rename(from_):
         try:
             os.rename(from_, to)
             return True
-        except OSError as exc:
+        except OSError as exc: #TODO: logging
             if exc.errno == errno.ENOTEMPTY:
                 return False
             else:
+                sciunit2.logger.runlog("error", "_try_rename()", "OSError", "workspace.py")
                 raise
     return _inner
 
@@ -68,9 +70,12 @@ def rename(name):
 # creates the given folder if does not exist
 def _create(name, by):
     if not _is_path_component(name):
+        sciunit2.logger.runlog("error", "create", '%r contains disallowed characters' % name, "workspace,py")
         raise CommandError('%r contains disallowed characters' % name)
 
     if not by(location_for(name)):
+        sciunit2.logger.runlog("error", "create", 'directory %s already exists' %
+                           pipes.quote(location_for(name)), "workspace,py")
         raise CommandError('directory %s already exists' %
                            pipes.quote(location_for(name)))
 
@@ -88,14 +93,18 @@ def open(s):
         elif _is_path_component(s):
             p = location_for(s)
             if not os.path.isdir(p):
+                sciunit2.logger.runlog("error", "open", 'sciunit %r not found' % s, "workspace.py")
                 raise CommandError('sciunit %r not found' % s)
         else:
+            sciunit2.logger.runlog("error", "open", 'unrecognized source', "workspace.py")
             raise CommandError('unrecognized source')
 
     except sciunit2.archiver.BadZipfile as exc:
+        sciunit2.logger.runlog("error", "open", exc, "workspace.py")
         raise CommandError(exc)
 
     except urllib.error.HTTPError as exc:
+        sciunit2.logger.runlog("error", "open", '%d %s' % (exc.code, exc.msg), "workspace.py")
         raise CommandError('%d %s' % (exc.code, exc.msg))
 
     else:
