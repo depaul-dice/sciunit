@@ -15,6 +15,7 @@ from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
+import sciunit2.logger
 
 
 import sys
@@ -62,21 +63,24 @@ def main():
         _main(sys.argv[1:])
     except CommandLineError:
         short_usage(sys.stderr)
+        sciunit2.logger.runlog("error", "main()", "command line error", "cli.py")
         sys.exit(2)
     except GetoptError as exc:
         err1(exc.msg)
         short_usage(sys.stderr)
+        sciunit2.logger.runlog("error", "main()", exc.msg, "cli.py")
         sys.exit(2)
     except EnvironmentError as exc:
         if hasattr(exc, 'filename') and exc.filename is not None:
             err2(exc.filename, exc.strerror)
+            sciunit2.logger.runlog("error", "main()", "%s: %s" % (exc.filename, exc.strerror), "cli.py")
         else:  # pragma: no cover
             err1(exc.strerror)
+            sciunit2.logger.runlog("error", "main()", exc.strerror, "cli.py")
         sys.exit(1)
 
 
 def _main(args):
-    import sciunit2.logger
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
     if optlist:
         op, v = optlist[0]
