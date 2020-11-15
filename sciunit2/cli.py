@@ -15,7 +15,6 @@ from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
-import sciunit2.logger
 
 
 import sys
@@ -59,6 +58,7 @@ def err2(msg1, msg2):
     sys.stderr.write("sciunit: %s: %s\n" % (msg1, msg2))
 
 def main():
+    import sciunit2.logger
     try:
         _main(sys.argv[1:])
     except CommandLineError:
@@ -81,6 +81,7 @@ def main():
 
 
 def _main(args):
+    import sciunit2.logger
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
     if optlist:
         op, v = optlist[0]
