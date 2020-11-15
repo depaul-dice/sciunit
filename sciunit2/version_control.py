@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from sciunit2.exceptions import CommandError
 from sciunit2.util import quoted_format
 import sciunit2.libexec
+import sciunit2.logger
 
 import subprocess
 from subprocess import PIPE
@@ -15,7 +16,7 @@ from backports.tempfile import TemporaryDirectory
 # this class maintains the de-duplication engine
 # and supports the necessary operations to
 # store and retrieve execution instances
-class Vvpkg(object):
+class Vvpkg(object):  # TODO: logging
     __slots__ = 'location'
 
     def __init__(self, location):
@@ -42,6 +43,8 @@ class Vvpkg(object):
             self.cleanup(pkgdir)
             return int(err)
         else:
+            sciunit2.logger.runlog("error", "checkin()", 'execution %r already exists' % rev
+            if self.__found(rev) else err, "version_control.py")
             raise CommandError('execution %r already exists' % rev
                                if self.__found(rev) else err)
 
@@ -53,6 +56,8 @@ class Vvpkg(object):
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
         if p.wait() != 0:
+            sciunit2.logger.runlog("error", "checkout()", 'execution %r not found' % rev
+            if not self.__found(rev) else err, "version_control.py")
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
 
@@ -64,6 +69,8 @@ class Vvpkg(object):
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
         if p.wait() != 0:
+            sciunit2.logger.runlog("error", "checkout_Diff()", 'execution %r not found' % rev
+            if not self.__found(rev) else err, "version_control.py")
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
         diff_repo = os.path.join(self.location, 'Diff')
@@ -75,8 +82,9 @@ class Vvpkg(object):
     def unlink(self, rev):
         try:
             os.unlink(self.__physical(rev))
-        except OSError as exc:
+        except OSError as exc: #TODO: logging
             if exc.errno != errno.ENOENT:
+                sciunit2.logger.runlog("error", "unlink()", "OSError", "version_control.py")
                 raise  # pragma: no cover
 
     def chain_rename(self, revls):
@@ -103,4 +111,5 @@ class Vvpkg(object):
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 return False
             else:
+                sciunit2.logger.runlog("error", "_mkdir_p()", "OSError", "version_control.py")
                 raise
