@@ -1,14 +1,13 @@
 # Note: Converted
 from __future__ import absolute_import
 
+
 import os
 import pipes
 import tempfile
 import itertools
 import errno
 from glob import glob
-
-import sciunit2.logger
 
 
 def quoted_format(fmt, *args):
@@ -27,7 +26,7 @@ def globsub(ptrn, args):
     try:
         i = args.index('%')
         args[i:i + 1] = files
-    except ValueError:
+    except ValueError: #TODO: logging??
         pass
     return files, args
 
@@ -40,16 +39,16 @@ def _temp_names_derivedfrom(base, sep):
 
 
 def mkdir_derivedfrom(base, sep, mode=0o777):
+    import sciunit2.logger
     base = os.path.normpath(base)
 
     for p in _temp_names_derivedfrom(base, sep):
         try:
             os.mkdir(p, mode)
             return p
-        except OSError as exc:
+        except OSError as exc: #TODO: logging
             if exc.errno == errno.EEXIST:
                 continue
-
             sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "OSError", "util.py")
             raise  # pragma: no cover
     sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "IOError No usable temporary directory name found", "util.py")
