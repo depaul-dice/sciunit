@@ -32,5 +32,5 @@ class OpenCommand(AbstractCommand):
         return sciunit2.workspace.open(v)
 
     def note(self, p):
-        return "Switched to sciunit '{0}'\n".format(
+        return "switched to sciunit '{0}'\n".format(
             sciunit2.workspace.project(p))

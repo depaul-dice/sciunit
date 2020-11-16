@@ -65,3 +65,10 @@ class PushCommand(AbstractCommand):
                 sciunit2.sharing.article.save_recent(repo.location, article)
             except (NotAuthorized, NotFound) as exc:
                 raise CommandError(exc)
+
+        datatuple = (article, sciunit2.workspace.at())
+        return datatuple
+
+    def note(self, data):
+        return "pushed sciunit {0} to sharing service {1} with id {2}\n".format(
+            data[1], data[0].service, data[0].id)

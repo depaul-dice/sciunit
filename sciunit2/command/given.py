@@ -49,7 +49,8 @@ class GivenCommand(CommitMixin, AbstractCommand):
                     create_tree(dst, [os.path.relpath(p, '/') for p in files])
                     join_fn = str.__add__
                 else:
-                    dst = de.cwd_on_host()  # project dir inside ./cde-root/root/home
+                    dst = de.cwd_on_host()
+                    # project dir inside ./cde-root/root/home
                     create_tree(dst, files)
                     join_fn = os.path.join
 
@@ -73,4 +74,9 @@ class GivenCommand(CommitMixin, AbstractCommand):
         with emgr.exclusive():
             rev = emgr.add(args[1:])
             self.do_commit(pkgdir, rev, emgr, repo)
-            return sys.exit(repeat_out)
+
+        return args
+
+    def note(self, data):
+        return "repeated execution {0} with arguments {1}\n".format(
+            data[0], data[1])

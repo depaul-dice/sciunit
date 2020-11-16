@@ -34,3 +34,10 @@ class ExecCommand(CommitMixin, AbstractCommand):
             else:
                 sciunit2.core.capture(args)
             return self.do_commit('cde-package', rev, emgr, repo)
+
+    def note(self, p):
+        line = ""
+        for x in p[2].cmd:
+            line = line + x + " "
+        line = line[:-1]
+        return "executed {0} with command {1}\n".format(p[1], line)
