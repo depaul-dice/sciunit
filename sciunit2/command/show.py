@@ -6,6 +6,7 @@ from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.util import quoted
 from sciunit2 import timestamp
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import getopt
 import sys
@@ -23,6 +24,7 @@ class ShowCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) > 1:
+            sciunit2.logger.runlog("error", "show", "CommandLineError", "show.py")
             raise CommandLineError
 
         emgr, repo = sciunit2.workspace.current()
@@ -30,6 +32,7 @@ class ShowCommand(AbstractCommand):
 
         # if args:
         if len(args) == 0:
+            sciunit2.logger.runlog("error", "show", "CommandLineError", "show.py")
             raise CommandLineError
         rev = args[0]
         e = emgr.get(rev)
