@@ -6,6 +6,7 @@ import sciunit2.workspace
 import sciunit2.archiver
 import sciunit2.ephemeral
 from sciunit2.util import quoted_format
+import sciunit2.logger
 
 from getopt import getopt
 
@@ -22,6 +23,7 @@ class CopyCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, 'n')
         if args:
+            sciunit2.logger.runlog("error", "copy", "CommandLineError", "copy.py")
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.shared():
