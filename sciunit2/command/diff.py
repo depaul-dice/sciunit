@@ -23,6 +23,7 @@ class DiffCommand(AbstractCommand):
         # command is run like diff <execution id1> <execution id2>
         optlist, args = getopt(args, '')
         if len(args) <= 1:
+            sciunit2.logger.runlog("error", "diff", "CommandLineError", "diff.py")
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         # emgr is ExecutionManager, repo is Vvpkg
@@ -41,6 +42,7 @@ class DiffCommand(AbstractCommand):
             out, err = p.communicate()
             p_return_code = p.wait()
             if p_return_code != 0:
+                sciunit2.logger.runlog("error", "diff", "error executing diff command!", "diff.py")
                 return "error executing diff command!", err
 
             # process output by rsync command
@@ -55,6 +57,7 @@ class DiffCommand(AbstractCommand):
                          "Files with changed permissions:\n" + '\n'.join(perms_changed) + "\n\n"
             except Exception:
                 output = "error executing diff command!"
+                sciunit2.logger.runlog("error", "diff", "error executing diff command", "diff.py")
 
             return output, err
 
