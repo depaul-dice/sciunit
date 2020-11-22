@@ -21,6 +21,7 @@ class CreateCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) != 1:
+            sciunit2.logger.runlog("error", "create", "CommandLineError", "create.py")
             raise CommandLineError
         sciunit2.workspace.create(args[0])
         return sciunit2.workspace.open(args[0])
