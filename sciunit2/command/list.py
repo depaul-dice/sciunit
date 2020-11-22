@@ -5,7 +5,7 @@ from sciunit2.exceptions import CommandLineError
 from sciunit2.util import quoted
 from sciunit2 import timestamp
 import sciunit2.workspace
-
+import sciunit2.logger
 from getopt import getopt
 
 
@@ -19,6 +19,7 @@ class ListCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if args:
+            sciunit2.logger.runlog("error", "list", "CommandLineError", "list.py")
             raise CommandLineError
         emgr, _ = sciunit2.workspace.current()
         entries = run_listing(emgr)
