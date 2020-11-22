@@ -4,6 +4,7 @@ from sciunit2.command import AbstractCommand
 from sciunit2.command.context import CheckoutContext
 from sciunit2.exceptions import CommandLineError
 import sciunit2.core
+import sciunit2.logger
 
 from getopt import getopt
 import sys
@@ -20,6 +21,7 @@ class RepeatCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if not args:
+            sciunit2.logger.runlog("error", "repeat", "CommandLineError", "repeat.py")
             raise CommandLineError
         with CheckoutContext(args[0]) as (pkgdir, orig):
             returnValue = sciunit2.core.repeat(pkgdir, orig, args[1:])
