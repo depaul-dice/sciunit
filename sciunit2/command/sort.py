@@ -4,6 +4,7 @@ from sciunit2.command import AbstractCommand
 from sciunit2.command.list import run_listing
 from sciunit2.exceptions import CommandLineError
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import getopt
 
@@ -20,6 +21,7 @@ class SortCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if not args:
+            sciunit2.logger.runlog("error", "sort", "CommandLineError", "sort.py")
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.exclusive():
