@@ -28,6 +28,7 @@ class OpenCommand(AbstractCommand):
         elif len(args) == 1:
             v = args[0]
         else:
+            sciunit2.logger.runlog("error", "open", "CommandLineError", "open.py")
             raise CommandLineError
         return sciunit2.workspace.open(v)
 
