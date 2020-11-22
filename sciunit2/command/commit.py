@@ -6,6 +6,7 @@ from sciunit2.command.mixin import CommitMixin
 from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.cdelog import DetachedExecution
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import getopt
 import os
@@ -22,6 +23,7 @@ class CommitCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if args:
+            sciunit2.logger.runlog("error", "commit", "CommandLineError", "commit.py")
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()  # repo is vvpkg
         pkgdir = os.path.join(repo.location, 'cde-package')
@@ -30,6 +32,7 @@ class CommitCommand(CommitMixin, AbstractCommand):
                 rev = emgr.add(cmd)
                 return self.do_commit(pkgdir, rev, emgr, repo)
             else:
+                sciunit2.logger.runlog("error", "commit", "CommandError: nothing to commit", "commit.py")
                 raise CommandError('nothing to commit')
 
     def note(self, data):
