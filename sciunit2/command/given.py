@@ -31,12 +31,14 @@ class GivenCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) < 3 or args[1] != 'repeat':
+            sciunit2.logger.runlog("error", "repeat", "CommandLineError", "repeat.py")
             raise CommandLineError
         # args = <execution id> <file names in glob>
         files, args = globsub(args[0], args[2:])
         # files = list of files or dirs in <glob>
         # args = <execution id> list of args after % + files
         if not files:
+            sciunit2.logger.runlog("error", "repeat", "CommandError: no match", "repeat.py")
             raise CommandError('no match')
         self.name = 'repeat'
         optlist, args = getopt(args, '')
@@ -64,6 +66,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
                 # maybe use shutil.rmtree
 
             except DistutilsFileError as e:
+                sciunit2.logger.runlog("error", "given", "CommandError: DistutilsFileError", "given.py")
                 raise CommandError(e)
             else:
                 repeat_out = sciunit2.core.repeat(pkgdir, orig, args[1:])
