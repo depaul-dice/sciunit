@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from sciunit2.sharing import AbstractService, NotAuthorized, NotFound
+import sciunit2.logger
 
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
@@ -44,6 +45,7 @@ class HydroShare(AbstractService):
                     client_secret=CLIENT_SECRET,
                     token=self.__t.get()))
         except KeyError:
+            sciunit2.logger.runlog("error", "__assign_handle()", "KeyError: Unauthenticated", "hydroshare.py")
             raise Unauthenticated
 
     def __authenticated(f):
@@ -79,8 +81,10 @@ class HydroShare(AbstractService):
                 self.__t.reset(token)
                 return f(self, *args, **kwargs)
             except hs_restclient.HydroShareNotAuthorized as exc:
+                sciunit2.logger.runlog("error", "__refreshed()", "NotAuthorized", "hydroshare.py")
                 raise NotAuthorized(exc)
             except hs_restclient.HydroShareNotFound as exc:
+                sciunit2.logger.runlog("error", "__refreshed()", "NotFound", "hydroshare.py")
                 raise NotFound(exc)
         return inner
 
@@ -89,6 +93,7 @@ class HydroShare(AbstractService):
         self.__prepare_handle()
         u = self.__get_user()
         if 'username' not in u:
+            sciunit2.logger.runlog("error", "__login()", "Unauthenticated", "hydroshare.py")
             raise Unauthenticated
         self.__w.info(
             u'Logged in as "{0[last_name]}, {0[first_name]} <{0[email]}>"'

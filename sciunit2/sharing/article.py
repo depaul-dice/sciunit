@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from sciunit2.exceptions import CommandError
 from sciunit2.sharing import NotFound
 from sciunit2.config import Config
+import sciunit2.logger
 
 import os
 
@@ -21,6 +22,7 @@ def most_recent(path):
             return article
 
     except (NotFound, IOError):
+        sciunit2.logger.runlog("error", "most_recent", "no recently pushed article", "article.py")
         raise CommandError('no recently pushed article')
 
 
@@ -42,6 +44,7 @@ class Article(object):
             try:
                 return f(self)
             except KeyError:
+                sciunit2.logger.runlog("error", "inner()", 'article %r is not configured' % self.codename, "article.py")
                 raise NotFound('article %r is not configured' % self.codename)
         return inner
 
