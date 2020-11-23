@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from sciunit2.exceptions import CommandError
 from sciunit2.util import quoted_format
+
 import sciunit2.libexec
 import sciunit2.logger
 

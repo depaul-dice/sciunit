@@ -6,6 +6,7 @@ from sciunit2.exceptions import CommandLineError
 from sciunit2.util import path_injection_for
 import sciunit2.core
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import getopt
 from pkg_resources import resource_filename
@@ -24,6 +25,7 @@ class ExecCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, 'i')
         if bool(optlist) == bool(args):
+            sciunit2.logger.runlog("error", "exec", "CommandLineError", "__init__.py")
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.exclusive():

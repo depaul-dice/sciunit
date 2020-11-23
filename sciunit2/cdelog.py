@@ -35,7 +35,7 @@ class DetachedExecution(object):
             with open(self.__fn) as f:  # opens cde.log as a Script object
                 ls = f.read_cmd()   # reads the commands from cde.log
             yield ls
-        except IOError as exc:
+        except IOError as exc: #TODO: logging
             if exc.errno != errno.ENOENT:
                 sciunit2.logger.runlog("error", "getcmd()", "IOError", "cdelog.py")
                 raise  # pragma: no cover
