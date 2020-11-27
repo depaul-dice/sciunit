@@ -63,7 +63,7 @@ def main():
         _main(sys.argv[1:])
     except CommandLineError:
         short_usage(sys.stderr)
-        sciunit2.logger.runlog("error", "main()", "command line error", "cli.py")
+        sciunit2.logger.runlog("error", "main()", "CommandLineError", "cli.py")
         sys.exit(2)
     except GetoptError as exc:
         err1(exc.msg)
@@ -104,10 +104,11 @@ def _main(args):
                 try:
                     r = cmd.run(args[1:])
                     if r is not None:
+                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r), "cli.py")
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
-                    sciunit2.logger.runlog("error", cmd.name, "command line error", "cli.py")
+                    sciunit2.logger.runlog("error", cmd.name, "CommandLineError", "cli.py")
                     sys.exit(2)
                 except GetoptError as exc:
                     err2(cmd.name, exc.msg)
