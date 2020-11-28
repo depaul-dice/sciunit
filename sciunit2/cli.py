@@ -104,7 +104,7 @@ def _main(args):
                 try:
                     r = cmd.run(args[1:])
                     if r is not None:
-                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r), "cli.py")
+                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r).rstrip("\n"), "cli.py")
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
