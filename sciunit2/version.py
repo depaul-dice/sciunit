@@ -64,6 +64,7 @@ _GIT_DESCRIPTION_RE = r'^v(?P<ver>%s)-(?P<commits>\d+)-g(?P<sha>[\da-f]+)$' % (
 
 
 def read_git_version():
+    import sciunit2.logger
     try:
         proc = subprocess.Popen(('git', 'describe', '--long',
                                  '--match', 'v[0-9]*.*'),
@@ -73,6 +74,7 @@ def read_git_version():
             return
         ver = data.splitlines()[0].strip()
     except subprocess.CalledProcessError:
+        sciunit2.logger.runlog("warning", "read_git_version()", "CalledProcessError", "version.py")
         return
 
     if not ver:
@@ -92,6 +94,7 @@ def read_git_version():
 
 
 def read_release_version():
+    import sciunit2.logger
     try:
         fd = open(RELEASE_VERSION_FILE)
         try:
@@ -103,6 +106,7 @@ def read_release_version():
                              'will use it anyway\n' % (ver,))
         return ver
     except IOError:
+        sciunit2.logger.runlog("warning", "read_release_version()", "IOError", "version.py")
         return
 
 
@@ -113,9 +117,11 @@ def write_release_version(version):
 
 
 def get_version():
+    import sciunit2.logger
     release_version = read_release_version()
     version = read_git_version() or release_version
     if not version:
+        sciunit2.logger.runlog("error", "get_version()", "ValueErrpr: Cannot find the version number", "version.py")
         raise ValueError('Cannot find the version number')
     if version != release_version:
         write_release_version(version)

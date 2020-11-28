@@ -81,10 +81,10 @@ class HydroShare(AbstractService):
                 self.__t.reset(token)
                 return f(self, *args, **kwargs)
             except hs_restclient.HydroShareNotAuthorized as exc:
-                sciunit2.logger.runlog("error", "__refreshed()", "NotAuthorized", "hydroshare.py")
+                sciunit2.logger.runlog("error", "__refreshed()", "NotAuthorized: " + str(exc), "hydroshare.py")
                 raise NotAuthorized(exc)
             except hs_restclient.HydroShareNotFound as exc:
-                sciunit2.logger.runlog("error", "__refreshed()", "NotFound", "hydroshare.py")
+                sciunit2.logger.runlog("error", "__refreshed()", "NotFound: " + str(exc), "hydroshare.py")
                 raise NotFound(exc)
         return inner
 

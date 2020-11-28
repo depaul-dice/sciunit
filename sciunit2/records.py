@@ -121,7 +121,7 @@ class ExecutionManager(object):
                 last_id = last_row_id + 1
 
         except Error as e:
-            sciunit2.logger.runlog("error", "add", e, "records.py")
+            sciunit2.logger.runlog("warning", "add", str(e), "records.py")
             print(e)
 
         self.__pending = (last_id, Metadata(args))

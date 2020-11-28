@@ -28,7 +28,7 @@ def _mkdir_p(path):
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             return False
         else:
-            sciunit2.logger.runlog("error", "_mkdir_p()", "OSError", "workspace.py")
+            sciunit2.logger.runlog("error", "_mkdir_p()", str(exc), "workspace.py")
             raise
 
 
@@ -41,7 +41,7 @@ def _try_rename(from_):
             if exc.errno == errno.ENOTEMPTY:
                 return False
             else:
-                sciunit2.logger.runlog("error", "_try_rename()", "OSError", "workspace.py")
+                sciunit2.logger.runlog("error", "_try_rename()", str(exc), "workspace.py")
                 raise
     return _inner
 
@@ -136,7 +136,7 @@ def at():
             return p
 
     except (OSError, IOError):
-        sciunit2.logger.runlogat("error", "at()", "no opened sciunit", "workspace.py")
+        sciunit2.logger.runlogat("error", "at()", "CommandError: no opened sciunit", "workspace.py")
         raise CommandError('no opened sciunit')
 
 

@@ -1,7 +1,6 @@
 # Note: Converted
 from __future__ import absolute_import
 
-
 import os
 import pipes
 import tempfile
@@ -22,11 +21,13 @@ def quoted(args):
 # substitutes the first occurrence of %, if any, in 'args'
 # of the repeat mini-command with those filenames
 def globsub(ptrn, args):
+    import sciunit2.logger
     files = glob(ptrn)
     try:
         i = args.index('%')
         args[i:i + 1] = files
     except ValueError: #TODO: logging??
+        sciunit2.logger.runlog("warning", "globsub()", "ValueError", "util.py")
         pass
     return files, args
 
