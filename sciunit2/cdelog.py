@@ -96,6 +96,7 @@ class Script(object):
                 if ls:
                     break
                 else:
+                    sciunit2.logger.runlog("error", "__next__()", "StopIteration", "cdelog.py")
                     raise StopIteration
             else:
                 ls.append(tok)
