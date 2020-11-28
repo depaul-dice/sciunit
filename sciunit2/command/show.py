@@ -51,3 +51,4 @@ class ShowCommand(AbstractCommand):
               ('started', timestamp.fmt_iso(e.started))]
         for ln in ls:
             sys.stdout.write('%7s: %s\n' % ln)
+        sciunit2.logger.runlog("info", "show", "shown detailed information of execution %s" % rev, "show.py")
