@@ -1,6 +1,6 @@
 import logging
 import sciunit2.workspace
-from sciunit2.exceptions import CommandLineError, CommandError
+from sciunit2.exceptions import CommandError
 import os
 
 logger = logging.getLogger('sciunit')

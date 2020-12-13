@@ -17,7 +17,7 @@ from backports.tempfile import TemporaryDirectory
 # this class maintains the de-duplication engine
 # and supports the necessary operations to
 # store and retrieve execution instances
-class Vvpkg(object):  # TODO: logging
+class Vvpkg(object):
     __slots__ = 'location'
 
     def __init__(self, location):
@@ -83,9 +83,11 @@ class Vvpkg(object):  # TODO: logging
     def unlink(self, rev):
         try:
             os.unlink(self.__physical(rev))
-        except OSError as exc: #TODO: logging
+        except OSError as exc:
             if exc.errno != errno.ENOENT:
-                sciunit2.logger.runlog("error", "unlink()", "OSError", "version_control.py")
+                sciunit2.logger.runlog("error", "unlink()",
+                                       "OSError: failed to unlink {0}".format(self.__physical(rev)),
+                                       "version_control.py")
                 raise  # pragma: no cover
 
     def chain_rename(self, revls):
@@ -112,5 +114,6 @@ class Vvpkg(object):  # TODO: logging
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 return False
             else:
-                sciunit2.logger.runlog("error", "_mkdir_p()", "OSError", "version_control.py")
+                sciunit2.logger.runlog("error", "_mkdir_p()", "OSError: failed to make {0}".format(path),
+                                       "version_control.py")
                 raise
