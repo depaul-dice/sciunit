@@ -24,11 +24,11 @@ def _mkdir_p(path):
     try:
         os.makedirs(path)
         return True
-    except OSError as exc:          #TODO: logging
+    except OSError as exc:
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             return False
         else:
-            sciunit2.logger.runlog("error", "_mkdir_p()", str(exc), "workspace.py")
+            sciunit2.logger.runlog("error", "_mkdir_p()", "OSError failed to create {0}".format(path), "workspace.py")
             raise
 
 
@@ -37,11 +37,11 @@ def _try_rename(from_):
         try:
             os.rename(from_, to)
             return True
-        except OSError as exc: #TODO: logging
+        except OSError as exc:
             if exc.errno == errno.ENOTEMPTY:
                 return False
             else:
-                sciunit2.logger.runlog("error", "_try_rename()", str(exc), "workspace.py")
+                sciunit2.logger.runlog("error", "_try_rename()", "OSError failed to rename {0} to {1}".format(from_, to), "workspace.py")
                 raise
     return _inner
 
