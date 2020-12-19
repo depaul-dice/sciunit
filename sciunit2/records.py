@@ -312,7 +312,7 @@ class ExecutionManager(object):
     @staticmethod
     def __to_id(rev):
         if not re.match(r'^e[1-9]\d*$', rev):
-            sciunit2.logger.runlog("error", "__to_id", "malformed execution id", "records.py")
+            sciunit2.logger.runlog("error", "__to_id", "MalformedExecutionID", "records.py")
             raise MalformedExecutionId
         return int(rev[1:])
 
@@ -320,7 +320,7 @@ class ExecutionManager(object):
     def __to_id_range(revrange):
         r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
         if not r:
-            sciunit2.logger.runlog("error", "__to_id_range", "malformed execution id", "records.py")
+            sciunit2.logger.runlog("error", "__to_id_range", "MalformedExecutionID", "records.py")
             raise MalformedExecutionId
         return tuple(int(x) if x is not None else x for x in r.groups())
 

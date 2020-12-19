@@ -49,7 +49,7 @@ class PushCommand(AbstractCommand):
         try:
             srvcls = self.__srv[srvname]
         except KeyError:
-            sciunit2.logger.runlog("error", "push", "CommandError : unrecognized service %r" % srvname, "push.py")
+            sciunit2.logger.runlog("error", "push", "CommandError: unrecognized service %r" % srvname, "push.py")
             raise CommandError('unrecognized service %r' % srvname)
         else:
             srv = srvcls(sciunit2.credentials.for_(srvcls.name),
