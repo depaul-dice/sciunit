@@ -140,6 +140,19 @@ def at():
         raise CommandError('no opened sciunit')
 
 
+def atlog():
+    try:
+        with builtins.open(location_for('.activated')) as f:
+            ln = f.readline()
+            assert ln.endswith('\n')
+            p = ln[:-1]
+            os.stat(p)
+            return p
+
+    except (OSError, IOError):
+        raise CommandError('no opened sciunit')
+
+
 def current():
     p = at()   # returns directory of the active sciunit project
     creat_Diff_repo()
