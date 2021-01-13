@@ -16,7 +16,7 @@ class TqdmHook(tqdm):
 
 class ThrowOnErrorOpener(urllib.request.FancyURLopener):
     def http_error_default(self, url, fp, code, msg, hdrs):
-        sciunit2.logger.runlog("error", "http_error_default()",
+        sciunit2.logger.runlog("ERROR", "http_error_default()",
                                "HTTPError", __file__)
         raise urllib.error.HTTPError(url, code, msg.title(), hdrs, fp)
 

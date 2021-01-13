@@ -37,7 +37,7 @@ class DetachedExecution(object):
             yield ls
         except IOError as exc: #TODO: logging
             if exc.errno != errno.ENOENT:
-                sciunit2.logger.runlog("error", "getcmd()", "IOError", __file__)
+                sciunit2.logger.runlog("ERROR", "getcmd()", "IOError", __file__)
                 raise  # pragma: no cover
 
     # returns project dir path starting from ../cde-root/root/home/
@@ -96,7 +96,7 @@ class Script(object):
                 if ls:
                     break
                 else:
-                    sciunit2.logger.runlog("error", "__next__()", "StopIteration", __file__)
+                    sciunit2.logger.runlog("ERROR", "__next__()", "StopIteration", __file__)
                     raise StopIteration
             else:
                 ls.append(tok)

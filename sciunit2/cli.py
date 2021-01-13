@@ -71,11 +71,11 @@ def main():
     except EnvironmentError as exc:
         if hasattr(exc, 'filename') and exc.filename is not None:
             err2(exc.filename, exc.strerror)
-            sciunit2.logger.runlog("error", "main()",
+            sciunit2.logger.runlog("ERROR", "main()",
                                    "%s: %s" % (exc.filename, exc.strerror), __file__)
         else:  # pragma: no cover
             err1(exc.strerror)
-            sciunit2.logger.runlog("error", "main()", exc.strerror, "cli.py")
+            sciunit2.logger.runlog("ERROR", "main()", exc.strerror, "cli.py")
         sys.exit(1)
 
 
@@ -103,7 +103,7 @@ def _main(args):
                 try:
                     r = cmd.run(args[1:])
                     if r is not None:
-                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r).rstrip("\n"), __file__)
+                        sciunit2.logger.runlog("INFO", cmd.name, cmd.note(r).rstrip("\n"), __file__)
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
@@ -117,14 +117,14 @@ def _main(args):
                     sys.exit(1)
                 except EOFError:
                     err1("End of file error!")
-                    sciunit2.logger.runlog("error", cmd.name,
+                    sciunit2.logger.runlog("ERROR", cmd.name,
                                            "end of file error", __file__)
                 break
         else:
-            sciunit2.logger.runlog("error", args[0],
+            sciunit2.logger.runlog("ERROR", args[0],
                                    'subcommand %r unrecognized' % args[0], __file__)
             raise GetoptError('subcommand %r unrecognized' % args[0])
     else:
-        sciunit2.logger.runlog("error", "none",
+        sciunit2.logger.runlog("ERROR", "none",
                                "CommandLineError: no arguments", __file__)
         raise CommandLineError

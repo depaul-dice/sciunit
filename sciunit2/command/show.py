@@ -24,7 +24,7 @@ class ShowCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) > 1:
-            sciunit2.logger.runlog("error", "show",
+            sciunit2.logger.runlog("ERROR", "show",
                                    "CommandLineError: one argument expected",
                                    __file__)
             raise CommandLineError
@@ -34,7 +34,7 @@ class ShowCommand(AbstractCommand):
 
         # if args:
         if len(args) == 0:
-            sciunit2.logger.runlog("error", "show",
+            sciunit2.logger.runlog("ERROR", "show",
                                    "CommandLineError: one argument expected", __file__)
             raise CommandLineError
         rev = args[0]
@@ -54,6 +54,6 @@ class ShowCommand(AbstractCommand):
               ('started', timestamp.fmt_iso(e.started))]
         for ln in ls:
             sys.stdout.write('%7s: %s\n' % ln)
-        sciunit2.logger.runlog("info", "show",
+        sciunit2.logger.runlog("INFO", "show",
                                "shown detailed information of execution %s" % rev,
                                __file__)

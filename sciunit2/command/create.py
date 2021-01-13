@@ -21,7 +21,7 @@ class CreateCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) != 1:
-            sciunit2.logger.runlog("error", "create",
+            sciunit2.logger.runlog("ERROR", "create",
                                    "CommandLineError: one argument expected", __file__)
             raise CommandLineError
         sciunit2.workspace.create(args[0])

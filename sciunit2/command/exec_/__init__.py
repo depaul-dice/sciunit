@@ -25,7 +25,7 @@ class ExecCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, 'i')
         if bool(optlist) == bool(args):
-            sciunit2.logger.runlog("error", "exec",
+            sciunit2.logger.runlog("ERROR", "exec",
                                    "CommandLineError: "
                                    "number of optlist variables not the same as args variables", __file__)
             raise CommandLineError

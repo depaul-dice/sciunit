@@ -46,7 +46,7 @@ class DiffCommand(AbstractCommand):
             out, err = p.communicate()
             p_return_code = p.wait()
             if p_return_code != 0:
-                sciunit2.logger.runlog("error", "diff",
+                sciunit2.logger.runlog("ERROR", "diff",
                                        "error executing diff command!", "diff.py")
                 return "error executing diff command!", err
 
@@ -63,7 +63,7 @@ class DiffCommand(AbstractCommand):
                     '\n'.join(perms_changed) + "\n\n"
             except Exception:
                 output = "error executing diff command!"
-                sciunit2.logger.runlog("error", "diff",
+                sciunit2.logger.runlog("ERROR", "diff",
                                        "error executing diff command", "diff.py")
 
             return output, err

@@ -44,7 +44,7 @@ class Vvpkg(object):
             self.cleanup(pkgdir)
             return int(err)
         else:
-            sciunit2.logger.runlog("error", "checkin()", 'execution %r already exists' % rev
+            sciunit2.logger.runlog("ERROR", "checkin()", 'execution %r already exists' % rev
             if self.__found(rev) else err, __file__)
             raise CommandError('execution %r already exists' % rev
                                if self.__found(rev) else err)
@@ -57,7 +57,7 @@ class Vvpkg(object):
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
         if p.wait() != 0:
-            sciunit2.logger.runlog("error", "checkout()", 'execution %r not found' % rev
+            sciunit2.logger.runlog("ERROR", "checkout()", 'execution %r not found' % rev
             if not self.__found(rev) else err, __file__)
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
@@ -70,7 +70,7 @@ class Vvpkg(object):
         p = subprocess.Popen(cmd, shell=True, cwd=self.location, stderr=PIPE)
         _, err = p.communicate()
         if p.wait() != 0:
-            sciunit2.logger.runlog("error", "checkout_Diff()", 'execution %r not found' % rev
+            sciunit2.logger.runlog("ERROR", "checkout_Diff()", 'execution %r not found' % rev
             if not self.__found(rev) else err, __file__)
             raise CommandError('execution %r not found' % rev
                                if not self.__found(rev) else err)
@@ -85,7 +85,7 @@ class Vvpkg(object):
             os.unlink(self.__physical(rev))
         except OSError as exc:
             if exc.errno != errno.ENOENT:
-                sciunit2.logger.runlog("error", "unlink()",
+                sciunit2.logger.runlog("ERROR", "unlink()",
                                        "OSError: failed to unlink {0}".format(self.__physical(rev)),
                                        __file__)
                 raise  # pragma: no cover
@@ -114,7 +114,7 @@ class Vvpkg(object):
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 return False
             else:
-                sciunit2.logger.runlog("error", "_mkdir_p()",
+                sciunit2.logger.runlog("ERROR", "_mkdir_p()",
                                        "OSError: failed to make {0}".format(path),
                                        __file__)
                 raise

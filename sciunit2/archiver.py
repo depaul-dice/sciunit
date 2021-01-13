@@ -32,13 +32,13 @@ def extract(fn, root_constraint, root_transform):
     with zipfile2.ZipFile(fn) as f:
         ls = f.namelist()  # list of file names in the archive
         if not ls:
-            sciunit2.logger.runlog("error", "open", "empty ZIP file", __file__)
+            sciunit2.logger.runlog("ERROR", "open", "empty ZIP file", __file__)
             raise BadZipfile('empty ZIP file')
         # p contains all unique dirs referenced in the zip file
         # the map gets names of all directories in the zip file
         p = reduce(lambda x, y: x if x == y else '', map(_get_root, ls))
         if not root_constraint(p):
-            sciunit2.logger.runlog("error", "open", "suspicious ZIP source", __file__)
+            sciunit2.logger.runlog("ERROR", "open", "suspicious ZIP source", __file__)
             raise BadZipfile('suspicious ZIP source')
         np = mkdir_derivedfrom(root_transform(p), '__')
         for name in ls:

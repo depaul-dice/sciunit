@@ -18,13 +18,13 @@ def getpath(file):
 def runlog(level, command, message, file):
     file = getpath(file)
     try:
-        if level == 'warning':
+        if level == 'WARNING':
             logger.warning("{0} {1} {2} {3}".format(
                 sciunit2.workspace.at(1), command, message, file))
-        elif level == 'error':
+        elif level == 'ERROR':
             logger.error("{0} {1} {2} {3}".format(
                 sciunit2.workspace.at(1), command, message, file))
-        else:
+        elif level == 'INFO':
             logger.info("{0} {1} {2} {3}".format(
                 sciunit2.workspace.at(1), command, message, file))
     except CommandError:
@@ -33,9 +33,9 @@ def runlog(level, command, message, file):
 
 def runlogat(level, command, message, file):
     file = getpath(file)
-    if level == 'warning':
+    if level == 'WARNING':
         logger.warning("{0} {1} {2}".format(command, message, file))
-    elif level == 'error':
+    elif level == 'ERROR':
         logger.error("{0} {1} {2}".format(command, message, file))
-    else:
+    elif level == 'INFO':
         logger.info("{0} {1} {2}".format(command, message, file))

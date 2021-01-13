@@ -22,7 +22,7 @@ def most_recent(path):
             return article
 
     except (NotFound, IOError):
-        sciunit2.logger.runlog("error", "most_recent",
+        sciunit2.logger.runlog("ERROR", "most_recent",
                                "CommandError: no recently pushed article", __file__)
         raise CommandError('no recently pushed article')
 
@@ -45,7 +45,7 @@ class Article(object):
             try:
                 return f(self)
             except KeyError:
-                sciunit2.logger.runlog("error", "inner()",
+                sciunit2.logger.runlog("ERROR", "inner()",
                                        'NotFound: article %r is not configured' % self.codename, __file__)
                 raise NotFound('article %r is not configured' % self.codename)
         return inner

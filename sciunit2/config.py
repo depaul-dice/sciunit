@@ -16,7 +16,7 @@ class Config(configobj.ConfigObj):
     def section(self, name, side=None):
         if side is not None:
             if '"' in side:
-                sciunit2.logger.runlog("error", "scetion()", "ConfigObjError: Side %r cannot be quoted." % side, __file__)
+                sciunit2.logger.runlog("ERROR", "scetion()", "ConfigObjError: Side %r cannot be quoted." % side, __file__)
                 raise ConfigObjError('Side %r cannot be quoted.' % side)
             name = '%s "%s"' % (name, side)
         if name not in self:

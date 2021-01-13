@@ -27,7 +27,7 @@ def _mkdir_p(path):
         if exc.errno == errno.EEXIST and os.path.isdir(path):
             return False
         else:
-            sciunit2.logger.runlog("error", "_mkdir_p()",
+            sciunit2.logger.runlog("ERROR", "_mkdir_p()",
                                    "OSError failed to create {0}".format(path), __file__)
             raise
 
@@ -41,7 +41,7 @@ def _try_rename(from_):
             if exc.errno == errno.ENOTEMPTY:
                 return False
             else:
-                sciunit2.logger.runlog("error", "_try_rename()",
+                sciunit2.logger.runlog("ERROR", "_try_rename()",
                                        "OSError failed to rename {0} to {1}".format(
                                            from_, to), __file__)
                 raise
@@ -73,12 +73,12 @@ def rename(name):
 # creates the given folder if does not exist
 def _create(name, by):
     if not _is_path_component(name):
-        sciunit2.logger.runlog("error", "create", ''
+        sciunit2.logger.runlog("ERROR", "create", ''
                                                   '%r contains disallowed characters' % name, __file__)
         raise CommandError('%r contains disallowed characters' % name)
 
     if not by(location_for(name)):
-        sciunit2.logger.runlog("error", "create",
+        sciunit2.logger.runlog("ERROR", "create",
                                'directory %s already exists' %
                                pipes.quote(location_for(name)), __file__)
         raise CommandError('directory %s already exists' %
@@ -98,20 +98,20 @@ def open(s):
         elif _is_path_component(s):
             p = location_for(s)
             if not os.path.isdir(p):
-                sciunit2.logger.runlog("error", "open",
+                sciunit2.logger.runlog("ERROR", "open",
                                        'sciunit %r not found' % s, __file__)
                 raise CommandError('sciunit %r not found' % s)
         else:
-            sciunit2.logger.runlog("error", "open",
+            sciunit2.logger.runlog("ERROR", "open",
                                    'unrecognized source', __file__)
             raise CommandError('unrecognized source')
 
     except sciunit2.archiver.BadZipfile as exc:
-        sciunit2.logger.runlog("error", "open", exc, __file__)
+        sciunit2.logger.runlog("ERROR", "open", exc, __file__)
         raise CommandError(exc)
 
     except urllib.error.HTTPError as exc:
-        sciunit2.logger.runlog("error", "open",
+        sciunit2.logger.runlog("ERROR", "open",
                                '%d %s' % (exc.code, exc.msg), __file__)
         raise CommandError('%d %s' % (exc.code, exc.msg))
 

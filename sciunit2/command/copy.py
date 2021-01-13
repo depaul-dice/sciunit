@@ -23,7 +23,7 @@ class CopyCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, 'n')
         if args:
-            sciunit2.logger.runlog("error", "copy",
+            sciunit2.logger.runlog("ERROR", "copy",
                                    "CommandLineError: no arguments expected", __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()

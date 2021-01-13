@@ -29,7 +29,7 @@ class PushCommand(AbstractCommand):
         optlist, args = gnu_getopt(args, '', ['setup=', 'file='])
         setup = '--setup' in dict(optlist)
         if setup and not args or len(args) > 1 or len(optlist) > 1:
-            sciunit2.logger.runlog("error", "push",
+            sciunit2.logger.runlog("ERROR", "push",
                                    "CommandLineError: unexpected arguments", __file__)
             raise CommandLineError
 
@@ -51,7 +51,7 @@ class PushCommand(AbstractCommand):
         try:
             srvcls = self.__srv[srvname]
         except KeyError:
-            sciunit2.logger.runlog("error", "push",
+            sciunit2.logger.runlog("ERROR", "push",
                                    "CommandError: unrecognized service %r" % srvname, __file__)
             raise CommandError('unrecognized service %r' % srvname)
         else:
@@ -70,7 +70,7 @@ class PushCommand(AbstractCommand):
                 srv.push(article, fn)
                 sciunit2.sharing.article.save_recent(repo.location, article)
             except (NotAuthorized, NotFound) as exc:
-                sciunit2.logger.runlog("error", "push",
+                sciunit2.logger.runlog("ERROR", "push",
                                        "CommandError: error with article", __file__)
                 raise CommandError(exc)
 

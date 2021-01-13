@@ -31,7 +31,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) < 3 or args[1] != 'repeat':
-            sciunit2.logger.runlog("error", "repeat",
+            sciunit2.logger.runlog("ERROR", "repeat",
                                    "CommandLineError: "
                                    "less than three arguments expected and repeat as second argument",
                                    "repeat.py")
@@ -41,7 +41,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
         # files = list of files or dirs in <glob>
         # args = <execution id> list of args after % + files
         if not files:
-            sciunit2.logger.runlog("error", "repeat",
+            sciunit2.logger.runlog("ERROR", "repeat",
                                    "CommandError: no match in files listed in <glob>", __file__)
             raise CommandError('no match')
         self.name = 'repeat'
@@ -70,7 +70,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
                 # maybe use shutil.rmtree
 
             except DistutilsFileError as e:
-                sciunit2.logger.runlog("error", "given",
+                sciunit2.logger.runlog("ERROR", "given",
                                        "CommandError: DistutilsFileError", "given.py")
                 raise CommandError(e)
             else:

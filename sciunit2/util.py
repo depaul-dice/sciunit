@@ -27,7 +27,7 @@ def globsub(ptrn, args):
         i = args.index('%')
         args[i:i + 1] = files
     except ValueError:
-        sciunit2.logger.runlog("warning", "globsub()", "ValueError", __file__)
+        sciunit2.logger.runlog("WARNING", "globsub()", "ValueError", __file__)
         pass
     return files, args
 
@@ -50,9 +50,9 @@ def mkdir_derivedfrom(base, sep, mode=0o777):
         except OSError as exc:
             if exc.errno == errno.EEXIST:
                 continue
-            sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "OSError failed to create {0}".format(base), __file__)
+            sciunit2.logger.runlog("ERROR", "mkdir_derivedfrom()", "OSError failed to create {0}".format(base), __file__)
             raise  # pragma: no cover
-    sciunit2.logger.runlog("error", "mkdir_derivedfrom()", "IOError: No usable temporary directory name found", __file__)
+    sciunit2.logger.runlog("ERROR", "mkdir_derivedfrom()", "IOError: No usable temporary directory name found", __file__)
     raise IOError(errno.EEXIST, "No usable temporary directory name found")
 
 

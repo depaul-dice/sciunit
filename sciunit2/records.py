@@ -121,7 +121,7 @@ class ExecutionManager(object):
                 last_id = last_row_id + 1
 
         except Error as e:
-            sciunit2.logger.runlog("warning", "add", str(e), __file__)
+            sciunit2.logger.runlog("WARNING", "add", str(e), __file__)
             print(e)
 
         self.__pending = (last_id, Metadata(args))
@@ -174,7 +174,7 @@ class ExecutionManager(object):
         if row != None:
             return row[1]
         else:
-            sciunit2.logger.runlog("error", "__get", 'execution %r not found' % self.__to_rev(i), __file__)
+            sciunit2.logger.runlog("ERROR", "__get", 'execution %r not found' % self.__to_rev(i), __file__)
             raise CommandError('execution %r not found' % self.__to_rev(i))
 
     def last(self):
@@ -312,7 +312,7 @@ class ExecutionManager(object):
     @staticmethod
     def __to_id(rev):
         if not re.match(r'^e[1-9]\d*$', rev):
-            sciunit2.logger.runlog("error", "__to_id", "MalformedExecutionID", __file__)
+            sciunit2.logger.runlog("ERROR", "__to_id", "MalformedExecutionID", __file__)
             raise MalformedExecutionId
         return int(rev[1:])
 
@@ -320,7 +320,7 @@ class ExecutionManager(object):
     def __to_id_range(revrange):
         r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
         if not r:
-            sciunit2.logger.runlog("error", "__to_id_range", "MalformedExecutionID", __file__)
+            sciunit2.logger.runlog("ERROR", "__to_id_range", "MalformedExecutionID", __file__)
             raise MalformedExecutionId
         return tuple(int(x) if x is not None else x for x in r.groups())
 

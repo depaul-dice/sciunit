@@ -45,7 +45,7 @@ class HydroShare(AbstractService):
                     client_secret=CLIENT_SECRET,
                     token=self.__t.get()))
         except KeyError:
-            sciunit2.logger.runlog("error", "__assign_handle()", "KeyError: Unauthenticated", __file__)
+            sciunit2.logger.runlog("ERROR", "__assign_handle()", "KeyError: Unauthenticated", __file__)
             raise Unauthenticated
 
     def __authenticated(f):
@@ -81,11 +81,11 @@ class HydroShare(AbstractService):
                 self.__t.reset(token)
                 return f(self, *args, **kwargs)
             except hs_restclient.HydroShareNotAuthorized as exc:
-                sciunit2.logger.runlog("error", "__refreshed()",
+                sciunit2.logger.runlog("ERROR", "__refreshed()",
                                        str(exc).rstrip("\n"), __file__)
                 raise NotAuthorized(exc)
             except hs_restclient.HydroShareNotFound as exc:
-                sciunit2.logger.runlog("error", "__refreshed()",
+                sciunit2.logger.runlog("ERROR", "__refreshed()",
                                        str(exc).rstrip("\n"), __file__)
                 raise NotFound(exc)
         return inner
@@ -95,7 +95,7 @@ class HydroShare(AbstractService):
         self.__prepare_handle()
         u = self.__get_user()
         if 'username' not in u:
-            sciunit2.logger.runlog("error", "__login()",
+            sciunit2.logger.runlog("ERROR", "__login()",
                                    "Unauthenticated", __file__)
             raise Unauthenticated
         self.__w.info(
