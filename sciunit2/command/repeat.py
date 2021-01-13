@@ -21,7 +21,8 @@ class RepeatCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if not args:
-            sciunit2.logger.runlog("error", "repeat", "CommandLineError", "repeat.py")
+            sciunit2.logger.runlog("error", "repeat",
+                                   "CommandLineError: arguemtn expected", __file__)
             raise CommandLineError
         with CheckoutContext(args[0]) as (pkgdir, orig):
             returnValue = sciunit2.core.repeat(pkgdir, orig, args[1:])

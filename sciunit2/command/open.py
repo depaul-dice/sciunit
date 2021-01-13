@@ -22,13 +22,16 @@ class OpenCommand(AbstractCommand):
         optlist, args = getopt(args, 'm:')
         if optlist:
             if args:
+                sciunit2.logger.runlog("error", "open",
+                                       "CommandLineError: unexpected arguments", __file__)
                 raise CommandLineError
             _, v = optlist[0]
             sciunit2.workspace.rename(v)
         elif len(args) == 1:
             v = args[0]
         else:
-            sciunit2.logger.runlog("error", "open", "CommandLineError", "open.py")
+            sciunit2.logger.runlog("error", "open",
+                                   "CommandLineError: unexpected arguments", __file__)
             raise CommandLineError
         return sciunit2.workspace.open(v)
 

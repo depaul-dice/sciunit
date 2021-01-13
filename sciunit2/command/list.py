@@ -19,16 +19,18 @@ class ListCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if args:
-            sciunit2.logger.runlog("error", "list", "CommandLineError", "list.py")
+            sciunit2.logger.runlog("error", "list",
+                                   "CommandLineError: no arguments expected", __file__)
             raise CommandLineError
         emgr, _ = sciunit2.workspace.current()
         entries = run_listing(emgr)
         if entries == 0:
-            sciunit2.logger.runlog("info", "list", "no executions in the sciunit", "list.py")
+            sciunit2.logger.runlog("info", "list",
+                                   "no executions in the sciunit", "list.py")
             self.none()
         else:
-            sciunit2.logger.runlog("info", "list", "listed exection in the sciunit", "list.py")
-
+            sciunit2.logger.runlog("info", "list",
+                                   "listed exection in the sciunit", "list.py")
 
     def none(self):
         print("No Executions Found\n")

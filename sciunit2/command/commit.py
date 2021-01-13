@@ -23,7 +23,8 @@ class CommitCommand(CommitMixin, AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if args:
-            sciunit2.logger.runlog("error", "commit", "CommandLineError", "commit.py")
+            sciunit2.logger.runlog("error", "commit",
+                                   "CommandLineError: no arguments expected", __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()  # repo is vvpkg
         pkgdir = os.path.join(repo.location, 'cde-package')
@@ -32,7 +33,8 @@ class CommitCommand(CommitMixin, AbstractCommand):
                 rev = emgr.add(cmd)
                 return self.do_commit(pkgdir, rev, emgr, repo)
             else:
-                sciunit2.logger.runlog("error", "commit", "CommandError: nothing to commit", "commit.py")
+                sciunit2.logger.runlog("error", "commit",
+                                       "CommandError: nothing to commit", __file__)
                 raise CommandError('nothing to commit')
 
     def note(self, data):

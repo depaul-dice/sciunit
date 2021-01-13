@@ -27,14 +27,16 @@ class RmCommand(AbstractCommand):
     def __to_id_range(revrange):
         r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
         if not r:
-            sciunit2.logger.runlog("error", "rm", "MalformedExecutionID", "rm.py")
+            sciunit2.logger.runlog("error", "rm",
+                                   "MalformedExecutionID", __file__)
             raise MalformedExecutionId
         return tuple(int(x) if x is not None else x for x in r.groups())
 
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) != 1:
-            sciunit2.logger.runlog("error", "rm", "CommandLineError", "rm.py")
+            sciunit2.logger.runlog("error", "rm",
+                                   "CommandLineError: one argument expected", __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.exclusive():

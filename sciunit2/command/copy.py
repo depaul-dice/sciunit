@@ -23,7 +23,8 @@ class CopyCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, 'n')
         if args:
-            sciunit2.logger.runlog("error", "copy", "CommandLineError", "copy.py")
+            sciunit2.logger.runlog("error", "copy",
+                                   "CommandLineError: no arguments expected", __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.shared():
@@ -36,4 +37,5 @@ class CopyCommand(AbstractCommand):
         return sciunit2.workspace.project(repo.location)
 
     def note(self, user_data):
-        return quoted_format('copied sciunit {0} to remote location\n', user_data)
+        return quoted_format(
+            'copied sciunit {0} to remote location\n', user_data)

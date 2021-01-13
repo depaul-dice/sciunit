@@ -23,7 +23,8 @@ class DiffCommand(AbstractCommand):
         # command is run like diff <execution id1> <execution id2>
         optlist, args = getopt(args, '')
         if len(args) <= 1:
-            sciunit2.logger.runlog("error", "diff", "CommandLineError", "diff.py")
+            sciunit2.logger.runlog(
+                "error", "diff", "CommandLineError: one or fewer arguments expected", __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         # emgr is ExecutionManager, repo is Vvpkg
@@ -32,17 +33,21 @@ class DiffCommand(AbstractCommand):
         # exclusive performs a lock on the berkeleydb instance
         with emgr.exclusive():
             orig1 = emgr.get(args[0]).cmd
-            diffdir = os.path.join(repo.location, 'Diff')  # repo.location is the project dir
+            # repo.location is the project dir
+            diffdir = os.path.join(repo.location, 'Diff')
             repo.checkout_Diff(args[0])
             orig2 = emgr.get(args[1]).cmd
             repo.checkout_Diff(args[1])
 
-            cmd = quoted_format('rsync -nai --delete {0}/ {1}/', args[0], args[1])
-            p = subprocess.Popen(cmd, shell=True, cwd=diffdir, stderr=PIPE, stdout=PIPE)
+            cmd = quoted_format(
+                'rsync -nai --delete {0}/ {1}/', args[0], args[1])
+            p = subprocess.Popen(
+                cmd, shell=True, cwd=diffdir, stderr=PIPE, stdout=PIPE)
             out, err = p.communicate()
             p_return_code = p.wait()
             if p_return_code != 0:
-                sciunit2.logger.runlog("error", "diff", "error executing diff command!", "diff.py")
+                sciunit2.logger.runlog("error", "diff",
+                                       "error executing diff command!", "diff.py")
                 return "error executing diff command!", err
 
             # process output by rsync command
@@ -54,10 +59,12 @@ class DiffCommand(AbstractCommand):
                          "Files only in e2:\n" + '\n'.join(new_e2) + "\n\n" + \
                          "Files with changed size:\n" + '\n'.join(size_changed) + "\n\n" + \
                          "Files with changed modified time:\n" + '\n'.join(time_changed) + "\n\n" + \
-                         "Files with changed permissions:\n" + '\n'.join(perms_changed) + "\n\n"
+                         "Files with changed permissions:\n" + \
+                    '\n'.join(perms_changed) + "\n\n"
             except Exception:
                 output = "error executing diff command!"
-                sciunit2.logger.runlog("error", "diff", "error executing diff command", "diff.py")
+                sciunit2.logger.runlog("error", "diff",
+                                       "error executing diff command", "diff.py")
 
             return output, err
 

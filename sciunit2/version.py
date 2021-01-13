@@ -74,7 +74,7 @@ def read_git_version():
             return
         ver = data.splitlines()[0].strip()
     except subprocess.CalledProcessError:
-        sciunit2.logger.runlog("warning", "read_git_version()", "CalledProcessError", "version.py")
+        sciunit2.logger.runlog("warning", "read_git_version()", "CalledProcessError", __file__)
         return
 
     if not ver:
@@ -106,7 +106,7 @@ def read_release_version():
                              'will use it anyway\n' % (ver,))
         return ver
     except IOError:
-        sciunit2.logger.runlog("warning", "read_release_version()", "IOError", "version.py")
+        sciunit2.logger.runlog("warning", "read_release_version()", "IOError", __file__)
         return
 
 
@@ -121,7 +121,7 @@ def get_version():
     release_version = read_release_version()
     version = read_git_version() or release_version
     if not version:
-        sciunit2.logger.runlog("error", "get_version()", "ValueErrpr: Cannot find the version number", "version.py")
+        sciunit2.logger.runlog("error", "get_version()", "ValueErrpr: Cannot find the version number", __file__)
         raise ValueError('Cannot find the version number')
     if version != release_version:
         write_release_version(version)

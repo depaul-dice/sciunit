@@ -21,7 +21,9 @@ class SortCommand(AbstractCommand):
     def run(self, args):
         optlist, args = getopt(args, '')
         if not args:
-            sciunit2.logger.runlog("error", "sort", "CommandLineError", "sort.py")
+            sciunit2.logger.runlog("error", "sort",
+                                   "CommandLineError: arguments expected",
+                                   __file__)
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()
         with emgr.exclusive():

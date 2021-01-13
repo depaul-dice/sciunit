@@ -38,7 +38,7 @@ def shell(env=None):
 def repeat(pkgdir, orig, newargs):
     if newargs:
         if not orig:
-            sciunit2.logger.runlog("error", "repeat()", "CommandError: interactive sciunit doesn't react to arguments", "core.py")
+            sciunit2.logger.runlog("error", "repeat()", "CommandError: interactive sciunit doesn't react to arguments", __file__)
             raise CommandError(
                 "interactive sciunit doesn't react to arguments")
         with Chdir(pkgdir):

@@ -63,17 +63,16 @@ def main():
         _main(sys.argv[1:])
     except CommandLineError:
         short_usage(sys.stderr)
-        sciunit2.logger.runlog("error", "main()", "CommandLineError", "cli.py")
         sys.exit(2)
     except GetoptError as exc:
         err1(exc.msg)
         short_usage(sys.stderr)
-        sciunit2.logger.runlog("error", "main()", exc.msg, "cli.py")
         sys.exit(2)
     except EnvironmentError as exc:
         if hasattr(exc, 'filename') and exc.filename is not None:
             err2(exc.filename, exc.strerror)
-            sciunit2.logger.runlog("error", "main()", "%s: %s" % (exc.filename, exc.strerror), "cli.py")
+            sciunit2.logger.runlog("error", "main()",
+                                   "%s: %s" % (exc.filename, exc.strerror), __file__)
         else:  # pragma: no cover
             err1(exc.strerror)
             sciunit2.logger.runlog("error", "main()", exc.strerror, "cli.py")
@@ -104,28 +103,28 @@ def _main(args):
                 try:
                     r = cmd.run(args[1:])
                     if r is not None:
-                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r).rstrip("\n"), "cli.py")
+                        sciunit2.logger.runlog("info", cmd.name, cmd.note(r).rstrip("\n"), __file__)
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])
-                    sciunit2.logger.runlog("error", cmd.name, "CommandLineError", "cli.py")
                     sys.exit(2)
                 except GetoptError as exc:
                     err2(cmd.name, exc.msg)
                     subcommand_usage(sys.stderr, [cmd])
-                    sciunit2.logger.runlog("error", cmd.name, exc.msg, "cli.py")
                     sys.exit(2)
                 except CommandError as exc:
                     err2(cmd.name, exc)
-                    sciunit2.logger.runlog("error", cmd.name, exc, "cli.py")
                     sys.exit(1)
                 except EOFError:
                     err1("End of file error!")
-                    sciunit2.logger.runlog("error", cmd.name, "end of file error", "cli.py")
+                    sciunit2.logger.runlog("error", cmd.name,
+                                           "end of file error", __file__)
                 break
         else:
-            sciunit2.logger.runlog("error", args[0], 'subcommand %r unrecognized' % args[0], "cli.py")
+            sciunit2.logger.runlog("error", args[0],
+                                   'subcommand %r unrecognized' % args[0], __file__)
             raise GetoptError('subcommand %r unrecognized' % args[0])
     else:
-        sciunit2.logger.runlog("error", "none", "CommandLineError no arguments", "cli.py")
+        sciunit2.logger.runlog("error", "none",
+                               "CommandLineError: no arguments", __file__)
         raise CommandLineError
