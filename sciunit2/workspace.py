@@ -17,7 +17,6 @@ from urllib.parse import urlparse
 import urllib.request
 import urllib.error
 
-
 # acts like mkdir -p. Creates the complete
 # directory tree if it does not exist
 def _mkdir_p(path):
@@ -135,7 +134,8 @@ def _extract(fn):
 # returns the location of .activated file in ~/sciunit
 # .activated file contains the name of the currently
 # active sciunit project
-def at():
+
+def at(*log):
     try:
         with builtins.open(location_for('.activated')) as f:
             ln = f.readline()
@@ -145,22 +145,12 @@ def at():
             return p
 
     except (OSError, IOError):
-        sciunit2.logger.runlogat("error", "at()",
+        if log is None:
+            sciunit2.logger.runlogat("error", "at()",
                                  "CommandError: no opened sciunit", __file__)
         raise CommandError('no opened sciunit')
 
 
-def atlog():
-    try:
-        with builtins.open(location_for('.activated')) as f:
-            ln = f.readline()
-            assert ln.endswith('\n')
-            p = ln[:-1]
-            os.stat(p)
-            return p
-
-    except (OSError, IOError):
-        raise CommandError('no opened sciunit')
 
 
 def current():

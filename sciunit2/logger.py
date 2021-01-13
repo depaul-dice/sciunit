@@ -20,13 +20,13 @@ def runlog(level, command, message, file):
     try:
         if level == 'warning':
             logger.warning("{0} {1} {2} {3}".format(
-                sciunit2.workspace.atlog(), command, message, file))
+                sciunit2.workspace.at(1), command, message, file))
         elif level == 'error':
             logger.error("{0} {1} {2} {3}".format(
-                sciunit2.workspace.atlog(), command, message, file))
+                sciunit2.workspace.at(1), command, message, file))
         else:
             logger.info("{0} {1} {2} {3}".format(
-                sciunit2.workspace.atlog(), command, message, file))
+                sciunit2.workspace.at(1), command, message, file))
     except CommandError:
         runlogat(level, command, message, file)
 
