@@ -17,6 +17,7 @@ from urllib.parse import urlparse
 import urllib.request
 import urllib.error
 
+
 # acts like mkdir -p. Creates the complete
 # directory tree if it does not exist
 def _mkdir_p(path):
@@ -147,10 +148,8 @@ def at(*log):
     except (OSError, IOError):
         if log is None:
             sciunit2.logger.runlogat("error", "at()",
-                                 "CommandError: no opened sciunit", __file__)
+                                     "CommandError: no opened sciunit", __file__)
         raise CommandError('no opened sciunit')
-
-
 
 
 def current():

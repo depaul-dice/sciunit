@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from sciunit2.command import AbstractCommand
 from sciunit2.exceptions import CommandLineError
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import getopt
 

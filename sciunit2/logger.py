@@ -31,7 +31,7 @@ def runlog(level, command, message, file):
             logger.info("{0} {1} {2} {3}".format(
                 sciunit2.workspace.at(1), command, message, file))
         return 0
-    except CommandError: #if sciunit not open
+    except CommandError:  # if sciunit not open
         return runlogat(level, command, message, file)
 
 

@@ -4,6 +4,7 @@ from sciunit2.command import AbstractCommand
 from sciunit2.exceptions import CommandLineError
 import sciunit2.workspace
 from sciunit2.util import quoted_format
+import sciunit2.logger
 
 from getopt import getopt
 import os

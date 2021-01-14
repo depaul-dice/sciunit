@@ -33,7 +33,7 @@ class ShowCommand(AbstractCommand):
         name = sciunit2.workspace.project(repo.location)
 
         # if args:
-        if len(args) == 0:
+        if len(args) == 0:  # TODO: check if conditional can be combined with the above
             sciunit2.logger.runlog("ERROR", "show",
                                    "CommandLineError: one argument expected", __file__)
             raise CommandLineError

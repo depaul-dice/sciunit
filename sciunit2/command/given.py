@@ -16,6 +16,7 @@ from sciunit2.command.context import CheckoutContext
 from sciunit2.command.mixin import CommitMixin
 from sciunit2.exceptions import CommandLineError, CommandError
 from sciunit2.util import globsub
+import sciunit2.logger
 
 
 class GivenCommand(CommitMixin, AbstractCommand):

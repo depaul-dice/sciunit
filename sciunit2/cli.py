@@ -57,6 +57,7 @@ def err1(msg):
 def err2(msg1, msg2):
     sys.stderr.write("sciunit: %s: %s\n" % (msg1, msg2))
 
+
 def main():
     import sciunit2.logger
     try:

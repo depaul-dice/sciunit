@@ -8,6 +8,7 @@ from sciunit2.sharing.hydroshare import HydroShare
 import sciunit2.sharing.article
 import sciunit2.credentials
 import sciunit2.workspace
+import sciunit2.logger
 
 from getopt import gnu_getopt
 

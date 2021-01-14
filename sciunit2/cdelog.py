@@ -33,11 +33,11 @@ class DetachedExecution(object):
     def getcmd(self):
         try:
             with open(self.__fn) as f:  # opens cde.log as a Script object
-                ls = f.read_cmd()   # reads the commands from cde.log
+                ls = f.read_cmd()  # reads the commands from cde.log
             yield ls
-        except IOError as exc: #TODO: logging
+        except IOError as exc:
             if exc.errno != errno.ENOENT:
-                sciunit2.logger.runlog("ERROR", "getcmd()", "IOError", __file__)
+                sciunit2.logger.runlog("ERROR", "getcmd()", "IOError: file not found", __file__)
                 raise  # pragma: no cover
 
     # returns project dir path starting from ../cde-root/root/home/

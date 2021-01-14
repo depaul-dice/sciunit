@@ -38,7 +38,8 @@ def shell(env=None):
 def repeat(pkgdir, orig, newargs):
     if newargs:
         if not orig:
-            sciunit2.logger.runlog("ERROR", "repeat()", "CommandError: interactive sciunit doesn't react to arguments", __file__)
+            sciunit2.logger.runlog("ERROR", "repeat()", "CommandError: interactive sciunit doesn't react to arguments",
+                                   __file__)
             raise CommandError(
                 "interactive sciunit doesn't react to arguments")
         with Chdir(pkgdir):
@@ -54,9 +55,9 @@ def repeat(pkgdir, orig, newargs):
                 f.insert(ls[:1] + newargs)
     try:
         subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
-    except subprocess.CalledProcessError as exc:
+    except subprocess.CalledProcessError as exc:  # TODO: confirm exc.output which currently prints b''
         print(exc.output)
-        sciunit2.logger.runlog("ERROR", "repeat()", exc.output, "core.py")
+        sciunit2.logger.runlog("ERROR", "repeat()", exc.output, __file__)
         return exc.returncode
     else:
         return 0

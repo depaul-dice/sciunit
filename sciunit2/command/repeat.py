@@ -22,7 +22,7 @@ class RepeatCommand(AbstractCommand):
         optlist, args = getopt(args, '')
         if not args:
             sciunit2.logger.runlog("ERROR", "repeat",
-                                   "CommandLineError: arguemtn expected", __file__)
+                                   "CommandLineError: argument expected", __file__)
             raise CommandLineError
         with CheckoutContext(args[0]) as (pkgdir, orig):
             returnValue = sciunit2.core.repeat(pkgdir, orig, args[1:])
