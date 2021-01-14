@@ -48,7 +48,7 @@ class DiffCommand(AbstractCommand):
             p_return_code = p.wait()
             if p_return_code != 0:
                 sciunit2.logger.runlog("ERROR", "diff",
-                                       "error executing diff command!", "diff.py")
+                                       "error executing diff command!", __file__)
                 return "error executing diff command!", err
 
             # process output by rsync command
@@ -65,7 +65,7 @@ class DiffCommand(AbstractCommand):
             except Exception:
                 output = "error executing diff command!"
                 sciunit2.logger.runlog("ERROR", "diff",
-                                       "error executing diff command", "diff.py")
+                                       "error executing diff command", __file__)
 
             return output, err
 

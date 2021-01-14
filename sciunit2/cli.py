@@ -76,7 +76,7 @@ def main():
                                    "%s: %s" % (exc.filename, exc.strerror), __file__)
         else:  # pragma: no cover
             err1(exc.strerror)
-            sciunit2.logger.runlog("ERROR", "main()", exc.strerror, "cli.py")
+            sciunit2.logger.runlog("ERROR", "main()", exc.strerror, __file__)
         sys.exit(1)
 
 

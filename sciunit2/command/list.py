@@ -26,11 +26,11 @@ class ListCommand(AbstractCommand):
         entries = run_listing(emgr)
         if entries == 0:
             sciunit2.logger.runlog("INFO", "list",
-                                   "no executions in the sciunit", "list.py")
+                                   "no executions in the sciunit", __file__)
             self.none()
         else:
             sciunit2.logger.runlog("INFO", "list",
-                                   "listed exection in the sciunit", "list.py")
+                                   "listed exection in the sciunit", __file__)
 
     def none(self):
         print("No Executions Found\n")

@@ -35,7 +35,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
             sciunit2.logger.runlog("ERROR", "repeat",
                                    "CommandLineError: "
                                    "less than three arguments expected and repeat as second argument",
-                                   "repeat.py")
+                                   __file__)
             raise CommandLineError
         # args = <execution id> <file names in glob>
         files, args = globsub(args[0], args[2:])
@@ -72,7 +72,7 @@ class GivenCommand(CommitMixin, AbstractCommand):
 
             except DistutilsFileError as e:
                 sciunit2.logger.runlog("ERROR", "given",
-                                       "CommandError: DistutilsFileError", "given.py")
+                                       "CommandError: DistutilsFileError", __file__)
                 raise CommandError(e)
             else:
                 repeat_out = sciunit2.core.repeat(pkgdir, orig, args[1:])
