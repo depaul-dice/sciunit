@@ -12,6 +12,8 @@ import sqlite3
 from sqlite3 import Error
 from contextlib import closing
 from tempfile import NamedTemporaryFile
+
+
 # import bsddb3
 # DBNotFoundError = bsddb3.db.DBNotFoundError
 
@@ -128,7 +130,7 @@ class ExecutionManager(object):
     def commit(self, size):
         # __pending is the id, args pair for
         # the newly added execution via add()
-        k, v = self.__pending   # eid, Metadata
+        k, v = self.__pending  # eid, Metadata
         v.size = size
         # self.__f[k] = str(v)
 
@@ -166,7 +168,6 @@ class ExecutionManager(object):
         # except KeyError:
         #     raise CommandError('execution %r not found' % self.__to_rev(i))
         script = "select * from revs where id = " + str(i)
-
         row = self.__c.execute(script).fetchone()
 
         if row != None:
@@ -230,7 +231,7 @@ class ExecutionManager(object):
         # for idb in range(bounds[0], bounds[1]):
         #     self.delete_id(idb)
 
-        for _id in range(bounds[0], bounds[1]+1):
+        for _id in range(bounds[0], bounds[1] + 1):
             self.delete_id(_id)
 
     def sort(self, revls):
@@ -266,9 +267,65 @@ class ExecutionManager(object):
         #         x = self.__f
         #         self.__f = guard.thing
         #         guard.thing = x
-        print(revls)
+
+        ls = list(map(self.__to_id, revls))
+        d = set(ls)
+        if len(d) < len(ls):
+            raise CommandError('duplicated entries')
+        mismatched = min(ls)
+        rename_list = []
+
+        def need_to_rename(from_, to):
+            if to != from_:
+                rename_list.append((self.__to_rev(from_), self.__to_rev(to)))
+            return True
+        # rnopen opens db in Record format file.
+        # records are accessed in the order they were originally written
+        with NamedTemporaryFile(dir=os.path.dirname(self.__fn), delete=False) as fp:
+            guard = closing(sqlite3.connect(fp.name))
+            with guard as tmp:
+                tmp.executescript("""
+                            create table revs (
+                                id      integer primary key autoincrement not null,
+                                data    text not null
+                            );
+                            """)
+                script = """
+                    insert into revs (id, data)
+                    values 
+                        (?, ?);
+                         """
+                script2 = """
+                    insert into revs (data)
+                    values 
+                        (?);
+                         """
+
+                self.__for_upto(mismatched,
+                                lambda pair: tmp.execute(script, (pair[0], pair[1])))
+                count = mismatched
+                for i in ls:
+                    try:
+                        tmp.execute(script2, [self.__get(i)])
+                    except Error as e:
+                        print(e)
+                    j = count
+                    count += 1
+                    need_to_rename(i, j)
+
+                self.__for_from(mismatched, d, count, lambda pair, counter:
+                (need_to_rename(pair[0], counter) and tmp.execute(script2, [pair[1]])))
+                tmp.commit()
+                yield rename_list
+                os.rename(fp.name, self.__fn)
+                fp.delete = False
+                #fp._closer.delete = False
+                x = self.__f
+                self.__f = guard.thing
+                guard.thing = x
+                self.__f.commit()
+                self.__c = self.__f.cursor()
         # todo
-        pass
 
     # gets the executions from database with
     # execution ids from [0-'last').
@@ -282,13 +339,19 @@ class ExecutionManager(object):
         #             pair = c.next()
         #     except DBNotFoundError:
         #         pass
-
-        # todo
-        pass
+        with closing(self.__f.cursor()) as c:
+            try:
+                c.execute('SELECT * FROM revs WHERE id < ' + str(last))
+                for row in c:
+                    pair = row
+                    f(pair)
+            except Error as e:
+                print(e)
+                pass
 
     # gets the executions from database with
     # execution ids starting from 'first'
-    def __for_from(self, first, f):
+    def __for_from(self, first, d, count, f):
         # with closing(self.__f.db.cursor()) as c:
         #     pair = c.set(first)
         #     while True:
@@ -297,9 +360,17 @@ class ExecutionManager(object):
         #             pair = c.next()
         #         except DBNotFoundError:
         #             break
-
-        # todo
-        pass
+        with closing(self.__f.cursor()) as c:
+            c.execute('SELECT * FROM revs WHERE id >= ' + str(first))
+            for row in c:
+                try:
+                    pair = row
+                except Error as e:
+                    print(e)
+                    break
+                if pair[0] not in d:
+                    f(pair, count)
+                    count += 1
 
 
     @staticmethod
@@ -324,7 +395,6 @@ class ExecutionManager(object):
         #     yield self.__to_rev(k), Metadata.fromstring(v)
         # fetch all the executions
         script = "select * from revs"
-
         rows = self.__c.execute(script).fetchall()
 
         for row in rows:
