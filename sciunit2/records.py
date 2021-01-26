@@ -235,6 +235,7 @@ class ExecutionManager(object):
             self.delete_id(_id)
 
     def sort(self, revls):
+        # old berkley db code
         # ls = list(map(self.__to_id, revls))
         # d = set(ls)
         # if len(d) < len(ls):
@@ -279,8 +280,7 @@ class ExecutionManager(object):
             if to != from_:
                 rename_list.append((self.__to_rev(from_), self.__to_rev(to)))
             return True
-        # rnopen opens db in Record format file.
-        # records are accessed in the order they were originally written
+
         with NamedTemporaryFile(dir=os.path.dirname(self.__fn), delete=False) as fp:
             guard = closing(sqlite3.connect(fp.name))
             with guard as tmp:
@@ -331,6 +331,7 @@ class ExecutionManager(object):
     # execution ids from [0-'last').
     # puts them in the temp dab opened in function 'f'
     def __for_upto(self, last, f):
+        # old berkley db code
         # with closing(self.__f.db.cursor()) as c:
         #     try:
         #         pair = c.first()
@@ -352,6 +353,7 @@ class ExecutionManager(object):
     # gets the executions from database with
     # execution ids starting from 'first'
     def __for_from(self, first, d, count, f):
+        # old berkley db code
         # with closing(self.__f.db.cursor()) as c:
         #     pair = c.set(first)
         #     while True:
