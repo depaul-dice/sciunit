@@ -99,7 +99,6 @@ def _main(args):
                 try:
                     r = cmd.run(args[1:])
                     if r is not None:
-                        print(r)
                         sys.stderr.write(cmd.note(r))
                 except CommandLineError:
                     subcommand_usage(sys.stderr, [cmd])

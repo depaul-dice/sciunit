@@ -33,4 +33,4 @@ class RemoveCommand(AbstractCommand):
                 return None
 
     def note(self, project_dir):
-        return quoted_format('Successfully removed the sciunit project from the above location\n')
+        return quoted_format('Successfully removed the sciunit project from {0}\n', project_dir)
