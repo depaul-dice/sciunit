@@ -9,6 +9,7 @@ import sciunit2.ephemeral
 import sciunit2.wget
 
 import os
+import shutil
 import re
 import pipes
 import errno
@@ -29,6 +30,8 @@ def _mkdir_p(path):
         else:
             raise
 
+def _checkdir_p(path):
+    return os.path.isdir(path)
 
 def _try_rename(from_):
     def _inner(to):
@@ -59,6 +62,8 @@ def location_for(name):
 def create(name):
     _create(name, _mkdir_p)
 
+def delete(name):
+    _delete(name, _checkdir_p)
 
 def rename(name):
     _create(name, _try_rename(at()))
@@ -73,6 +78,11 @@ def _create(name, by):
         raise CommandError('directory %s already exists' %
                            pipes.quote(location_for(name)))
 
+#checks if the given folder exists
+def _delete(name, by):
+    if not by(location_for(name)):
+        raise CommandError('directory %s does not exists for delete operation' %
+                           pipes.quote(location_for(name)))
 
 # opens a sciunit container already created
 def open(s):
@@ -101,11 +111,31 @@ def open(s):
         _save_opened(p)
         return p
 
+def close(s):
+    try:
+        p = location_for(s)
+        shutil.rmtree(location_for(s))
+    except sciunit2.archiver.BadZipfile as exc:
+        raise CommandError(exc)
+
+    except urllib.error.HTTPError as exc:
+        raise CommandError('%d %s' % (exc.code, exc.msg))
+
+    else:
+        _remove_opened(p)
+        return p
 
 def _save_opened(path):
     with builtins.open(location_for('.activated'), 'w') as f:
         print(path, file=f)
 
+def _remove_opened(path):
+    lines = builtins.open(location_for('.activated'), 'r').readlines()
+    index = lines.index(path + '\n')
+    del lines[index]
+    with builtins.open(location_for('.activated'), 'w+') as f:
+        for line in lines:
+            print(line, file=f)
 
 # extracts contents of zip file 'fn' and
 # returns in a dir
