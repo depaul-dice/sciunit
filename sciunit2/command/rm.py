@@ -52,11 +52,11 @@ class RmCommand(AbstractCommand):
                 # TODO: see if deletemany could return bounds
                 bounds = self.__to_id_range(arg)
 
-                # for id_b in range(bounds[0], bounds[1]):
-                #     repo.unlink(self.__to_rev(id_b))
-                #
-                # for id_a in bounds:
-                #     repo.unlink(self.__to_rev(id_a))
+                for id_b in range(bounds[0], bounds[1]):
+                    repo.unlink(self.__to_rev(id_b))
+
+                for id_a in bounds:
+                    repo.unlink(self.__to_rev(id_a))
                 for _id in range(bounds[0], bounds[1]+1):
                     repo.unlink(self.__to_rev(_id))
 
