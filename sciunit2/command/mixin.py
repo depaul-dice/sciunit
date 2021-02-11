@@ -22,7 +22,7 @@ class CommitMixin(object):
         return (last_id, repo,) + commit
 
     def note(self, aList):
-        return "\n[%s %s] %s\n Date: %s\n" % (
+        return "\n[%s e%s] %s\n Date: %s\n" % (
             sciunit2.workspace.project(aList[1].location),
             aList[0],
             quoted(aList[3].cmd),
