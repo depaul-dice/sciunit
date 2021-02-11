@@ -67,10 +67,9 @@ class TestRm(testit.LocalCase):
             testit.sciunit('exec', 'true')
 
         testit.sciunit('rm', 'e5-4')
-
         with assert_raises(SystemExit) as r:
             testit.sciunit('repeat', 'e5')
-        assert_equal(r.exception.code, 0)
+        assert_equal(r.exception.code, 1)
 
         testit.sciunit('rm', 'e4-5')
 
