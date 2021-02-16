@@ -23,6 +23,14 @@ class RmCommand(AbstractCommand):
         return 'e%d' % id_
 
     @staticmethod
+    def __to_get_current_missing(ids):
+        list_ids = []
+        for i in ids:
+            list_ids.append(int(i.replace('e', '')))
+        list_ids.sort()
+        return [x for x in range(list_ids[0], list_ids[-1] + 1) if x not in list_ids]
+
+    @staticmethod
     def __to_id_range(revrange):
         r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
         if not r:
@@ -30,6 +38,7 @@ class RmCommand(AbstractCommand):
         return tuple(int(x) if x is not None else x for x in r.groups())
 
     def run(self, args):
+        ids = []
         optlist, args = getopt(args, '')
         if len(args) != 1:
             raise CommandLineError
@@ -45,18 +54,26 @@ class RmCommand(AbstractCommand):
             try:
                 if args[0].endswith('-'):
                     arg = args[0] + str(emgr.get_last_id())
+
                 else:
                     arg = args[0]
+
+                for rev, d in emgr.list():
+                    ids.append(rev)
+
+                id_bound = self.__to_id_range(arg)
+
+                for i in id_bound:
+                    ids.append('e' + str(i))
+
+                ids = self.__to_get_current_missing(ids)
+                for i in ids:
+                    repo.unlink(self.__to_rev(i))
 
                 emgr.deletemany(arg)
                 # TODO: see if deletemany could return bounds
                 bounds = self.__to_id_range(arg)
 
-                for id_b in range(bounds[0], bounds[1]):
-                    repo.unlink(self.__to_rev(id_b))
-
-                for id_a in bounds:
-                    repo.unlink(self.__to_rev(id_a))
                 for _id in range(bounds[0], bounds[1]+1):
                     repo.unlink(self.__to_rev(_id))
 
