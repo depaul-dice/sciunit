@@ -63,12 +63,16 @@ class RmCommand(AbstractCommand):
 
                 id_bound = self.__to_id_range(arg)
 
-                for i in id_bound:
-                    ids.append('e' + str(i))
-
-                ids = self.__to_get_current_missing(ids)
-                for i in ids:
-                    repo.unlink(self.__to_rev(i))
+                if ids:
+                    for i in id_bound:
+                        ids.append('e' + str(i))
+                    ids.append('e0')
+                    ids = self.__to_get_current_missing(ids)
+                    for i in ids:
+                        repo.unlink(self.__to_rev(i))
+                else:
+                    for i in range(1, max(id_bound[0], id_bound[1])+1):
+                        repo.unlink(self.__to_rev(i))
 
                 emgr.deletemany(arg)
                 # TODO: see if deletemany could return bounds
