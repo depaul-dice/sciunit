@@ -174,14 +174,6 @@ class ExecutionManager(object):
         else:
             raise CommandError('execution %r not found' % self.__to_rev(i))
 
-    def last(self):
-        # id_, m = self.__f.last()
-        # return self.__to_rev(id_), Metadata.fromstring(m)
-        last_id = self.get_last_id()
-        last_data = self.__get(last_id)
-
-        return self.__to_rev(last_id), Metadata.fromstring(last_data)
-
     # removes an execution from the database by id
     def delete(self, rev):
         # try:
@@ -232,6 +224,8 @@ class ExecutionManager(object):
 
         for _id in range(bounds[0], bounds[1]+1):
             self.delete_id(_id)
+
+        return bounds
 
     def sort(self, revls):
         # ls = list(map(self.__to_id, revls))

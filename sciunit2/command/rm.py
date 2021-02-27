@@ -22,13 +22,6 @@ class RmCommand(AbstractCommand):
     def __to_rev(id_):
         return 'e%d' % id_
 
-    @staticmethod
-    def __to_id_range(revrange):
-        r = re.match(r'^e([1-9]\d*)-([1-9]\d*)?$', revrange)
-        if not r:
-            raise MalformedExecutionId
-        return tuple(int(x) if x is not None else x for x in r.groups())
-
     def run(self, args):
         optlist, args = getopt(args, '')
         if len(args) != 1:
@@ -48,9 +41,7 @@ class RmCommand(AbstractCommand):
                 else:
                     arg = args[0]
 
-                emgr.deletemany(arg)
-                # TODO: see if deletemany could return bounds
-                bounds = self.__to_id_range(arg)
+                bounds = emgr.deletemany(arg)
 
                 # for id_b in range(bounds[0], bounds[1]):
                 #     repo.unlink(self.__to_rev(id_b))
