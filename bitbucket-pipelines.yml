@@ -7,7 +7,7 @@ pipelines:
         script:
           - pip3 install tox
           - pip3 install -U setuptools
-          - find /usr/bin -name "cat"
+          - find /usr/bin -name "sudo"
           - tox
     - step:
         image: geotrust/build-essential:ubuntu18.04
