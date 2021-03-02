@@ -7,7 +7,7 @@ pipelines:
         script:
           - pip3 install tox
           - pip3 install -U setuptools
-          - which pwd
+          - pwd
           - tox
     - step:
         image: geotrust/build-essential:ubuntu18.04
