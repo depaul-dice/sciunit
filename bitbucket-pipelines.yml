@@ -6,9 +6,6 @@ pipelines:
           - pip
         script:
           - pip3 install tox
-          - pip3 install -U setuptools
-          - find /etc/sysctl.d/ -name ".conf"
-          - pwd
           - tox
     - step:
         image: geotrust/build-essential:ubuntu18.04
