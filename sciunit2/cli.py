@@ -13,6 +13,7 @@ from sciunit2.command.rm import RmCommand
 from sciunit2.command.sort import SortCommand
 from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
+from sciunit2.command.checkout import CheckoutCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
 
@@ -26,7 +27,7 @@ import os
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
             SortCommand, PushCommand, CopyCommand, PostInstallCommand,
-            DiffCommand]
+            DiffCommand, CheckoutCommand]
 
 
 def short_usage(out):
