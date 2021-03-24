@@ -8,23 +8,13 @@ RUN apt-get update && apt-get install -y cmake && \
 RUN apt-get update & apt-get install -y software-properties-common && \
     apt-get clean
 
-#RUN apt-get update && apt-get install -y python3.7 && \
-#    apt-get clean
-
-RUN apt-get update && \
-    add-apt-repository -y ppa:deadsnakes/ppa && \
-    apt-get clean
-
-RUN apt-get update && apt-get -y install python3.7 && \
+RUN apt-get update && apt-get install -y python3.7 && \
     apt-get clean
 
 RUN apt-get update && apt-get install -y python3-pip && \
     apt-get clean
 
-RUN python3.7 -m pip install --upgrade pip
-
-RUN apt-get update && apt-get install -y tzdata && \
-    apt-get clean
+RUN pip3 install --upgrade pip
 
 RUN apt-get update && apt-get install -y git && \
     apt-get clean
