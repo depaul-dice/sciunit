@@ -7,7 +7,7 @@ pipelines:
         script:
           - pip3 install tox
           - pip3 install -U setuptools
-          - bash -c 'echo 0 > /proc/sys/kernel/yama/ptrace_scope'
+          - echo "$PATH"
           - tox
     - step:
         image: geotrust/build-essential:ubuntu18.04
