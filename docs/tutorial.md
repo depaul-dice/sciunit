@@ -1,5 +1,8 @@
 # A Brief Introduction to Sciunit
 
+**This page might have outdated information. The most updated Sciunit documentation can be found at:**
+**https://sciunit.run/docs**
+
 From time to time, you may find that it is hard to verify or reproduce someone
 else's research, even though it is only programs, data, and output.
 Programs may be built in different ways, may behave differently if not running
