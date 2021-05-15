@@ -9,6 +9,7 @@ pipelines:
           - which pwd
           - which cat
           - which true
+          - pwd
           - pip3 install -U setuptools
           - timeout 3m tox
     - step:
