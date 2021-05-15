@@ -6,6 +6,9 @@ pipelines:
           - pip
         script:
           - pip3 install tox
+          - which pwd
+          - which cat
+          - which true
           - pip3 install -U setuptools
           - timeout 3m tox
     - step:
