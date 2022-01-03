@@ -7,9 +7,15 @@ import sciunit2.libexec
 import subprocess
 from subprocess import PIPE
 import os
+import sys
 import shutil
 import errno
+import json
+import tempfile
+from timeit import default_timer as timer
 from backports.tempfile import TemporaryDirectory
+
+from sciunit_convert.syscall import TEMP_FILE
 
 
 # this class maintains the de-duplication engine
@@ -28,6 +34,19 @@ class Vvpkg(object):
         # writes it to stdout, then commits it to
         # de-duplication engine using 'vv' under the 'rev' eid
         # after reading from stdin
+        fd, tempname = tempfile.mkstemp(suffix='.lip')
+        os.close(fd)
+        start = timer()
+        subprocess.run(f'{sciunit2.libexec.liptar.which} cf -C {parent} {tempname} {name} && {sciunit2.libexec.dump_blocks.which} {tempname} > {rev}_hashes.json && rm {tempname}', shell=True, cwd=self.location)
+        end = timer()
+        f = os.path.join(self.location, f'{rev}_times.json')
+        json.dump({**json.load(open(f)), 'dump_blocks': end - start}, open(f, 'w'))
+        shutil.copyfile(os.path.join(pkgdir, 'provenance.cde-root.1.log'),
+                        os.path.join(self.location, f'{rev}.log'))
+        try:
+            shutil.copyfile(os.path.join(pkgdir, '..', TEMP_FILE),
+                            os.path.join(self.location, f'{rev}.bin'))
+        except: pass
         cmd = quoted_format('tar cf - -C {1} {2} | {0} commit {3} -',
                             sciunit2.libexec.vv.which,
                             parent, name, rev)

@@ -26,3 +26,5 @@ class Process(object):
 ptu = Process('ptu')
 vv = Process('vv')
 scripter = Process('scripter')
+liptar = Process('liptar')
+dump_blocks = Process('dump_blocks')

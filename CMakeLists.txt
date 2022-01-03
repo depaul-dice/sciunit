@@ -10,6 +10,7 @@ set(_FILES_DIR ${CMAKE_SOURCE_DIR}/files)
 ExternalProject_Add(
   ptu
   GIT_REPOSITORY "https://bitbucket.org/depauldbgroup/provenance-to-use"
+  GIT_TAG "chex"
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_TESTING=OFF
   INSTALL_COMMAND install -s <BINARY_DIR>/ptu ${_LIBEXEC_DIR}
 )
@@ -24,11 +25,11 @@ ExternalProject_Add(
 ExternalProject_Add(
   vvpkg
   GIT_REPOSITORY "https://bitbucket.org/depauldbgroup/vvpkg"
-  GIT_TAG "7400941"
-  PATCH_COMMAND ${GIT_EXECUTABLE} apply ${_FILES_DIR}/vv-report-size.patch
+  GIT_TAG "chex"
+  # PATCH_COMMAND ${GIT_EXECUTABLE} apply ${_FILES_DIR}/vv-report-size.patch
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-  INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR}
-  TEST_COMMAND <BINARY_DIR>/tests/run
+  INSTALL_COMMAND install -s <BINARY_DIR>/demo/vv ${_LIBEXEC_DIR} COMMAND install -s <BINARY_DIR>/demo/dump_blocks ${_LIBEXEC_DIR} COMMAND install -s <BINARY_DIR>/include/lipSubModule/lip-master/demo/liptar ${_LIBEXEC_DIR}
+  # TEST_COMMAND <BINARY_DIR>/tests/run
 )
 
 ExternalProject_Add_Step(vvpkg before_stash
