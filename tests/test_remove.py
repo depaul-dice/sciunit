@@ -26,20 +26,8 @@ class TestRemove(testit.LocalCase):
         testit.sciunit('remove', 'ok')
         assert_false(os.path.isdir('tmp/ok'))
 
-    @patch('builtins.input', return_value='y')
-    def test_y(self, inp):
-        testit.sciunit('create', 'ok')
-        testit.sciunit('remove', 'ok')
-        assert_false(os.path.isdir('tmp/ok'))
-
-    @patch('builtins.input', return_value='N')
-    def test_y(self, inp):
-        testit.sciunit('create', 'ok')
-        testit.sciunit('remove', 'ok')
-        assert_true(os.path.isdir('tmp/ok'))
-
     @patch('builtins.input', return_value='n')
-    def test_y(self, inp):
+    def test_n(self, inp):
         testit.sciunit('create', 'ok')
         testit.sciunit('remove', 'ok')
         assert_true(os.path.isdir('tmp/ok'))

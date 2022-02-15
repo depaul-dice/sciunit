@@ -30,8 +30,10 @@ def _mkdir_p(path):
         else:
             raise
 
+
 def _checkdir_p(path):
     return os.path.isdir(path)
+
 
 def _try_rename(from_):
     def _inner(to):
@@ -43,6 +45,7 @@ def _try_rename(from_):
                 return False
             else:
                 raise
+
     return _inner
 
 
@@ -62,8 +65,10 @@ def location_for(name):
 def create(name):
     _create(name, _mkdir_p)
 
+
 def delete(name):
     _delete(name, _checkdir_p)
+
 
 def rename(name):
     _create(name, _try_rename(at()))
@@ -78,11 +83,13 @@ def _create(name, by):
         raise CommandError('directory %s already exists' %
                            pipes.quote(location_for(name)))
 
-#checks if the given folder exists
+
+# checks if the given folder exists
 def _delete(name, by):
     if not by(location_for(name)):
         raise CommandError('directory %s does not exists for delete operation' %
                            pipes.quote(location_for(name)))
+
 
 # opens a sciunit container already created
 def open(s):
@@ -111,6 +118,7 @@ def open(s):
         _save_opened(p)
         return p
 
+
 def close(s):
     try:
         p = location_for(s)
@@ -125,9 +133,11 @@ def close(s):
         _remove_opened(p)
         return p
 
+
 def _save_opened(path):
     with builtins.open(location_for('.activated'), 'w') as f:
         print(path, file=f)
+
 
 def _remove_opened(path):
     lines = builtins.open(location_for('.activated'), 'r').readlines()
@@ -136,6 +146,7 @@ def _remove_opened(path):
     with builtins.open(location_for('.activated'), 'w+') as f:
         for line in lines:
             print(line, file=f)
+
 
 # extracts contents of zip file 'fn' and
 # returns in a dir
@@ -160,7 +171,7 @@ def at():
 
 
 def current():
-    p = at()   # returns directory of the active sciunit project
+    p = at()  # returns directory of the active sciunit project
     creat_Diff_repo()
     return (sciunit2.records.ExecutionManager(p),
             sciunit2.version_control.Vvpkg(p))
