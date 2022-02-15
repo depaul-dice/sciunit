@@ -15,6 +15,7 @@ from sciunit2.command.push import PushCommand
 from sciunit2.command.copy import CopyCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
+from sciunit2.command.export import ExportCommand
 
 import sys
 from getopt import getopt, GetoptError
@@ -26,7 +27,7 @@ import os
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
             SortCommand, PushCommand, CopyCommand, PostInstallCommand,
-            DiffCommand]
+            DiffCommand, ExportCommand]
 
 
 def short_usage(out):
