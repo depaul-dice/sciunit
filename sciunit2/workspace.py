@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import builtins
+import shutil
 
 from sciunit2.exceptions import CommandError
 import sciunit2.version_control
@@ -18,9 +19,13 @@ import urllib.error
 
 
 # acts like mkdir -p. Creates the complete
-# directory tree if it does not exist
-def _mkdir_p(path):
+# directory tree if it does not exist.
+# removes existing dir if overwrite=True
+def _mkdir_p(path, overwrite=False):
     try:
+        if overwrite:
+            if os.path.exists(path):
+                shutil.rmtree(path)
         os.makedirs(path)
         return True
     except OSError as exc:
@@ -56,8 +61,8 @@ def location_for(name):
     return os.path.expanduser('~/sciunit/%s' % name)
 
 
-def create(name):
-    _create(name, _mkdir_p)
+def create(name, overwrite=False):
+    _create(name, _mkdir_p, overwrite)
 
 
 def rename(name):
@@ -65,11 +70,15 @@ def rename(name):
 
 
 # creates the given folder if does not exist
-def _create(name, by):
+def _create(name, by, overwrite=False):
     if not _is_path_component(name):
         raise CommandError('%r contains disallowed characters' % name)
-
-    if not by(location_for(name)):
+    _dir = location_for(name)
+    if overwrite:
+        ret = by(_dir, overwrite)
+    else:
+        ret = by(_dir)
+    if not ret:
         raise CommandError('directory %s already exists' %
                            pipes.quote(location_for(name)))
 

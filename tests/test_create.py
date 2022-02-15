@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from nose.tools import *
 import os
 
+
 from tests import testit
 
 
@@ -13,6 +14,9 @@ class TestCreate(testit.LocalCase):
         assert_equal(r.exception.code, 2)
 
         testit.sciunit('create', 'ok')
+        assert_true(os.path.isdir('tmp/ok'))
+
+        testit.sciunit('create', 'ok', '-f')
         assert_true(os.path.isdir('tmp/ok'))
 
         with assert_raises(SystemExit) as r:
