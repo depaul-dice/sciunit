@@ -36,7 +36,6 @@ class TestExport(testit.LocalCase):
 
     def create_sample_code(self, py_file):
         py_code = "import numpy as np\n" \
-                  "import pandas as pd\n" \
                   "import requests\n" \
                   "import os\n" \
                   "print('cwd is: ' + os.getcwd())\n" \
@@ -44,8 +43,6 @@ class TestExport(testit.LocalCase):
                   "print('status_code: ', r.status_code)\n" \
                   "np_arr = np.array([1, 2, 3, 4, 5])\n" \
                   "print('numpy array: ', np_arr)\n" \
-                  "pd_dataframe = pd.DataFrame(np_arr)\n" \
-                  "print('pandas data frame: ', pd_dataframe)\n"
 
         with open(py_file, 'w+') as f:
             f.write(py_code)

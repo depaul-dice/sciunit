@@ -235,8 +235,9 @@ class ExportCommand(AbstractCommand):
                     retcode = 0
                     # 1. install virtualenv using pip(assuming pip is installed)
                     try:
-                        retcode ^= subprocess.call(sys.executable + ' -m pip install ' +
-                                                   '--user virtualenv &>>' + output_log,
+                        retcode ^= subprocess.call(sys.executable + ' -m pip install' +
+                                                   ' --force-reinstall' +
+                                                   ' virtualenv &>' + output_log,
                                                    shell=True, executable='/bin/bash')
                     except CalledProcessError as err:
                         print(err.stderr)
@@ -251,7 +252,7 @@ class ExportCommand(AbstractCommand):
                     # 2. create new environment using virtualenv and
                     # install all Python dependencies in it
                     print('Creating new virtual environment...')
-                    retcode ^= subprocess.call('virtualenv ' + env_name
+                    retcode ^= subprocess.call('`which virtualenv` ' + env_name
                                                + ' &>>' + output_log, shell=True, executable='/bin/bash')
                     if retcode == 0:
                         print('Installing Python packages...')
