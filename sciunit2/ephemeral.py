@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import urllib.request
 import urllib.error
 import requests
+from requests.auth import HTTPBasicAuth
 
 from retry import retry
 from contextlib import closing
@@ -11,8 +12,10 @@ import shutil
 
 
 def live(fn):
+    key = 'WJ4NFWW.K0MKZ61-X9Z4S38-HQBS5QM-D45C0RH'
+    auth = HTTPBasicAuth('Authorization', key)
     with open(fn, 'rb') as f:
-        with closing(requests.post("https://file.io/?expires=1d",
+        with closing(requests.post("https://file.io/?expires=1d", auth=auth,
                                    files={"file": f})) as resp:
             return resp.json()['key'] + '#'
 
