@@ -47,7 +47,7 @@ setup(
     project_urls={
         'Homepage': 'https://sciunit.run/',
         'Documentation': 'https://sciunit.run/docs/',
-        'Source': 'https://bitbucket.org/geotrust/sciunit2',
+        'Source': 'https://github.com/depaul-dice/sciunit',
     },
     long_description=localopen('README.rst').read(),
     setup_requires=['docutils'],
