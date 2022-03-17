@@ -12,6 +12,13 @@ import shutil
 
 
 def live(fn):
+    # this is the API key for the basic plan purchased
+    # from file.io at $275/year(before 20% discount).
+    # It allows file sizes of
+    # up to 10GB with up to 60 requests/minute,
+    # 2TB total storage, and 250GB download/month
+    # more details here:
+    # https://www.file.io/plans
     key = 'WJ4NFWW.K0MKZ61-X9Z4S38-HQBS5QM-D45C0RH'
     auth = HTTPBasicAuth('Authorization', key)
     with open(fn, 'rb') as f:
