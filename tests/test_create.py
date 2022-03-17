@@ -16,7 +16,7 @@ class TestCreate(testit.LocalCase):
         testit.sciunit('create', 'ok')
         assert_true(os.path.isdir('tmp/ok'))
 
-        testit.sciunit('create', 'ok', '-f')
+        testit.sciunit('create', '-f', 'ok')
         assert_true(os.path.isdir('tmp/ok'))
 
         with assert_raises(SystemExit) as r:

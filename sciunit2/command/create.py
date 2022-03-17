@@ -15,24 +15,25 @@ class CreateCommand(AbstractCommand):
 
     @property
     def usage(self):
-        return [('create <name> [-f]',
+        return [('create [-f] <name>',
                  'Create and open a new sciunit under ~/sciunit/<name>.\n'
-                 'The -f flag overwrites the existing directory.')]
+                 'The -f flag overwrites the existing directory if present.')]
 
     def run(self, args):
-        optlist, args = getopt(args, '')
-        if len(args) == 1:
-            sciunit2.workspace.create(args[0].strip())
-        elif len(args) == 2:
-            flag = args[1]
-            if flag != '-f':
-                raise CommandLineError
-            else:
-                print('Warning: This will overwrite existing sciunit!')
-                sciunit2.workspace.create(args[0].strip(), overwrite=True)
-        else:
+        optlist, args = getopt(args, 'f')
+        if len(args) != 1:
             raise CommandLineError
-        return sciunit2.workspace.open(args[0])
+        else:
+            project_name = args[0].strip()
+            if optlist:
+                if optlist[0][0] == '-f':    # if force flag is provided
+                    print('Warning: This will overwrite the existing sciunit!')
+                    sciunit2.workspace.create(project_name, overwrite=True)
+                else:
+                    raise CommandLineError
+            else:
+                sciunit2.workspace.create(project_name)
+            return sciunit2.workspace.open(project_name)
 
     def note(self, project_dir):
         return quoted_format('Opened empty sciunit at {0}\n', project_dir)
