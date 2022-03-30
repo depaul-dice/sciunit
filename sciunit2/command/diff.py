@@ -82,7 +82,9 @@ class DiffCommand(AbstractCommand):
         perms_changed = []
         for line in lines:
             splits = line.split()
-            assert len(splits) == 2
+            # The length of splits is two for regular files and directories 
+            # and 4 for symlinks
+#            assert len(splits) == 2
             YXcstpoguax = splits[0].strip()
             file_name = splits[1].strip()
             update_type = YXcstpoguax[0]
