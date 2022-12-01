@@ -24,6 +24,7 @@ from io import StringIO
 import textwrap
 import pkg_resources
 import os
+import platform
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
@@ -78,6 +79,10 @@ def main():
 
 
 def _main(args):
+    if platform.system().startswith('Linux') == False:
+        err1('Platform is not supported')
+        sys.exit(1)
+
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
     if optlist:
         op, v = optlist[0]
