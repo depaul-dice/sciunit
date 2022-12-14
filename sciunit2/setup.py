@@ -23,7 +23,7 @@ def _build_manpage(src, target):
     from docutils.core import publish_file
     from docutils.writers import manpage
 
-    with gzip.open(target, 'wb') as f:
+    with gzip.open(target, 'wt') as f:
         publish_file(source_path=src,
                      destination=f,
                      writer=manpage.Writer())
