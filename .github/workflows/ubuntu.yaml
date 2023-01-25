@@ -1,0 +1,21 @@
+name: Ubuntu
+
+on:
+  push:
+  pull_request:
+
+jobs:
+
+  sciunit-test-with-tox:
+      runs-on: ubuntu-20.04
+      container: geotrust/build-essential:ubuntu20.04
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - name: update-pip
+          run: pip3 install --upgrade pip
+        - name: install-tox
+          run: pip3 install tox
+        - name: test-with-tox
+          run: tox
