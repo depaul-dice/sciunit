@@ -1,6 +1,9 @@
 .. image:: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml/badge.svg
     :target: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml
-
+.. image:: https://img.shields.io/pypi/v/sciunit2
+   :alt: PyPI
+   :target: https://pypi.org/project/sciunit2/
+ 
 Sciunit
 ----------
 
