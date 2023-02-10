@@ -1,3 +1,6 @@
+.. image:: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml/badge.svg
+    :target: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml
+
 Sciunit
 ----------
 
