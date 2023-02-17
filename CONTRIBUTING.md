@@ -1,63 +1,76 @@
-# Instructions for developers working with Sciunit
-# working with Ubuntu OS
+### Instructions for developers working with Sciunit working on Ubuntu OS
 
-# download Sciunit source code and rename project folder
-git clone https://bitbucket.org/geotrust/sciunit2.git sciunit2-python3
-cd sciunit2-python3
+1. download Sciunit source code and rename project folder:
 
-# install python3.x (>= version 3.7) 
-# following is a suggested link:
-# https://phoenixnap.com/kb/how-to-install-python-3-ubuntu
+`git clone https://bitbucket.org/geotrust/sciunit2.git sciunit2-python3`
 
-# install git version control system
-sudo apt update
-sudo apt install git
+`cd sciunit2-python3`
 
-# install pip for python3
+2. Install python3.x (>= version 3.7). Following is a suggested link:
+
+ https://phoenixnap.com/kb/how-to-install-python-3-ubuntu
+
+3. Install git version control system:
+
+`sudo apt update`
+
+`sudo apt install git`
+
+4. install pip for python3:
+
 sudo apt-get install python3-pip
 
-# install these packages
-pip install --user --upgrade pytest-metadata
-pip install --user --upgrade tox
-sudo apt install cmake
+5. Install these packages:
 
-# install the requiremenst from these two files:
-# test-requirements.txt and requirements.txt.
-# you can run the following:
-pip install -r requirements.txt
-pip install -r test-requirements.txt
+`pip install --user --upgrade pytest-metadata`
 
-# make sure you are up-to-date with the master branch
-git pull origin master
+`pip install --user --upgrade tox`
 
-# run the following command from the project folder to run all tests.
-# All tests should pass. If there are any errors, follow
-# error messages and resolve them first.
-tox
+`sudo apt install cmake`
 
-# at this point, you can start adding your code to Sciunit 
-# DO NOT start working in the master branch.
-# make sure you checkout your own branch.
-git checkout -b new_branch_name
+6. Install the requiremenst from test-requirements.txt and requirements.txt:
 
-# make sure all changes in your branch are committed locally and 
-# pushed to the remote repository periodically.
-# note: to push the changes, you would first need to be added as a contributor
-git push origin master
+`pip install -r requirements.txt`
 
-# after you are done making changes, run tox again to make sure all tests pass.
-# to test the installation in production, install your source code locally
-pip install sciunit2-python3/
+`pip install -r test-requirements.txt`
 
-# after your changes are finalized in your branch, send a merge request with master
-# after a code review and successful merge, package the code and upload to PyPI.
-# you would need the credentials for the Sciunit account on PyPI
-pip install --user --upgrade twine
-python setup.py sdist bdist_wheel
-twine upload dist/*
+7. Make sure you are up-to-date with the master branch:
+
+`git pull origin master`
+
+8. Run the following command from the project folder to run all tests:
+
+`tox`
+
+All tests should pass. If there are any errors, follow error messages and resolve them first.
 
 
-Some notes for understanding sciunit (for beginner developers):
+9. At this point, you can start adding your code to Sciunit. DO NOT start working in the master branch. Make sure you checkout your own branch:
+
+`git checkout -b new_branch_name`
+
+10. Make sure all changes in your branch are committed locally and  pushed to the remote repository periodically:
+
+`git push origin master`
+
+Note: To push the changes, you would first need to be added as a contributor.
+
+11. After you are done making changes, run `tox` again to make sure all tests pass:
+
+12. To test the installation in production, you can install your source code locally
+
+`pip install sciunit2-python3/`
+
+13. After your changes are finalized in your branch, do a final code review and send a merge request with master. After a successful merge, package the code and upload to PyPI. You would need the credentials for the Sciunit account on PyPI:
+ 
+`pip install --user --upgrade twine`
+
+`python setup.py sdist bdist_wheel`
+
+`twine upload dist/*`
+
+
+### Some notes for understanding sciunit (for beginner developers):
 
 Sciunit uses application virtualization (AV) tool provenance-to-use (PTU) built on top of Code, Data, and Environment (CDE) to containerize an application as it executes.
 ptu creates a directory structure called cde-package
