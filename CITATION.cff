@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Sciunits: Reusable Research Objects"
+url: "https://github.com/depaul-dice/sciunit"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "That"
+    given-names: "Dai Hai Ton"
+  - family-names: "Fils"
+    given-names: "Gabriel"
+  - family-names: "Yuan"
+    given-names: "Zhihao"
+  - family-names: "Malik"
+    given-names: "Tanu"
+  title: "Sciunits: Reusable Research Objects"
+  doi: 10.48550/arXiv.1707.05731
+  url: "https://github.com/depaul-dice/sciunit"
+
