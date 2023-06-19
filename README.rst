@@ -1,5 +1,14 @@
+.. image:: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml/badge.svg
+    :target: https://github.com/depaul-dice/sciunit/actions/workflows/ubuntu.yaml
+.. image:: https://img.shields.io/pypi/v/sciunit2
+   :alt: PyPI
+   :target: https://pypi.org/project/sciunit2/
+ 
 Sciunit
 ----------
+
+**The most updated instructions on installing Sciunit can be found at:**
+**https://sciunit.run/install**
 
 **sciunit** is a command-line tool that answers the call for a
 reusable research object that containerizes and stores applications

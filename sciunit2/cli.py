@@ -16,6 +16,8 @@ from sciunit2.command.copy import CopyCommand
 from sciunit2.command.checkout import CheckoutCommand
 from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
+from sciunit2.command.export import ExportCommand
+from sciunit2.command.remove import RemoveCommand
 
 import sys
 from getopt import getopt, GetoptError
@@ -23,11 +25,12 @@ from io import StringIO
 import textwrap
 import pkg_resources
 import os
+import platform
 
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
             SortCommand, PushCommand, CopyCommand, PostInstallCommand,
-            DiffCommand, CheckoutCommand]
+            DiffCommand, RemoveCommand, ExportCommand, CheckoutCommand]
 
 
 def short_usage(out):
@@ -77,6 +80,10 @@ def main():
 
 
 def _main(args):
+    if platform.system().startswith('Linux') == False:
+        err1('Platform is not supported')
+        sys.exit(1)
+
     optlist, args = getopt(args, '', ['help', 'version', 'root='])
     if optlist:
         op, v = optlist[0]

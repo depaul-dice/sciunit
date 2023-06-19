@@ -6,3 +6,4 @@ requests-mock
 freezegun
 ddt
 testpath
+numpy

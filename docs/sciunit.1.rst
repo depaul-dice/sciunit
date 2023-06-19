@@ -6,10 +6,10 @@ sciunit
 -------------------------------------------------------------
 deliver reproducibility in your research
 -------------------------------------------------------------
-:Author:    Zhihao Yuan <lichray@gmail.com>
+:Author:    Tanu Malik <tanu.malik@depaul.edu>
 :Version:   sciunit2 0.4
 :Manual section: 1
-:Copyright: Copyright 2017-2018, DePaul University
+:Copyright: Copyright 2020-2021, DePaul University
 :Licence:   FreeBSD License (BSD-2-Clause)
 
 .. raw:: manpage
@@ -27,6 +27,9 @@ SYNOPSIS
 
 DESCRIPTION
 ============
+
+**This page might have outdated information. The most updated Sciunit documentation can be found at:**
+**https://sciunit.run**
 
 A command line utility to create, manage, and share *sciunits*.
 A *sciunit* is a lightweight and portable unit that contains captured,

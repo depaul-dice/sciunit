@@ -23,7 +23,7 @@ def _build_manpage(src, target):
     from docutils.core import publish_file
     from docutils.writers import manpage
 
-    with gzip.open(target, 'wb') as f:
+    with gzip.open(target, 'wt') as f:
         publish_file(source_path=src,
                      destination=f,
                      writer=manpage.Writer())
@@ -46,7 +46,7 @@ setup(
     project_urls={
         'Homepage': 'https://sciunit.run/',
         'Documentation': 'https://sciunit.run/docs/',
-        'Source': 'https://bitbucket.org/geotrust/sciunit2',
+        'Source': 'https://github.com/depaul-dice/sciunit',
     },
     long_description=localopen('README.rst').read(),
     setup_requires=['docutils'],

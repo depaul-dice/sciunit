@@ -51,9 +51,10 @@ def repeat(pkgdir, orig, newargs):
                 # commands to execute with new arguments
                 f.insert(ls[:1] + newargs)
     try:
-        subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
+        output = subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
     except subprocess.CalledProcessError as exc:
         print(exc.output)
         return exc.returncode
     else:
+        print(output.decode('utf-8'))
         return 0
