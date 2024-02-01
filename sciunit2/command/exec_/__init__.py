@@ -10,6 +10,10 @@ import sciunit2.workspace
 from getopt import getopt
 from pkg_resources import resource_filename
 
+# for FLINC, to avoid SIGINT causing KeyboardInterruptException
+# and exiting sciunit execution
+import signal
+signal.signal(signal.SIGINT, lambda *_: None)
 
 class ExecCommand(CommitMixin, AbstractCommand):
     name = 'exec'
