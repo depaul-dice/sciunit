@@ -41,7 +41,7 @@ def repeat(pkgdir, orig, newargs):
                 "interactive sciunit doesn't react to arguments")
         with Chdir(pkgdir):
             with open('cde.log') as f:
-                cd, ls = f
+                cd, ls, *extra = f
             os.rename('cde.log', 'cde.log.1')
             with open('cde.log', 'w') as f:
                 # adds the command in a comment
