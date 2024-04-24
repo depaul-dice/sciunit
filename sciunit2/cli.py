@@ -18,6 +18,7 @@ from sciunit2.command.post_install import PostInstallCommand
 from sciunit2.command.diff import DiffCommand
 from sciunit2.command.export import ExportCommand
 from sciunit2.command.remove import RemoveCommand
+from sciunit2.command.parallel_repeat import ParallelRepeatCommand
 
 import sys
 from getopt import getopt, GetoptError
@@ -30,7 +31,7 @@ import platform
 __cmds__ = [CreateCommand, OpenCommand, ExecCommand, RepeatCommand,
             ListCommand, ShowCommand, GivenCommand, CommitCommand, RmCommand,
             SortCommand, PushCommand, CopyCommand, PostInstallCommand,
-            DiffCommand, RemoveCommand, ExportCommand, CheckoutCommand]
+            DiffCommand, RemoveCommand, ExportCommand, CheckoutCommand, ParallelRepeatCommand]
 
 
 def short_usage(out):
