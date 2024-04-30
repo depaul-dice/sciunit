@@ -62,8 +62,11 @@ class ParallelRepeatCommand(AbstractCommand):
         script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'parallel_script.py')
 
         # command = f'parallel --link python {script_path} ::: {pkgdirs} ::: \'["python3", "test.py", "1"]\' \'["python3", "test.py", "2"]\' \'["python3", "test.py", "3"]\''
+       
         command = f'parallel --link python {script_path} ::: {pkgdirs} ::: {origs}'
 
         subprocess.run(command, shell=True, executable='/bin/bash')
 
+
+        # TODO: Delete all the new directories created
         sys.exit(0)
