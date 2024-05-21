@@ -20,14 +20,20 @@ class CommitCommand(CommitMixin, AbstractCommand):
                            'command as a new execution')]
 
     def run(self, args):
+        print("inside commit")
         optlist, args = getopt(args, '')
         if args:
             raise CommandLineError
         emgr, repo = sciunit2.workspace.current()  # repo is vvpkg
         pkgdir = os.path.join(repo.location, 'cde-package')
+        print(pkgdir)
         with emgr.exclusive():
             for cmd in DetachedExecution(pkgdir).getcmd():
                 rev = emgr.add(cmd)
+                print("HERE")
+                print(cmd)
+                print(rev)
+
                 return self.do_commit(pkgdir, rev, emgr, repo)
             else:
                 raise CommandError('nothing to commit')

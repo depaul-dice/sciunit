@@ -46,6 +46,16 @@ def CheckoutContext(rev):
     finally:
         lock.release()
 
+# @contextmanager
+# def CheckoutContext(rev):
+#     emgr, repo = sciunit2.workspace.current()
+#     with emgr.exclusive():
+#         orig = emgr.get(rev).cmd
+#         pkgdir = os.path.join(repo.location, 'cde-package')
+#         repo.cleanup(pkgdir)
+#         repo.checkout(rev)
+#         yield pkgdir, orig
+
 
 @contextmanager
 def CheckoutContext_Diff(rev):

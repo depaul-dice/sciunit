@@ -35,6 +35,10 @@ def shell(env=None):
 
 
 def repeat(pkgdir, orig, newargs):
+    print("inside repeat")
+    print(pkgdir)
+    print(orig)
+    print(newargs)
     if newargs:
         if not orig:
             raise CommandError(
