@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import sciunit2.workspace
+import sciunit2.filelock
 
 from contextlib import contextmanager
 import os
@@ -9,29 +10,13 @@ import shutil
 import time
 
 from getopt import getopt
-import sys
-import fcntl
-
-class FileLock:
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self.file_handle = None
-
-    def acquire(self):
-        self.file_handle = open(self.file_path, 'w')
-        fcntl.flock(self.file_handle, fcntl.LOCK_EX)
-
-    def release(self):
-        if self.file_handle:
-            fcntl.flock(self.file_handle, fcntl.LOCK_UN)
-            self.file_handle.close()
 
 # returns the pkgdir and original command used
 # to execute execution 'rev'
 @contextmanager
 def CheckoutContext(rev):
     emgr, repo = sciunit2.workspace.current()
-    lock = FileLock(os.path.join(repo.location ,'lockfile'))
+    lock = sciunit2.filelock.FileLock(os.path.join(repo.location ,'lockfile'))
     lock.acquire()
     try:
         with emgr.exclusive():
