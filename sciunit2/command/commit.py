@@ -28,7 +28,6 @@ class CommitCommand(CommitMixin, AbstractCommand):
         with emgr.exclusive():
             for cmd in DetachedExecution(pkgdir).getcmd():
                 rev = emgr.add(cmd)
-
                 return self.do_commit(pkgdir, rev, emgr, repo)
             else:
                 raise CommandError('nothing to commit')
