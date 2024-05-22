@@ -19,8 +19,6 @@ class RepeatCommand(AbstractCommand):
 
     def run(self, args):
         optlist, args = getopt(args, '')
-        print(optlist)
-        print(args)
         if not args:
             raise CommandLineError
         with CheckoutContext(args[0]) as (pkgdir, orig):

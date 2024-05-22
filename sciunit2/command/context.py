@@ -30,9 +30,9 @@ class FileLock:
 # to execute execution 'rev'
 @contextmanager
 def CheckoutContext(rev):
-    lock = FileLock('lockfile')
-    lock.acquire()
     emgr, repo = sciunit2.workspace.current()
+    lock = FileLock(os.path.join(repo.location ,'lockfile'))
+    lock.acquire()
     try:
         with emgr.exclusive():
             orig = emgr.get(rev).cmd
@@ -45,17 +45,6 @@ def CheckoutContext(rev):
             yield pkgdir_rev, orig
     finally:
         lock.release()
-
-# @contextmanager
-# def CheckoutContext(rev):
-#     emgr, repo = sciunit2.workspace.current()
-#     with emgr.exclusive():
-#         orig = emgr.get(rev).cmd
-#         pkgdir = os.path.join(repo.location, 'cde-package')
-#         repo.cleanup(pkgdir)
-#         repo.checkout(rev)
-#         yield pkgdir, orig
-
 
 @contextmanager
 def CheckoutContext_Diff(rev):

@@ -35,10 +35,6 @@ def shell(env=None):
 
 
 def repeat(pkgdir, orig, newargs):
-    print("inside repeat")
-    print(pkgdir)
-    print(orig)
-    print(newargs)
     if newargs:
         if not orig:
             raise CommandError(
@@ -47,6 +43,10 @@ def repeat(pkgdir, orig, newargs):
             with open('cde.log') as f:
                 cd, ls = f
             os.rename('cde.log', 'cde.log.1')
+
+            parent_pkgdir = os.path.join(os.path.dirname(os.path.dirname(pkgdir)), 'cde-package')
+            os.makedirs(os.path.join(parent_pkgdir, 'cde.log.1'), exist_ok=True)
+            
             with open('cde.log', 'w') as f:
                 # adds the command in a comment
                 f.write_cmd(orig[:1] + newargs)
@@ -54,6 +54,10 @@ def repeat(pkgdir, orig, newargs):
                 f.insert(cd)
                 # commands to execute with new arguments
                 f.insert(ls[:1] + newargs)
+        shutil.copy(os.path.join(pkgdir,'cde.log.1'), os.path.join(parent_pkgdir, 'cde.log.1'))
+        shutil.copy(os.path.join(pkgdir,'cde.log'), os.path.join(parent_pkgdir, 'cde.log'))
+            
+
     try:
         output = subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
     except subprocess.CalledProcessError as exc:
