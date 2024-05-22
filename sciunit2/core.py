@@ -4,6 +4,7 @@ from sciunit2.exceptions import CommandError
 from sciunit2.util import Chdir
 from sciunit2.cdelog import open
 import sciunit2.libexec
+import sciunit2.filelock
 
 import os
 import shutil
@@ -56,7 +57,6 @@ def repeat(pkgdir, orig, newargs):
                 f.insert(ls[:1] + newargs)
         shutil.copy(os.path.join(pkgdir,'cde.log.1'), os.path.join(parent_pkgdir, 'cde.log.1'))
         shutil.copy(os.path.join(pkgdir,'cde.log'), os.path.join(parent_pkgdir, 'cde.log'))
-            
 
     try:
         output = subprocess.check_output(['/bin/sh', 'cde.log'], cwd=pkgdir)
