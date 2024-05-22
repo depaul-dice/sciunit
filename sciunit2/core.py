@@ -55,6 +55,9 @@ def repeat(pkgdir, orig, newargs):
                 f.insert(cd)
                 # commands to execute with new arguments
                 f.insert(ls[:1] + newargs)
+
+        # this will cause issues if parallel repeat is run. 
+        # Question: Which execution-id to commit in case of sciunit commit after parallel repeat
         shutil.copy(os.path.join(pkgdir,'cde.log.1'), os.path.join(parent_pkgdir, 'cde.log.1'))
         shutil.copy(os.path.join(pkgdir,'cde.log'), os.path.join(parent_pkgdir, 'cde.log'))
 
